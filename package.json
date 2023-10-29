@@ -25,7 +25,7 @@
     "email": "nikola@nikolahristov.tech",
     "url": "https://nikolahristov.tech"
   },
-  "publisher": "vsls-contrib",
+  "publisher": "playform",
   "type": "module",
   "main": "./dist/extension-node.js",
   "browser": "./dist/extension-web.js",
