@@ -1,27 +1,9 @@
 {
   "name": "codetour",
   "displayName": "CodeTour",
-  "description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
-  "publisher": "vsls-contrib",
   "version": "0.0.1",
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-  },
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "license": "MIT",
-  "icon": "images/icon.png",
-  "engines": {
-    "vscode": "1.60.0"
-  },
+  "private": "false",
+  "description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
   "categories": [
     "Other"
   ],
@@ -29,46 +11,32 @@
     "Collaboration",
     "Sharing"
   ],
-  "extensionKind": [
-    "workspace"
-  ],
-  "activationEvents": [
-    "onStartupFinished",
-    "onNotebookEditor:codetour"
-  ],
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
+  },
+  "publisher": "vsls-contrib",
+  "type": "module",
   "main": "./dist/extension-node.js",
   "browser": "./dist/extension-web.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "package": "vsce package",
+    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts",
+    "vscode:prepublish": "npm run build",
+    "watch": "webpack --mode development --watch"
+  },
   "contributes": {
-    "configuration": {
-      "type": "object",
-      "title": "CodeTour",
-      "properties": {
-        "codetour.promptForWorkspaceTours": {
-          "type": "boolean",
-          "default": true,
-          "description": "Specifies whether or not to display a notification when opening a workspace with tours for the first time."
-        },
-        "codetour.recordMode": {
-          "type": "string",
-          "enum": [
-            "lineNumber",
-            "pattern"
-          ],
-          "default": "lineNumber",
-          "description": "Specifies how the tour recorder will behave when capturing a new step."
-        },
-        "codetour.showMarkers": {
-          "type": "boolean",
-          "default": true,
-          "description": "Specifies whether or not to show tour markers in the editor gutter."
-        },
-        "codetour.customTourDirectory": {
-          "type": "string",
-          "default": null,
-          "description": "Specifies a custom location to use when discovering tours."
-        }
-      }
-    },
     "commands": [
       {
         "command": "codetour.addContentStep",
@@ -230,6 +198,76 @@
         "command": "codetour.viewNotebook",
         "title": "View Notebook",
         "category": "CodeTour"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "CodeTour",
+      "properties": {
+        "codetour.promptForWorkspaceTours": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies whether or not to display a notification when opening a workspace with tours for the first time."
+        },
+        "codetour.recordMode": {
+          "type": "string",
+          "enum": [
+            "lineNumber",
+            "pattern"
+          ],
+          "default": "lineNumber",
+          "description": "Specifies how the tour recorder will behave when capturing a new step."
+        },
+        "codetour.showMarkers": {
+          "type": "boolean",
+          "default": true,
+          "description": "Specifies whether or not to show tour markers in the editor gutter."
+        },
+        "codetour.customTourDirectory": {
+          "type": "string",
+          "default": null,
+          "description": "Specifies a custom location to use when discovering tours."
+        }
+      }
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": "*.tour",
+        "url": "./schema.json"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codetour.previousTourStep",
+        "when": "codetour:inTour && !textInputFocus && !terminalFocus",
+        "key": "ctrl+left",
+        "mac": "cmd+left"
+      },
+      {
+        "command": "codetour.nextTourStep",
+        "when": "codetour:inTour && !textInputFocus && !terminalFocus",
+        "key": "ctrl+right",
+        "mac": "cmd+right"
+      },
+      {
+        "command": "codetour.endTour",
+        "when": "codetour:inTour && !textInputFocus && !terminalFocus",
+        "key": "ctrl+down ctrl+down",
+        "mac": "cmd+down cmd+down"
+      },
+      {
+        "command": "codetour.startTour",
+        "when": "!textInputFocus && !terminalFocus",
+        "key": "ctrl+up ctrl+up",
+        "mac": "cmd+up cmd+up"
+      }
+    ],
+    "languages": [
+      {
+        "id": "json",
+        "extensions": [
+          ".tour"
+        ]
       }
     ],
     "menus": {
@@ -586,6 +624,17 @@
         }
       ]
     },
+    "notebookProvider": [
+      {
+        "viewType": "codetour",
+        "displayName": "CodeTour",
+        "selector": [
+          {
+            "filenamePattern": "*.tour-notebook"
+          }
+        ]
+      }
+    ],
     "views": {
       "explorer": [
         {
@@ -600,59 +649,12 @@
         "view": "codetour.tours",
         "contents": "In order to create a guided walkthrough, you can begin recording a tour for the currently opened workspace ([Learn More](https://github.com/vsls-contrib/codetour#recording-tours)).\n\n[Record Tour](command:codetour.recordTour)\n\nYou can also open tours that were shared with you by others ([Learn More](https://github.com/vsls-contrib/codetour#opening-tours)).\n\n[Open Tour File](command:codetour.openTourFile)\n\n[Open Tour URL](command:codetour.openTourUrl)"
       }
-    ],
-    "jsonValidation": [
-      {
-        "fileMatch": "*.tour",
-        "url": "./schema.json"
-      }
-    ],
-    "keybindings": [
-      {
-        "command": "codetour.previousTourStep",
-        "when": "codetour:inTour && !textInputFocus && !terminalFocus",
-        "key": "ctrl+left",
-        "mac": "cmd+left"
-      },
-      {
-        "command": "codetour.nextTourStep",
-        "when": "codetour:inTour && !textInputFocus && !terminalFocus",
-        "key": "ctrl+right",
-        "mac": "cmd+right"
-      },
-      {
-        "command": "codetour.endTour",
-        "when": "codetour:inTour && !textInputFocus && !terminalFocus",
-        "key": "ctrl+down ctrl+down",
-        "mac": "cmd+down cmd+down"
-      },
-      {
-        "command": "codetour.startTour",
-        "when": "!textInputFocus && !terminalFocus",
-        "key": "ctrl+up ctrl+up",
-        "mac": "cmd+up cmd+up"
-      }
-    ],
-    "languages": [
-      {
-        "id": "json",
-        "extensions": [
-          ".tour"
-        ]
-      }
-    ],
-    "notebookProvider": [
-      {
-        "viewType": "codetour",
-        "displayName": "CodeTour",
-        "selector": [
-          {
-            "filenamePattern": "*.tour-notebook"
-          }
-        ]
-      }
     ]
   },
+  "activationEvents": [
+    "onStartupFinished",
+    "onNotebookEditor:codetour"
+  ],
   "dependencies": {
     "@types/jexl": "2.3.3",
     "axios": "1.6.0",
@@ -672,21 +674,19 @@
     "eslint": "8.52.0",
     "ts-loader": "9.5.0",
     "typescript": "5.2.2",
+    "typescript-esbuild": "0.3.1",
     "webpack": "5.89.0",
     "webpack-cli": "5.1.4",
-    "webpack-merge": "5.10.0",
-    "typescript-esbuild": "0.3.1"
+    "webpack-merge": "5.10.0"
   },
-  "scripts": {
-    "build": "webpack --mode production",
-    "vscode:prepublish": "npm run build",
-    "watch": "webpack --mode development --watch",
-    "package": "vsce package",
-    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts"
+  "engines": {
+    "vscode": "1.60.0"
   },
-  "type": "module",
-  "private": "false",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "icon": "images/icon.png",
+  "extensionKind": [
+    "workspace"
+  ]
 }
