@@ -3,18 +3,20 @@
   "displayName": "CodeTour",
   "description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
   "publisher": "vsls-contrib",
-  "version": "0.0.59",
+  "version": "0.0.1",
   "author": {
-    "name": "Microsoft Corporation"
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/codetour"
+    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
   },
   "bugs": {
-    "url": "https://github.com/microsoft/codetour/issues"
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
   },
-  "homepage": "https://github.com/microsoft/codetour#readme",
+  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
   "license": "MIT",
   "icon": "images/icon.png",
   "engines": {
@@ -672,16 +674,19 @@
     "typescript": "5.2.2",
     "webpack": "5.89.0",
     "webpack-cli": "5.1.4",
-    "webpack-merge": "5.10.0"
+    "webpack-merge": "5.10.0",
+    "typescript-esbuild": "0.3.1"
   },
   "scripts": {
     "build": "webpack --mode production",
     "vscode:prepublish": "npm run build",
     "watch": "webpack --mode development --watch",
-    "package": "vsce package"
+    "package": "vsce package",
+    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts"
   },
-  "prettier": {
-    "arrowParens": "avoid",
-    "trailingComma": "none"
+  "type": "module",
+  "private": "false",
+  "publishConfig": {
+    "access": "public"
   }
 }
