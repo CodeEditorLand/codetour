@@ -665,7 +665,7 @@
 		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
-		"@types/node": "20.9.1",
+		"@types/node": "20.9.2",
 		"@types/throttle-debounce": "5.0.2",
 		"@types/vscode": "1.84",
 		"@vscode/vsce": "2.22.0",
