@@ -650,10 +650,6 @@
 		"onStartupFinished",
 		"onNotebookEditor:codetour"
 	],
-	"prettier": {
-		"arrowParens": "avoid",
-		"trailingComma": "none"
-	},
 	"dependencies": {
 		"@types/jexl": "2.3.4",
 		"axios": "1.6.2",
