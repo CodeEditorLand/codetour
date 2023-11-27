@@ -256,8 +256,8 @@ async function renderCurrentStep() {
 	let line = step.line
 		? step.line - 1
 		: step.selection
-		? step.selection.end.line - 1
-		: undefined;
+		  ? step.selection.end.line - 1
+		  : undefined;
 
 	if (step.file && line === undefined) {
 		const stepPattern = step.pattern || getActiveStepMarker();
