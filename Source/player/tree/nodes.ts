@@ -64,10 +64,10 @@ export class CodeTourNode extends TreeItem {
 		this.iconPath = isRecording(tour)
 			? new ThemeIcon("record")
 			: isActive
-			? new ThemeIcon("play-circle")
-			: progress.isComplete(tour)
-			? completeIcon
-			: new ThemeIcon("location");
+			  ? new ThemeIcon("play-circle")
+			  : progress.isComplete(tour)
+			    ? completeIcon
+			    : new ThemeIcon("location");
 	}
 }
 
