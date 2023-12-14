@@ -664,7 +664,6 @@
     "@types/vscode": "1.85",
     "@vscode/vsce": "2.22.0",
     "debug": "4.3.4",
-    "eslint": "8.55.0",
     "ts-loader": "9.5.1",
     "typescript": "5.3.3",
     "typescript-esbuild": "0.3.3",
