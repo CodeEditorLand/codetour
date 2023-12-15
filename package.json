@@ -2,7 +2,7 @@
 	"name": "codetour",
 	"displayName": "CodeTour",
 	"version": "0.0.1",
-	"private": "false",
+	"private": false,
 	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
 	"homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
 	"bugs": {
