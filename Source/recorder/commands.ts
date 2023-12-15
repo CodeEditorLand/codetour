@@ -745,7 +745,7 @@ export function registerRecorderCommands() {
 					? store.activeTour.workspaceRoot
 					: workspace.getWorkspaceFolder(
 							vscode.Uri.parse(node.tour.id)
-					  )?.uri;
+						)?.uri;
 
 			if (!workspaceRoot) {
 				return vscode.window.showErrorMessage(

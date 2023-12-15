@@ -31,7 +31,7 @@ export function registerStatusBar() {
 						store.activeTour.step,
 						store.activeTour.tour.title,
 						store.activeTour.tour.steps.length,
-				  ]
+					]
 				: null,
 			store.isRecording,
 		],

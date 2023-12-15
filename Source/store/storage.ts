@@ -60,7 +60,7 @@ export function initializeStorage(context: ExtensionContext) {
 			store.progress = tour
 				? store.progress.filter(
 						(tourProgress) => tourProgress[0] !== tour.id
-				  )
+					)
 				: [];
 			return context.globalState.update(
 				CODETOUR_PROGRESS_KEY,
