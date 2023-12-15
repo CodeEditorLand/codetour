@@ -46,7 +46,7 @@ export function startCodeTour(
 	workspaceRoot?: Uri,
 	startInEditMode: boolean = false,
 	canEditTour: boolean = true,
-	tours?: CodeTour[]
+	tours?: CodeTour[],
 ) {
 	startPlayer();
 
@@ -79,7 +79,7 @@ export function startCodeTour(
 export async function selectTour(
 	tours: CodeTour[],
 	workspaceRoot?: Uri,
-	step: number = 0
+	step: number = 0,
 ): Promise<boolean> {
 	const items: any[] = tours.map((tour) => ({
 		label: tour.title!,
@@ -160,7 +160,7 @@ function isLiveShareWorkspace(uri: Uri) {
 export async function promptForTour(
 	globalState: Memento,
 	workspaceRoot: Uri = getWorkspaceKey(),
-	tours: CodeTour[] = store.tours
+	tours: CodeTour[] = store.tours,
 ): Promise<boolean> {
 	const key = `${EXTENSION_NAME}:${workspaceRoot}`;
 	if (
@@ -177,7 +177,7 @@ export async function promptForTour(
 		if (
 			await window.showInformationMessage(
 				"This workspace has guided tours you can take to get familiar with the codebase.",
-				"Start CodeTour"
+				"Start CodeTour",
 			)
 		) {
 			startDefaultTour(workspaceRoot, tours);
@@ -190,7 +190,7 @@ export async function promptForTour(
 export async function startDefaultTour(
 	workspaceRoot: Uri = getWorkspaceKey(),
 	tours: CodeTour[] = store.tours,
-	step: number = 0
+	step: number = 0,
 ): Promise<boolean> {
 	if (tours.length === 0) {
 		return false;
@@ -207,7 +207,7 @@ export async function startDefaultTour(
 			workspaceRoot,
 			false,
 			undefined,
-			tours
+			tours,
 		);
 		return true;
 	} else {
@@ -231,7 +231,7 @@ export async function exportTour(tour: CodeTour) {
 				const stepFileUri = await getStepFileUri(
 					step,
 					workspaceRoot,
-					tour.ref
+					tour.ref,
 				);
 				const contents = await readUriContents(stepFileUri);
 
@@ -241,7 +241,7 @@ export async function exportTour(tour: CodeTour) {
 					...step,
 					contents,
 				};
-			})
+			}),
 		);
 	}
 

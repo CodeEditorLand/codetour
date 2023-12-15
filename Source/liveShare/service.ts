@@ -20,7 +20,7 @@ const TOUR_STARTED_NOTIFICATION = "tourStarted";
 
 export default function (
 	api: LiveShare,
-	service: SharedService | SharedServiceProxy
+	service: SharedService | SharedServiceProxy,
 ) {
 	const peer = api.session.peerNumber;
 

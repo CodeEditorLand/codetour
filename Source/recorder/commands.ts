@@ -73,7 +73,7 @@ export function registerRecorderCommands() {
 	async function writeTourFile(
 		workspaceRoot: vscode.Uri,
 		title: string | vscode.Uri,
-		ref?: string
+		ref?: string,
 	): Promise<CodeTour> {
 		const uri =
 			typeof title === "string"
@@ -112,7 +112,7 @@ export function registerRecorderCommands() {
 	const REENTER_TITLE_RESPONSE = "Re-enter title";
 	async function recordTourInternal(
 		tourTitle: string | vscode.Uri,
-		workspaceRoot?: vscode.Uri
+		workspaceRoot?: vscode.Uri,
 	) {
 		if (!workspaceRoot) {
 			workspaceRoot = workspace.workspaceFolders![0].uri;
@@ -139,21 +139,21 @@ export function registerRecorderCommands() {
 		if (typeof tourTitle === "string") {
 			const tourExists = await checkIfTourExists(
 				workspaceRoot,
-				tourTitle
+				tourTitle,
 			);
 
 			if (tourExists) {
 				const response = await vscode.window.showErrorMessage(
 					`This workspace already includes a tour with the title "${tourTitle}."`,
 					REENTER_TITLE_RESPONSE,
-					"Overwrite existing tour"
+					"Overwrite existing tour",
 				);
 
 				if (response === REENTER_TITLE_RESPONSE) {
 					return vscode.commands.executeCommand(
 						`${EXTENSION_NAME}.recordTour`,
 						workspaceRoot,
-						tourTitle
+						tourTitle,
 					);
 				} else if (!response) {
 					// If the end-user closes the error
@@ -178,7 +178,7 @@ export function registerRecorderCommands() {
 		startCodeTour(tour, 0, workspaceRoot, true);
 
 		vscode.window.showInformationMessage(
-			"CodeTour recording started! Begin creating steps by opening a file, clicking the + button to the left of a line of code, and then adding the appropriate comments."
+			"CodeTour recording started! Begin creating steps by opening a file, clicking the + button to the left of a line of code, and then adding the appropriate comments.",
 		);
 	}
 
@@ -227,13 +227,13 @@ export function registerRecorderCommands() {
 						if (
 							await vscode.window.showInformationMessage(
 								"Would you like to export this tour?",
-								"Export Tour"
+								"Export Tour",
 							)
 						) {
 							const content = await exportTour(tour);
 							vscode.workspace.fs.writeFile(
 								uri,
-								Buffer.from(content)
+								Buffer.from(content),
 							);
 						}
 					}
@@ -243,7 +243,7 @@ export function registerRecorderCommands() {
 			});
 
 			inputBox.show();
-		}
+		},
 	);
 
 	function getStepSelection() {
@@ -318,12 +318,12 @@ export function registerRecorderCommands() {
 				vscode.commands.executeCommand(
 					"setContext",
 					EDITING_KEY,
-					false
+					false,
 				);
 			}
 
 			saveTour(tour);
-		})
+		}),
 	);
 
 	vscode.commands.registerCommand(
@@ -345,12 +345,12 @@ export function registerRecorderCommands() {
 				vscode.commands.executeCommand(
 					"setContext",
 					EDITING_KEY,
-					false
+					false,
 				);
 			}
 
 			saveTour(tour);
-		})
+		}),
 	);
 
 	vscode.commands.registerTextEditorCommand(
@@ -362,7 +362,7 @@ export function registerRecorderCommands() {
 			const workspaceRoot = getActiveWorkspacePath();
 			const file = getRelativePath(
 				workspaceRoot,
-				editor.document.uri.path
+				editor.document.uri.path,
 			);
 
 			tour.steps.splice(stepNumber, 0, {
@@ -376,12 +376,12 @@ export function registerRecorderCommands() {
 				vscode.commands.executeCommand(
 					"setContext",
 					EDITING_KEY,
-					false
+					false,
 				);
 			}
 
 			saveTour(tour);
-		})
+		}),
 	);
 
 	vscode.commands.registerCommand(
@@ -466,10 +466,10 @@ export function registerRecorderCommands() {
 					reply.text,
 					label,
 					thread!,
-					vscode.CommentMode.Preview
+					vscode.CommentMode.Preview,
 				),
 			];
-		})
+		}),
 	);
 
 	vscode.commands.registerCommand(
@@ -480,12 +480,12 @@ export function registerRecorderCommands() {
 			await vscode.commands.executeCommand(
 				"setContext",
 				"codetour:recording",
-				true
+				true,
 			);
 			await vscode.commands.executeCommand(
 				"setContext",
 				EDITING_KEY,
-				true
+				true,
 			);
 
 			if (node instanceof CodeTourNode) {
@@ -496,17 +496,17 @@ export function registerRecorderCommands() {
 				startCodeTour(
 					store.activeTour!.tour,
 					store.activeTour!.step,
-					store.activeTour.workspaceRoot
+					store.activeTour.workspaceRoot,
 				);
 			}
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.editTourAtStep`,
 		async (node: CodeTourStepNode) => {
 			startCodeTour(node.tour, node.stepNumber, undefined, true);
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -517,7 +517,7 @@ export function registerRecorderCommands() {
 			await vscode.commands.executeCommand(
 				"setContext",
 				"codetour:recording",
-				false
+				false,
 			);
 
 			if (node instanceof CodeTourNode) {
@@ -528,10 +528,10 @@ export function registerRecorderCommands() {
 				startCodeTour(
 					store.activeTour!.tour,
 					store.activeTour!.step,
-					store.activeTour.workspaceRoot
+					store.activeTour.workspaceRoot,
 				);
 			}
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -547,7 +547,7 @@ export function registerRecorderCommands() {
 					delete tour.isPrimary;
 					saveTour(tour);
 				});
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -556,7 +556,7 @@ export function registerRecorderCommands() {
 			const primaryTour = node.tour;
 			delete primaryTour.isPrimary;
 			saveTour(primaryTour);
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -585,7 +585,7 @@ export function registerRecorderCommands() {
 			store.isEditing = false;
 			vscode.commands.executeCommand("setContext", EDITING_KEY, false);
 			await saveTour(store.activeTour!.tour);
-		}
+		},
 	);
 
 	async function updateTourProperty(tour: CodeTour, property: string) {
@@ -608,7 +608,7 @@ export function registerRecorderCommands() {
 
 	function moveStep(
 		movement: number,
-		node: CodeTourStepNode | CodeTourComment
+		node: CodeTourStepNode | CodeTourComment,
 	) {
 		let tour: CodeTour, stepNumber: number;
 
@@ -641,17 +641,17 @@ export function registerRecorderCommands() {
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.moveTourStepBack`,
-		moveStep.bind(null, -1)
+		moveStep.bind(null, -1),
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.moveTourStepForward`,
-		moveStep.bind(null, 1)
+		moveStep.bind(null, 1),
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.changeTourDescription`,
-		(node: CodeTourNode) => updateTourProperty(node.tour, "description")
+		(node: CodeTourNode) => updateTourProperty(node.tour, "description"),
 	);
 
 	vscode.commands.registerCommand(
@@ -671,7 +671,7 @@ export function registerRecorderCommands() {
 						saveTour(tour);
 					});
 			}
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -692,7 +692,7 @@ export function registerRecorderCommands() {
 			}
 
 			saveTour(node.tour);
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -713,7 +713,7 @@ export function registerRecorderCommands() {
 			}
 
 			saveTour(node.tour);
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -732,7 +732,7 @@ export function registerRecorderCommands() {
 			}
 
 			saveTour(store.activeTour!.tour);
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -744,12 +744,12 @@ export function registerRecorderCommands() {
 				store.activeTour.workspaceRoot
 					? store.activeTour.workspaceRoot
 					: workspace.getWorkspaceFolder(
-							vscode.Uri.parse(node.tour.id)
-						)?.uri;
+							vscode.Uri.parse(node.tour.id),
+					  )?.uri;
 
 			if (!workspaceRoot) {
 				return vscode.window.showErrorMessage(
-					"You can't change the git ref of an embedded tour file."
+					"You can't change the git ref of an embedded tour file.",
 				);
 			}
 
@@ -763,7 +763,7 @@ export function registerRecorderCommands() {
 			}
 
 			saveTour(node.tour);
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
@@ -780,11 +780,11 @@ export function registerRecorderCommands() {
 			if (
 				await vscode.window.showInformationMessage(
 					`Are you sure your want to delete the ${messageSuffix}?`,
-					`Delete ${buttonSuffix}`
+					`Delete ${buttonSuffix}`,
 				)
 			) {
 				const tourIds = (additionalNodes || [node]).map(
-					(node) => node.tour.id
+					(node) => node.tour.id,
 				);
 
 				if (
@@ -799,14 +799,14 @@ export function registerRecorderCommands() {
 					vscode.workspace.fs.delete(uri);
 				});
 			}
-		}
+		},
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.deleteTourStep`,
 		async (
 			node: CodeTourStepNode | CodeTourComment,
-			additionalNodes: CodeTourStepNode[]
+			additionalNodes: CodeTourStepNode[],
 		) => {
 			let tour: CodeTour, steps: number[];
 			let messageSuffix = "selected step";
@@ -833,14 +833,14 @@ export function registerRecorderCommands() {
 			if (
 				await vscode.window.showInformationMessage(
 					`Are you sure your want to delete the ${messageSuffix}?`,
-					`Delete ${buttonSuffix}`
+					`Delete ${buttonSuffix}`,
 				)
 			) {
 				steps.forEach((step) => tour.steps.splice(step, 1));
 
 				if (store.activeTour && store.activeTour.tour.id === tour.id) {
 					const previousSteps = steps.filter(
-						(step) => step <= store.activeTour!.step
+						(step) => step <= store.activeTour!.step,
 					);
 					if (
 						previousSteps.length > 0 &&
@@ -865,7 +865,7 @@ export function registerRecorderCommands() {
 
 				saveTour(tour);
 			}
-		}
+		},
 	);
 
 	interface GitRefQuickPickItem extends vscode.QuickPickItem {
@@ -873,7 +873,7 @@ export function registerRecorderCommands() {
 	}
 
 	async function promptForTourRef(
-		workspaceRoot: vscode.Uri
+		workspaceRoot: vscode.Uri,
 	): Promise<string | undefined> {
 		// If for some reason the Git extension isn't available,
 		// then we won't be able to ask the user to select a git ref.
@@ -931,7 +931,7 @@ export function registerRecorderCommands() {
 			items,
 			{
 				placeHolder: "Select the Git ref to associate the tour with:",
-			}
+			},
 		);
 
 		if (response) {

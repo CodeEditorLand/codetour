@@ -11,7 +11,7 @@ class CodeTourTextDocumentContentProvider
 
 	provideTextDocumentContent(
 		uri: vscode.Uri,
-		token: vscode.CancellationToken
+		token: vscode.CancellationToken,
 	): vscode.ProviderResult<string> {
 		return "";
 	}
@@ -20,6 +20,6 @@ class CodeTourTextDocumentContentProvider
 export function registerTextDocumentContentProvider() {
 	vscode.workspace.registerTextDocumentContentProvider(
 		FS_SCHEME_CONTENT,
-		new CodeTourTextDocumentContentProvider()
+		new CodeTourTextDocumentContentProvider(),
 	);
 }

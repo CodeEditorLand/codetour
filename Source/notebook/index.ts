@@ -11,7 +11,7 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 
 	async deserializeNotebook(
 		content: Uint8Array,
-		token: any
+		token: any,
 	): Promise<vscode.NotebookData> {
 		this.originalContent = content;
 		let contents = new TextDecoder().decode(content);
@@ -29,8 +29,8 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 			const contents = document.getText(
 				new vscode.Range(
 					new vscode.Position(startLine, 0),
-					new vscode.Position(endLine, 10000)
-				)
+					new vscode.Position(endLine, 10000),
+				),
 			);
 			steps.push({
 				contents,
@@ -51,15 +51,15 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 				}) - ${steps.length} steps\n\n${
 					tour.description === undefined ? "" : tour.description
 				}`,
-				"markdown"
-			)
+				"markdown",
+			),
 		);
 
 		steps.forEach((step, index) => {
 			const cell = new vscode.NotebookCellData(
 				2,
 				step.contents,
-				step.language
+				step.language,
 			);
 			cell.outputs = [
 				new vscode.NotebookCellOutput([
@@ -67,9 +67,9 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 						new TextEncoder().encode(
 							`_Step #${index + 1} of ${steps.length}:_ ${
 								step.description
-							} ([View File](${step.uri}))`
+							} ([View File](${step.uri}))`,
 						),
-						"text/markdown"
+						"text/markdown",
 					),
 				]),
 			];
@@ -80,7 +80,7 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 
 	async serializeNotebook(
 		data: vscode.NotebookData,
-		token: any
+		token: any,
 	): Promise<Uint8Array> {
 		return this.originalContent;
 	}
@@ -89,6 +89,6 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 export function registerNotebookProvider() {
 	vscode.notebook.registerNotebookSerializer(
 		EXTENSION_NAME,
-		new CodeTourNotebookProvider()
+		new CodeTourNotebookProvider(),
 	);
 }
