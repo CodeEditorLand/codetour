@@ -61,7 +61,7 @@ export function generatePreviewContent(content: string) {
 			const args = encodeURIComponent(JSON.stringify([script]));
 			const s = `> [${script}](command:codetour.sendTextToTerminal?${args} "Run \\"${script.replace(
 				/"/g,
-				"'",
+				"'"
 			)}\\" in a terminal")`;
 			return s;
 		})
@@ -71,7 +71,7 @@ export function generatePreviewContent(content: string) {
 		})
 		.replace(FILE_REFERENCE_PATTERN, (_, isImage, prefix, filePath) => {
 			const workspaceUri = workspace.getWorkspaceFolder(
-				Uri.parse(store.activeTour!.tour.id),
+				Uri.parse(store.activeTour!.tour.id)
 			)!.uri;
 			const fileUri = Uri.joinPath(workspaceUri, filePath);
 
@@ -92,7 +92,7 @@ export function generatePreviewContent(content: string) {
 
 				const tours = store.activeTour?.tours || store.tours;
 				const tour = tours.find(
-					(tour) => getTourTitle(tour) === tourTitle,
+					(tour) => getTourTitle(tour) === tourTitle
 				);
 				if (tour) {
 					const args: [string, number?] = [tour.title];
@@ -101,14 +101,14 @@ export function generatePreviewContent(content: string) {
 						args.push(Number(stepNumber));
 					}
 					const argsContent = encodeURIComponent(
-						JSON.stringify(args),
+						JSON.stringify(args)
 					);
 					const title = linkTitle || tour.title;
 					return `[${title}](command:codetour.startTourByTitle?${argsContent} "Start \\"${tour.title}\\" tour")`;
 				}
 
 				return _;
-			},
+			}
 		)
 		.replace(CODE_FENCE_PATTERN, (_, codeBlock) => {
 			const params = encodeURIComponent(JSON.stringify([codeBlock]));
@@ -130,7 +130,7 @@ export class CodeTourComment implements Comment {
 		content: string,
 		public label: string = "",
 		public parent: CommentThread,
-		public mode: CommentMode,
+		public mode: CommentMode
 	) {
 		const body =
 			mode === CommentMode.Preview
@@ -156,7 +156,7 @@ export async function startPlayer() {
 
 	controller = comments.createCommentController(
 		CONTROLLER_ID,
-		CONTROLLER_LABEL,
+		CONTROLLER_LABEL
 	);
 
 	// TODO: Correctly limit the commenting ranges
@@ -205,7 +205,7 @@ const VIEW_COMMANDS = new Map([
 
 function getPreviousTour(): CodeTour | undefined {
 	const previousTour = store.tours.find(
-		(tour) => tour.nextTour === store.activeTour?.tour.title,
+		(tour) => tour.nextTour === store.activeTour?.tour.title
 	);
 
 	if (previousTour) {
@@ -216,7 +216,7 @@ function getPreviousTour(): CodeTour | undefined {
 	if (match) {
 		const previousTourNumber = Number(match[1]) - 1;
 		return store.tours.find((tour) =>
-			tour.title.match(new RegExp(`^#?${previousTourNumber}\\s+[-:]`)),
+			tour.title.match(new RegExp(`^#?${previousTourNumber}\\s+[-:]`))
 		);
 	}
 }
@@ -224,14 +224,14 @@ function getPreviousTour(): CodeTour | undefined {
 function getNextTour(): CodeTour | undefined {
 	if (store.activeTour?.tour.nextTour) {
 		return store.tours.find(
-			(tour) => tour.title === store.activeTour?.tour.nextTour,
+			(tour) => tour.title === store.activeTour?.tour.nextTour
 		);
 	} else {
 		const tourNumber = getActiveTourNumber();
 		if (tourNumber) {
 			const nextTourNumber = tourNumber + 1;
 			return store.tours.find((tour) =>
-				tour.title.match(new RegExp(`^#?${nextTourNumber}\\s+[-:]`)),
+				tour.title.match(new RegExp(`^#?${nextTourNumber}\\s+[-:]`))
 			);
 		}
 	}
@@ -256,8 +256,8 @@ async function renderCurrentStep() {
 	let line = step.line
 		? step.line - 1
 		: step.selection
-		  ? step.selection.end.line - 1
-		  : undefined;
+			? step.selection.end.line - 1
+			: undefined;
 
 	if (step.file && line === undefined) {
 		const stepPattern = step.pattern || getActiveStepMarker();
@@ -308,7 +308,7 @@ async function renderCurrentStep() {
 				currentTour,
 				currentStep - 1,
 				false,
-				false,
+				false
 			);
 			const suffix = stepLabel ? ` (${stepLabel})` : "";
 			content += `← [Previous${suffix}](command:codetour.previousTourStep "Navigate to previous step")`;
@@ -319,7 +319,7 @@ async function renderCurrentStep() {
 
 				const tourTitle = getTourTitle(previousTour);
 				const argsContent = encodeURIComponent(
-					JSON.stringify([previousTour.title]),
+					JSON.stringify([previousTour.title])
 				);
 				content += `← [Previous Tour (${tourTitle})](command:codetour.startTourByTitle?${argsContent} "Navigate to previous tour")`;
 			}
@@ -331,7 +331,7 @@ async function renderCurrentStep() {
 				currentTour,
 				currentStep + 1,
 				false,
-				false,
+				false
 			);
 			const suffix = stepLabel ? ` (${stepLabel})` : "";
 			content += `${prefix}[Next${suffix}](command:codetour.nextTourStep "Navigate to next step") →`;
@@ -340,7 +340,7 @@ async function renderCurrentStep() {
 			if (nextTour) {
 				const tourTitle = getTourTitle(nextTour);
 				const argsContent = encodeURIComponent(
-					JSON.stringify([nextTour.title]),
+					JSON.stringify([nextTour.title])
 				);
 				content += `${prefix}[Next Tour (${tourTitle})](command:codetour.finishTour?${argsContent} "Start next tour")`;
 			} else {
@@ -353,7 +353,7 @@ async function renderCurrentStep() {
 		content,
 		label,
 		store.activeTour!.thread!,
-		mode,
+		mode
 	);
 
 	// @ts-ignore
@@ -382,7 +382,7 @@ async function renderCurrentStep() {
 			step.selection.start.line - 1,
 			step.selection.start.character - 1,
 			step.selection.end.line - 1,
-			step.selection.end.character - 1,
+			step.selection.end.character - 1
 		);
 	} else {
 		selection = new Selection(range.start, range.end);
@@ -402,7 +402,7 @@ async function renderCurrentStep() {
 			await commands.executeCommand(commandName);
 		} catch {
 			window.showErrorMessage(
-				`The current tour step is attempting to focus a view which isn't available: ${step.view}. Please check the tour and try again.`,
+				`The current tour step is attempting to focus a view which isn't available: ${step.view}. Please check the tour and try again.`
 			);
 		}
 	}
@@ -431,7 +431,7 @@ async function renderCurrentStep() {
 async function showDocument(uri: Uri, range: Range, selection?: Selection) {
 	const document =
 		window.visibleTextEditors.find(
-			(editor) => editor.document.uri.toString() === uri.toString(),
+			(editor) => editor.document.uri.toString() === uri.toString()
 		) || (await window.showTextDocument(uri, { preserveFocus: true }));
 
 	// TODO: Figure out how to force focus when navigating
@@ -470,13 +470,13 @@ export function registerPlayerModule(context: ExtensionContext) {
 							step.directory,
 							step.view,
 						]),
-				  ]
+					]
 				: null,
 		],
 		() => {
 			if (store.activeTour) {
 				renderCurrentStep();
 			}
-		},
+		}
 	);
 }

@@ -3,7 +3,7 @@ import { onDidEndTour, onDidStartTour } from "../store/actions";
 
 export async function registerCodeStatusModule() {
 	const extension = vscode.extensions.getExtension(
-		"lostintangent.codestatus",
+		"lostintangent.codestatus"
 	);
 	if (!extension) {
 		return;

@@ -16,7 +16,7 @@ const changeWatcher = async (e: vscode.TextDocumentChangeEvent) => {
 	const impactedSteps = store.activeEditorSteps!.filter(
 		([, step, , line]) =>
 			step.pattern &&
-			e.contentChanges.some((change) => line === change.range.start.line),
+			e.contentChanges.some((change) => line === change.range.start.line)
 	);
 
 	if (impactedSteps.length === 0) {
@@ -45,7 +45,7 @@ const changeWatcher = async (e: vscode.TextDocumentChangeEvent) => {
 					await debouncedSaveTour(tour);
 				}
 			}
-		}),
+		})
 	);
 };
 

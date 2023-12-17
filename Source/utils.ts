@@ -13,7 +13,7 @@ export function getStepLabel(
 	tour: CodeTour,
 	stepNumber: number,
 	includeStepNumber: boolean = true,
-	defaultToFileName: boolean = true,
+	defaultToFileName: boolean = true
 ) {
 	const step = tour.steps[stepNumber];
 
@@ -69,7 +69,7 @@ export function getFileUri(file: string, workspaceRoot?: Uri) {
 export async function getStepFileUri(
 	step: CodeTourStep,
 	workspaceRoot?: Uri,
-	ref?: string,
+	ref?: string
 ): Promise<Uri> {
 	let uri;
 	if (step.contents) {
@@ -185,14 +185,14 @@ async function updateMarkerTitleForStep(tour: CodeTour, stepNumber: number) {
 	const uri = await getStepFileUri(
 		tour.steps[stepNumber],
 		getWorkspaceUri(tour),
-		tour.ref,
+		tour.ref
 	);
 
 	const document = await workspace.openTextDocument(uri);
 	const stepMarkerPrefix = getStepMarkerPrefix(tour);
 
 	const markerPattern = new RegExp(
-		`${stepMarkerPrefix}\\.${stepNumber + 1}\\s*[-:]\\s*(.*)`,
+		`${stepMarkerPrefix}\\.${stepNumber + 1}\\s*[-:]\\s*(.*)`
 	);
 
 	const match = document.getText().match(markerPattern);

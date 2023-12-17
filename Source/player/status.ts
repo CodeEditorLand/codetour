@@ -9,12 +9,12 @@ import { getTourTitle } from "../utils";
 
 function createCurrentTourItem() {
 	const currentTourItem = vscode.window.createStatusBarItem(
-		vscode.StatusBarAlignment.Left,
+		vscode.StatusBarAlignment.Left
 	);
 
 	currentTourItem.command = `${EXTENSION_NAME}.resumeTour`;
 	currentTourItem.color = new vscode.ThemeColor(
-		"statusBarItem.prominentForeground",
+		"statusBarItem.prominentForeground"
 	);
 
 	currentTourItem.show();
@@ -31,7 +31,7 @@ export function registerStatusBar() {
 						store.activeTour.step,
 						store.activeTour.tour.title,
 						store.activeTour.tour.steps.length,
-				  ]
+					]
 				: null,
 			store.isRecording,
 		],
@@ -53,6 +53,6 @@ export function registerStatusBar() {
 					currentTourItem = null;
 				}
 			}
-		},
+		}
 	);
 }
