@@ -16,7 +16,7 @@ const changeWatcher = async (e: vscode.TextDocumentChangeEvent) => {
 	const impactedSteps = store.activeEditorSteps!.filter(
 		([, step, , line]) =>
 			step.pattern &&
-			e.contentChanges.some((change) => line === change.range.start.line)
+			e.contentChanges.some((change) => line === change.range.start.line),
 	);
 
 	if (impactedSteps.length === 0) {
@@ -25,7 +25,7 @@ const changeWatcher = async (e: vscode.TextDocumentChangeEvent) => {
 
 	await Promise.all(
 		e.contentChanges.map(async () => {
-			for (let [tour, step, , line] of impactedSteps) {
+			for (const [tour, step, , line] of impactedSteps) {
 				const changedText = e.document.lineAt(line!).text;
 
 				// If the text is empty, then that means the user
@@ -45,7 +45,7 @@ const changeWatcher = async (e: vscode.TextDocumentChangeEvent) => {
 					await debouncedSaveTour(tour);
 				}
 			}
-		})
+		}),
 	);
 };
 

@@ -42,7 +42,7 @@ function startTour(params: URLSearchParams) {
 		}
 
 		const tour = store.tours.find((tour) =>
-			tour.id.endsWith(tourPath as string)
+			tour.id.endsWith(tourPath as string),
 		);
 		if (tour) {
 			startCodeTour(tour, stepNumber);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { observable } from "mobx";
-import { commands, ExtensionContext, Uri, workspace } from "vscode";
+import { ExtensionContext, Uri, commands, workspace } from "vscode";
 import { CodeTour, store } from ".";
 
 const CODETOUR_PROGRESS_KEY = "codetour:progress";
@@ -24,7 +24,7 @@ export function initializeStorage(context: ExtensionContext) {
 	progress = {
 		async update() {
 			const progress = store.progress.find(
-				([id]) => store.activeTour?.tour.id === id
+				([id]) => store.activeTour?.tour.id === id,
 			);
 
 			if (progress && !progress![1].includes(store.activeTour!.step)) {
@@ -39,7 +39,7 @@ export function initializeStorage(context: ExtensionContext) {
 			commands.executeCommand("setContext", "codetour:hasProgress", true);
 			return context.globalState.update(
 				CODETOUR_PROGRESS_KEY,
-				store.progress
+				store.progress,
 			);
 		},
 		isComplete(tour: CodeTour, stepNumber?: number): boolean {
@@ -54,17 +54,17 @@ export function initializeStorage(context: ExtensionContext) {
 			commands.executeCommand(
 				"setContext",
 				"codetour:hasProgress",
-				false
+				false,
 			);
 
 			store.progress = tour
 				? store.progress.filter(
-						(tourProgress) => tourProgress[0] !== tour.id
-					)
+						(tourProgress) => tourProgress[0] !== tour.id,
+				  )
 				: [];
 			return context.globalState.update(
 				CODETOUR_PROGRESS_KEY,
-				store.progress
+				store.progress,
 			);
 		},
 	};
@@ -73,7 +73,7 @@ export function initializeStorage(context: ExtensionContext) {
 	context.globalState.setKeysForSync([CODETOUR_PROGRESS_KEY]);
 
 	const workspaceHasProgress = store.progress.some(([id]) =>
-		workspace.getWorkspaceFolder(Uri.parse(id))
+		workspace.getWorkspaceFolder(Uri.parse(id)),
 	);
 
 	if (workspaceHasProgress) {

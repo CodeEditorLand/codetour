@@ -11,8 +11,8 @@ import {
 	TreeItem,
 	window,
 } from "vscode";
-import { EXTENSION_NAME } from "../../constants";
 import { generatePreviewContent } from "..";
+import { EXTENSION_NAME } from "../../constants";
 import { store } from "../../store";
 import { CodeTourNode, CodeTourStepNode } from "./nodes";
 
@@ -42,12 +42,12 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 								step.markerTitle,
 								step.description,
 							]),
-						]
+					  ]
 					: null,
 			],
 			() => {
 				this._onDidChangeTreeData.fire(undefined);
-			}
+			},
 		);
 	}
 
@@ -59,20 +59,20 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 				return undefined;
 			} else {
 				const tours = store.tours.map(
-					(tour) => new CodeTourNode(tour, this.extensionPath)
+					(tour) => new CodeTourNode(tour, this.extensionPath),
 				);
 
 				if (
 					store.activeTour &&
 					!store.tours.find(
-						(tour) => tour.id === store.activeTour?.tour.id
+						(tour) => tour.id === store.activeTour?.tour.id,
 					)
 				) {
 					tours.unshift(
 						new CodeTourNode(
 							store.activeTour.tour,
-							this.extensionPath
-						)
+							this.extensionPath,
+						),
 					);
 				}
 
@@ -98,7 +98,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 				return [item];
 			} else {
 				return element.tour.steps.map(
-					(_, index) => new CodeTourStepNode(element.tour, index)
+					(_, index) => new CodeTourStepNode(element.tour, index),
 				);
 			}
 		}
@@ -117,7 +117,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 	async resolveTreeItem(element: TreeItem): Promise<TreeItem> {
 		if (element instanceof CodeTourStepNode) {
 			const content = generatePreviewContent(
-				element.tour.steps[element.stepNumber].description
+				element.tour.steps[element.stepNumber].description,
 			);
 
 			const tooltip = new MarkdownString(content);
@@ -156,8 +156,8 @@ export function registerTreeProvider(extensionPath: string) {
 			treeView.reveal(
 				new CodeTourStepNode(
 					store.activeTour!.tour,
-					store.activeTour!.step
-				)
+					store.activeTour!.step,
+				),
 			);
 		}, 300);
 	}
@@ -169,7 +169,7 @@ export function registerTreeProvider(extensionPath: string) {
 						store.activeTour.tour.title,
 						store.activeTour.tour.steps.map((step) => [step.title]),
 						store.activeTour.step,
-					]
+				  ]
 				: null,
 		],
 		() => {
@@ -188,6 +188,6 @@ export function registerTreeProvider(extensionPath: string) {
 				// to de-select the step node once the tour ends.
 				treeView.message = undefined;
 			}
-		}
+		},
 	);
 }

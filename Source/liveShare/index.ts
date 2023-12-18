@@ -20,7 +20,7 @@ export async function registerLiveShareModule() {
 }
 
 async function initializeService(vslsApi: vsls.LiveShare) {
-	let { initializeService } =
+	const { initializeService } =
 		vslsApi.session.role === vsls.Role.Host
 			? require("./hostService")
 			: require("./guestService");

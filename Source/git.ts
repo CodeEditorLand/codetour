@@ -3,10 +3,10 @@
 
 import * as vscode from "vscode";
 
-export const enum RefType {
-	Head,
-	RemoteHead,
-	Tag,
+export enum RefType {
+	Head = 0,
+	RemoteHead = 1,
+	Tag = 2,
 }
 
 export interface Ref {

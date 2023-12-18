@@ -24,19 +24,16 @@ function isRecording(tour: CodeTour) {
 const completeIcon = new ThemeIcon(
 	"check",
 	// @ts-ignore
-	new ThemeColor("terminal.ansiGreen")
+	new ThemeColor("terminal.ansiGreen"),
 );
 
 export class CodeTourNode extends TreeItem {
-	constructor(
-		public tour: CodeTour,
-		extensionPath: string
-	) {
+	constructor(public tour: CodeTour, extensionPath: string) {
 		super(
 			tour.title!,
 			isRecording(tour)
 				? TreeItemCollapsibleState.Expanded
-				: TreeItemCollapsibleState.Collapsed
+				: TreeItemCollapsibleState.Collapsed,
 		);
 
 		this.tooltip = tour.description;
@@ -64,18 +61,15 @@ export class CodeTourNode extends TreeItem {
 		this.iconPath = isRecording(tour)
 			? new ThemeIcon("record")
 			: isActive
-				? new ThemeIcon("play-circle")
-				: progress.isComplete(tour)
-					? completeIcon
-					: new ThemeIcon("location");
+			  ? new ThemeIcon("play-circle")
+			  : progress.isComplete(tour)
+				  ? completeIcon
+				  : new ThemeIcon("location");
 	}
 }
 
 export class CodeTourStepNode extends TreeItem {
-	constructor(
-		public tour: CodeTour,
-		public stepNumber: number
-	) {
+	constructor(public tour: CodeTour, public stepNumber: number) {
 		super(getStepLabel(tour, stepNumber));
 
 		const step = tour.steps[stepNumber];
@@ -104,7 +98,7 @@ export class CodeTourStepNode extends TreeItem {
 
 			resourceUri = getFileUri(
 				step.directory || step.file!,
-				resourceRoot
+				resourceRoot,
 			);
 		} else {
 			resourceUri = CONTENT_URI;
@@ -139,7 +133,7 @@ export class CodeTourStepNode extends TreeItem {
 					if (data.length > 1) {
 						this.iconPath = new ThemeIcon(
 							data[0],
-							new ThemeColor(data[1])
+							new ThemeColor(data[1]),
 						);
 					} else {
 						this.iconPath = new ThemeIcon(data[0]);
