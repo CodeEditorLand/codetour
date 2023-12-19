@@ -8,7 +8,9 @@ import initializeBaseService from "./service";
 
 export async function initializeService(vslsApi: vsls.LiveShare) {
 	const service = await vslsApi.getSharedService(EXTENSION_NAME);
-	if (!service) return;
+	if (!service) {
+		return;
+	}
 
 	const response = await service.request("getCurrentTourStep", []);
 	if (response) {

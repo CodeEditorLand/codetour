@@ -55,9 +55,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 
 	async getChildren(element?: TreeItem): Promise<TreeItem[] | undefined> {
 		if (!element) {
-			if (!store.hasTours && !store.activeTour) {
-				return undefined;
-			} else {
+			if (store.hasTours || store.activeTour) {
 				const tours = store.tours.map(
 					(tour) => new CodeTourNode(tour, this.extensionPath),
 				);
@@ -77,6 +75,8 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 				}
 
 				return tours;
+			} else {
+				return undefined;
 			}
 		} else if (element instanceof CodeTourNode) {
 			if (element.tour.steps.length === 0) {
@@ -84,7 +84,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 
 				if (
 					store.isRecording &&
-					store.activeTour?.tour.id == element.tour.id
+					store.activeTour?.tour.id === element.tour.id
 				) {
 					item = new TreeItem("Add tour step...");
 					item.command = {
@@ -155,8 +155,8 @@ export function registerTreeProvider(extensionPath: string) {
 		setTimeout(() => {
 			treeView.reveal(
 				new CodeTourStepNode(
-					store.activeTour!.tour,
-					store.activeTour!.step,
+					store.activeTour?.tour,
+					store.activeTour?.step,
 				),
 			);
 		}, 300);

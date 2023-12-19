@@ -73,7 +73,7 @@ export function registerPlayerCommands() {
 		`${EXTENSION_NAME}.navigateToStep`,
 		async (stepNumber: number) => {
 			startCodeTour(
-				store.activeTour!.tour,
+				store.activeTour?.tour,
 				--stepNumber,
 				store.activeTour?.workspaceRoot,
 				undefined,
@@ -111,14 +111,14 @@ export function registerPlayerCommands() {
 		async (codeBlock: string) => {
 			const codeSnippet = decodeURIComponent(codeBlock);
 
-			const step = store.activeTour!.tour.steps[store.activeTour!.step];
+			const step = store.activeTour?.tour.steps[store.activeTour?.step];
 			if (step.selection) {
 				await vscode.window.activeTextEditor?.edit((e) => {
 					const selection = new vscode.Selection(
-						step.selection!.start.line - 1,
-						step.selection!.start.character - 1,
-						step.selection!.end.line - 1,
-						step.selection!.end.character - 1,
+						step.selection?.start.line - 1,
+						step.selection?.start.character - 1,
+						step.selection?.end.line - 1,
+						step.selection?.end.character - 1,
 					);
 					e.replace(selection, codeSnippet);
 				});
@@ -131,10 +131,10 @@ export function registerPlayerCommands() {
 
 			const lineAdjustment = codeSnippet.split("\n").length - 1;
 			if (lineAdjustment > 0) {
-				store.activeTour!.tour.steps[store.activeTour!.step].line! +=
+				store.activeTour?.tour.steps[store.activeTour?.step].line! +=
 					lineAdjustment;
 
-				saveTour(store.activeTour!.tour);
+				saveTour(store.activeTour?.tour);
 			}
 
 			await vscode.commands.executeCommand(

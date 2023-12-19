@@ -21,8 +21,8 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 	private count = 0;
 
 	getCurrentTourStep(): [CodeTour, CodeTourStep] {
-		const tour = store.activeTour!.tour;
-		return [tour, tour.steps[store.activeTour!.step]];
+		const tour = store.activeTour?.tour;
+		return [tour, tour.steps[store.activeTour?.step]];
 	}
 
 	updateTour(tour: CodeTour) {
@@ -31,9 +31,9 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 		const newTour: Partial<CodeTour> = {
 			...tour,
 		};
-		delete newTour.id;
+		newTour.id = undefined;
 		newTour.steps?.forEach((step) => {
-			delete step.markerTitle;
+			step.markerTitle = undefined;
 		});
 
 		const contents = JSON.stringify(newTour, null, 2);

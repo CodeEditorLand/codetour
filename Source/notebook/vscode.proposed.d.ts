@@ -24,12 +24,12 @@ declare module "vscode" {
 		/**
 		 * The ids of the [authenticationProvider](#AuthenticationProvider)s that have been added.
 		 */
-		readonly added: ReadonlyArray<AuthenticationProviderInformation>;
+		readonly added: readonly AuthenticationProviderInformation[];
 
 		/**
 		 * The ids of the [authenticationProvider](#AuthenticationProvider)s that have been removed.
 		 */
-		readonly removed: ReadonlyArray<AuthenticationProviderInformation>;
+		readonly removed: readonly AuthenticationProviderInformation[];
 	}
 
 	export namespace authentication {
@@ -43,7 +43,7 @@ declare module "vscode" {
 		 * @deprecated
 		 * An array of the information of authentication providers that are currently registered.
 		 */
-		export const providers: ReadonlyArray<AuthenticationProviderInformation>;
+		export const providers: readonly AuthenticationProviderInformation[];
 
 		/**
 		 * @deprecated
@@ -1120,7 +1120,7 @@ declare module "vscode" {
 		readonly kind: NotebookCellKind;
 		readonly document: TextDocument;
 		readonly metadata: NotebookCellMetadata;
-		readonly outputs: ReadonlyArray<NotebookCellOutput>;
+		readonly outputs: readonly NotebookCellOutput[];
 
 		// todo@API maybe just executionSummary or lastExecutionSummary?
 		readonly latestExecutionSummary:
@@ -1378,7 +1378,7 @@ declare module "vscode" {
 		 * The [notebook document](#NotebookDocument) for which the cells have changed.
 		 */
 		readonly document: NotebookDocument;
-		readonly changes: ReadonlyArray<NotebookCellsChangeData>;
+		readonly changes: readonly NotebookCellsChangeData[];
 	}
 
 	export interface NotebookCellOutputsChangeEvent {
@@ -1402,7 +1402,7 @@ declare module "vscode" {
 		 * The [notebook editor](#NotebookEditor) for which the selections have changed.
 		 */
 		readonly notebookEditor: NotebookEditor;
-		readonly selections: ReadonlyArray<NotebookRange>;
+		readonly selections: readonly NotebookRange[];
 	}
 
 	export interface NotebookEditorVisibleRangesChangeEvent {
@@ -1410,7 +1410,7 @@ declare module "vscode" {
 		 * The [notebook editor](#NotebookEditor) for which the visible ranges have changed.
 		 */
 		readonly notebookEditor: NotebookEditor;
-		readonly visibleRanges: ReadonlyArray<NotebookRange>;
+		readonly visibleRanges: readonly NotebookRange[];
 	}
 
 	export interface NotebookCellExecutionStateChangeEvent {
@@ -1472,7 +1472,7 @@ declare module "vscode" {
 		/**
 		 * All currently known notebook documents.
 		 */
-		export const notebookDocuments: ReadonlyArray<NotebookDocument>;
+		export const notebookDocuments: readonly NotebookDocument[];
 		export const onDidChangeNotebookDocumentMetadata: Event<NotebookDocumentMetadataChangeEvent>;
 		export const onDidChangeNotebookCells: Event<NotebookCellsChangeEvent>;
 
@@ -2591,7 +2591,7 @@ declare module "vscode" {
 		 * order by their `completedAt` time.
 		 * @stability experimental
 		 */
-		export const testResults: ReadonlyArray<TestRunResult>;
+		export const testResults: readonly TestRunResult[];
 
 		/**
 		 * Event that fires when the {@link testResults} array is updated.
@@ -2607,7 +2607,7 @@ declare module "vscode" {
 		/**
 		 * List of tests returned by test provider for files in the workspace.
 		 */
-		readonly tests: ReadonlyArray<TestItem<never>>;
+		readonly tests: readonly TestItem<never>[];
 
 		/**
 		 * An event that fires when an existing test in the collection changes, or
@@ -2640,17 +2640,17 @@ declare module "vscode" {
 		/**
 		 * List of all tests that are newly added.
 		 */
-		readonly added: ReadonlyArray<TestItem<never>>;
+		readonly added: readonly TestItem<never>[];
 
 		/**
 		 * List of existing tests that have updated.
 		 */
-		readonly updated: ReadonlyArray<TestItem<never>>;
+		readonly updated: readonly TestItem<never>[];
 
 		/**
 		 * List of existing tests that have been removed.
 		 */
-		readonly removed: ReadonlyArray<TestItem<never>>;
+		readonly removed: readonly TestItem<never>[];
 	}
 
 	/**
@@ -3060,7 +3060,7 @@ declare module "vscode" {
 		 * List of test results. The items in this array are the items that
 		 * were passed in the {@link test.runTests} method.
 		 */
-		results: ReadonlyArray<Readonly<TestResultSnapshot>>;
+		results: readonly Readonly<TestResultSnapshot>[];
 	}
 
 	/**
@@ -3100,7 +3100,7 @@ declare module "vscode" {
 		 * State of the test in each task. In the common case, a test will only
 		 * be executed in a single task and the length of this array will be 1.
 		 */
-		readonly taskStates: ReadonlyArray<TestSnapshoptTaskState>;
+		readonly taskStates: readonly TestSnapshoptTaskState[];
 
 		/**
 		 * Optional list of nested tests for this item.
@@ -3124,7 +3124,7 @@ declare module "vscode" {
 		 * Associated test run message. Can, for example, contain assertion
 		 * failure information if the test fails.
 		 */
-		readonly messages: ReadonlyArray<TestMessage>;
+		readonly messages: readonly TestMessage[];
 	}
 
 	//#endregion
@@ -3308,7 +3308,7 @@ declare module "vscode" {
 	}
 
 	export namespace window {
-		export const openEditors: ReadonlyArray<OpenEditorInfo>;
+		export const openEditors: readonly OpenEditorInfo[];
 
 		// todo@API proper event type
 		export const onDidChangeOpenEditors: Event<void>;

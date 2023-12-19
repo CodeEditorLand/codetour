@@ -28,5 +28,5 @@ export async function registerCodeStatusModule() {
 		}
 	});
 
-	onDidEndTour(() => statusDisposable && statusDisposable.dispose());
+	onDidEndTour(() => statusDisposable?.dispose());
 }

@@ -98,7 +98,7 @@ export async function updateDecorations(
 		return clearDecorations(editor);
 	}
 
-	const ranges = store.activeEditorSteps!.map(
+	const ranges = store.activeEditorSteps?.map(
 		([, , , line]) => new vscode.Range(line!, 0, line!, 1000),
 	);
 	editor.setDecorations(TOUR_DECORATOR, ranges);

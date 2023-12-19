@@ -106,7 +106,7 @@ export async function selectTour(
 
 export async function endCurrentCodeTour(fireEvent = true) {
 	if (fireEvent) {
-		_onDidEndTour.fire(store.activeTour!.tour);
+		_onDidEndTour.fire(store.activeTour?.tour);
 	}
 
 	if (store.isRecording) {
@@ -134,7 +134,7 @@ export async function endCurrentCodeTour(fireEvent = true) {
 export function moveCurrentCodeTourBackward() {
 	--store.activeTour!.step;
 
-	_onDidStartTour.fire([store.activeTour!.tour, store.activeTour!.step]);
+	_onDidStartTour.fire([store.activeTour?.tour, store.activeTour?.step]);
 }
 
 export async function moveCurrentCodeTourForward() {
@@ -142,7 +142,7 @@ export async function moveCurrentCodeTourForward() {
 
 	store.activeTour!.step++;
 
-	_onDidStartTour.fire([store.activeTour!.tour, store.activeTour!.step]);
+	_onDidStartTour.fire([store.activeTour?.tour, store.activeTour?.step]);
 }
 
 async function isCodeSwingWorkspace(uri: Uri) {
@@ -235,7 +235,7 @@ export async function exportTour(tour: CodeTour) {
 				);
 				const contents = await readUriContents(stepFileUri);
 
-				delete step.markerTitle;
+				step.markerTitle = undefined;
 
 				return {
 					...step,
@@ -245,8 +245,8 @@ export async function exportTour(tour: CodeTour) {
 		);
 	}
 
-	delete newTour.id;
-	delete newTour.ref;
+	newTour.id = undefined;
+	newTour.ref = undefined;
 
 	return JSON.stringify(newTour, null, 2);
 }

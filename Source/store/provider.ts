@@ -19,7 +19,7 @@ export const MAIN_TOUR_FILES = [
 const SUB_TOUR_DIRECTORIES = [
 	`${VSCODE_DIRECTORY}/tours`,
 	".github/tours",
-	`.tours`,
+	".tours",
 ];
 
 const HAS_TOURS_KEY = `${EXTENSION_NAME}:hasTours`;
@@ -42,7 +42,7 @@ if (customDirectory) {
 
 export async function discoverTours(): Promise<void> {
 	const tours = await Promise.all(
-		vscode.workspace.workspaceFolders!.map(async (workspaceFolder) => {
+		vscode.workspace.workspaceFolders?.map(async (workspaceFolder) => {
 			const mainTours = await discoverMainTours(workspaceFolder.uri);
 			const tours = await discoverSubTours(workspaceFolder.uri);
 
@@ -64,7 +64,7 @@ export async function discoverTours(): Promise<void> {
 
 		if (store.activeTour) {
 			const tour = store.tours.find(
-				(tour) => tour.id === store.activeTour!.tour.id,
+				(tour) => tour.id === store.activeTour?.tour.id,
 			);
 
 			if (tour) {

@@ -7,7 +7,7 @@ import { CodeTour, store } from ".";
 
 const CODETOUR_PROGRESS_KEY = "codetour:progress";
 
-export var progress: {
+export let progress: {
 	update(): void;
 	isComplete(tour: CodeTour, stepNumber?: number): boolean;
 	reset(): void;
@@ -27,12 +27,12 @@ export function initializeStorage(context: ExtensionContext) {
 				([id]) => store.activeTour?.tour.id === id,
 			);
 
-			if (progress && !progress![1].includes(store.activeTour!.step)) {
-				progress![1].push(store.activeTour!.step);
+			if (progress && !progress?.[1].includes(store.activeTour?.step)) {
+				progress?.[1].push(store.activeTour?.step);
 			} else {
 				store.progress.push([
-					store.activeTour!.tour.id,
-					[store.activeTour!.step],
+					store.activeTour?.tour.id,
+					[store.activeTour?.step],
 				]);
 			}
 

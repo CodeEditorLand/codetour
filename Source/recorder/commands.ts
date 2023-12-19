@@ -27,9 +27,9 @@ export async function saveTour(tour: CodeTour) {
 	};
 
 	// @ts-ignore
-	delete newTour.id;
+	newTour.id = undefined;
 	newTour.steps.forEach((step) => {
-		delete step.markerTitle;
+		step.markerTitle = undefined;
 	});
 
 	const tourContent = JSON.stringify(newTour, null, 2);
@@ -115,11 +115,11 @@ export function registerRecorderCommands() {
 		workspaceRoot?: vscode.Uri,
 	) {
 		if (!workspaceRoot) {
-			workspaceRoot = workspace.workspaceFolders![0].uri;
+			workspaceRoot = workspace.workspaceFolders?.[0].uri;
 
-			if (workspace.workspaceFolders!.length > 1) {
+			if (workspace.workspaceFolders?.length > 1) {
 				const items: WorkspaceQuickPickItem[] =
-					workspace.workspaceFolders!.map(({ name, uri }) => ({
+					workspace.workspaceFolders?.map(({ name, uri }) => ({
 						label: name,
 						uri: uri,
 					}));
@@ -248,11 +248,7 @@ export function registerRecorderCommands() {
 
 	function getStepSelection() {
 		const activeEditor = vscode.window.activeTextEditor;
-		if (
-			activeEditor &&
-			activeEditor.selection &&
-			!activeEditor.selection.isEmpty
-		) {
+		if (activeEditor?.selection && !activeEditor.selection.isEmpty) {
 			const { start, end } = activeEditor.selection;
 
 			// Convert the selection from 0-based
@@ -270,15 +266,16 @@ export function registerRecorderCommands() {
 			};
 
 			const previousStep =
-				store.activeTour!.tour.steps[store.activeTour!.step - 1];
+				store.activeTour?.tour.steps[store.activeTour?.step - 1];
 
 			// Check whether the end-user forgot to "reset"
 			// the selection from the previous step, and if so,
 			// ignore it from this step since it's not likely useful.
 			if (
-				!previousStep ||
-				!previousStep.selection ||
-				!comparer.structural(previousStep.selection, selection)
+				!(
+					previousStep?.selection &&
+					comparer.structural(previousStep.selection, selection)
+				)
 			) {
 				return selection;
 			}
@@ -306,7 +303,7 @@ export function registerRecorderCommands() {
 				stepNumber = ++store.activeTour!.step;
 			}
 
-			const tour = store.activeTour!.tour;
+			const tour = store.activeTour?.tour;
 
 			tour.steps.splice(stepNumber, 0, {
 				title,
@@ -330,7 +327,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.addDirectoryStep`,
 		action(async (uri: vscode.Uri) => {
 			const stepNumber = ++store.activeTour!.step;
-			const tour = store.activeTour!.tour;
+			const tour = store.activeTour?.tour;
 
 			const workspaceRoot = getActiveWorkspacePath();
 			const directory = getRelativePath(workspaceRoot, uri.path);
@@ -357,7 +354,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.addSelectionStep`,
 		action(async (editor: vscode.TextEditor) => {
 			const stepNumber = ++store.activeTour!.step;
-			const tour = store.activeTour!.tour;
+			const tour = store.activeTour?.tour;
 
 			const workspaceRoot = getActiveWorkspacePath();
 			const file = getRelativePath(
@@ -387,17 +384,17 @@ export function registerRecorderCommands() {
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.addTourStep`,
 		action(async (reply: vscode.CommentReply) => {
-			if (store.activeTour!.thread) {
-				store.activeTour!.thread.dispose();
+			if (store.activeTour?.thread) {
+				store.activeTour?.thread.dispose();
 			}
 
 			store.activeTour!.thread = reply.thread;
 
-			const tour = store.activeTour!.tour;
-			const thread = store.activeTour!.thread;
+			const tour = store.activeTour?.tour;
+			const thread = store.activeTour?.thread;
 
 			const workspaceRoot = getActiveWorkspacePath();
-			const file = getRelativePath(workspaceRoot, thread!.uri.path);
+			const file = getRelativePath(workspaceRoot, thread?.uri.path);
 
 			const step: CodeTourStep = {
 				file,
@@ -413,9 +410,10 @@ export function registerRecorderCommands() {
 					.lineAt(thread.range.start)
 					.text.trim();
 
-				const pattern =
-					"^[^\\S\\n]*" +
-					contents!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+				const pattern = `^[^\\S\\n]*${contents?.replace(
+					/[.*+?^${}()|[\]\\]/g,
+					"\\$&",
+				)}`;
 				const match = vscode.window.activeTextEditor?.document
 					.getText()
 					.match(new RegExp(pattern, "gm"));
@@ -435,7 +433,7 @@ export function registerRecorderCommands() {
 
 			store.activeTour!.step++;
 
-			const stepNumber = store.activeTour!.step;
+			const stepNumber = store.activeTour?.step;
 
 			const selection = getStepSelection();
 			if (selection) {
@@ -494,8 +492,8 @@ export function registerRecorderCommands() {
 				// We need to re-start the tour so that the associated
 				// comment controller is put into edit mode
 				startCodeTour(
-					store.activeTour!.tour,
-					store.activeTour!.step,
+					store.activeTour?.tour,
+					store.activeTour?.step,
 					store.activeTour.workspaceRoot,
 				);
 			}
@@ -526,8 +524,8 @@ export function registerRecorderCommands() {
 				// We need to re-start the tour so that the associated
 				// comment controller is put into edit mode
 				startCodeTour(
-					store.activeTour!.tour,
-					store.activeTour!.step,
+					store.activeTour?.tour,
+					store.activeTour?.step,
 					store.activeTour.workspaceRoot,
 				);
 			}
@@ -544,7 +542,7 @@ export function registerRecorderCommands() {
 			store.tours
 				.filter((tour) => tour.id !== primaryTour.id && tour.isPrimary)
 				.forEach((tour) => {
-					delete tour.isPrimary;
+					tour.isPrimary = undefined;
 					saveTour(tour);
 				});
 		},
@@ -554,7 +552,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.unmakeTourPrimary`,
 		async (node: CodeTourNode) => {
 			const primaryTour = node.tour;
-			delete primaryTour.isPrimary;
+			primaryTour.isPrimary = undefined;
 			saveTour(primaryTour);
 		},
 	);
@@ -573,7 +571,7 @@ export function registerRecorderCommands() {
 						: comment.body;
 
 				const tourStep =
-					store.activeTour!.tour!.steps[store.activeTour!.step];
+					store.activeTour?.tour?.steps[store.activeTour?.step];
 				tourStep.description = content;
 
 				const selection = getStepSelection();
@@ -584,7 +582,7 @@ export function registerRecorderCommands() {
 
 			store.isEditing = false;
 			vscode.commands.executeCommand("setContext", EDITING_KEY, false);
-			await saveTour(store.activeTour!.tour);
+			await saveTour(store.activeTour?.tour);
 		},
 	);
 
@@ -610,11 +608,12 @@ export function registerRecorderCommands() {
 		movement: number,
 		node: CodeTourStepNode | CodeTourComment,
 	) {
-		let tour: CodeTour, stepNumber: number;
+		let tour: CodeTour;
+		let stepNumber: number;
 
 		if (node instanceof CodeTourComment) {
-			tour = store.activeTour!.tour;
-			stepNumber = store.activeTour!.step;
+			tour = store.activeTour?.tour;
+			stepNumber = store.activeTour?.step;
 		} else {
 			tour = node.tour;
 			stepNumber = node.stepNumber;
@@ -679,7 +678,7 @@ export function registerRecorderCommands() {
 		async (node: CodeTourStepNode) => {
 			const step = node.tour.steps[node.stepNumber];
 			const response = await vscode.window.showInputBox({
-				prompt: `Enter the title for this tour step`,
+				prompt: "Enter the title for this tour step",
 				value: step.title || "",
 			});
 
@@ -688,7 +687,7 @@ export function registerRecorderCommands() {
 			} else if (response) {
 				step.title = response;
 			} else {
-				delete step.title;
+				step.title = undefined;
 			}
 
 			saveTour(node.tour);
@@ -700,7 +699,7 @@ export function registerRecorderCommands() {
 		async (node: CodeTourStepNode) => {
 			const step = node.tour.steps[node.stepNumber];
 			const response = await vscode.window.showInputBox({
-				prompt: `Enter the icon for this tour step`,
+				prompt: "Enter the icon for this tour step",
 				value: step.icon || "",
 			});
 
@@ -709,7 +708,7 @@ export function registerRecorderCommands() {
 			} else if (response) {
 				step.icon = response;
 			} else {
-				delete step.icon;
+				step.icon = undefined;
 			}
 
 			saveTour(node.tour);
@@ -719,19 +718,19 @@ export function registerRecorderCommands() {
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.changeTourStepLine`,
 		async (comment: CodeTourComment) => {
-			const step = store.activeTour!.tour.steps[store.activeTour!.step];
+			const step = store.activeTour?.tour.steps[store.activeTour?.step];
 			const response = await vscode.window.showInputBox({
-				prompt: `Enter the new line # for this tour step (Leave blank to use the selection/document end)`,
+				prompt: "Enter the new line # for this tour step (Leave blank to use the selection/document end)",
 				value: step.line?.toString() || "",
 			});
 
 			if (response) {
 				step.line = Number(response);
 			} else {
-				delete step.line;
+				step.line = undefined;
 			}
 
-			saveTour(store.activeTour!.tour);
+			saveTour(store.activeTour?.tour);
 		},
 	);
 
@@ -756,7 +755,7 @@ export function registerRecorderCommands() {
 			const ref = await promptForTourRef(workspaceRoot);
 			if (ref) {
 				if (ref === "HEAD") {
-					delete node.tour.ref;
+					node.tour.ref = undefined;
 				} else {
 					node.tour.ref = ref;
 				}
@@ -808,7 +807,8 @@ export function registerRecorderCommands() {
 			node: CodeTourStepNode | CodeTourComment,
 			additionalNodes: CodeTourStepNode[],
 		) => {
-			let tour: CodeTour, steps: number[];
+			let tour: CodeTour;
+			let steps: number[];
 			let messageSuffix = "selected step";
 			let buttonSuffix = "Step";
 
@@ -824,8 +824,8 @@ export function registerRecorderCommands() {
 					steps = [node.stepNumber];
 				}
 			} else {
-				tour = store.activeTour!.tour;
-				steps = [store.activeTour!.step];
+				tour = store.activeTour?.tour;
+				steps = [store.activeTour?.step];
 
 				node.parent.dispose();
 			}
@@ -840,11 +840,11 @@ export function registerRecorderCommands() {
 
 				if (store.activeTour && store.activeTour.tour.id === tour.id) {
 					const previousSteps = steps.filter(
-						(step) => step <= store.activeTour!.step,
+						(step) => step <= store.activeTour?.step,
 					);
 					if (
 						previousSteps.length > 0 &&
-						(store.activeTour!.step > 0 || tour.steps.length === 0)
+						(store.activeTour?.step > 0 || tour.steps.length === 0)
 					) {
 						store.activeTour!.step -= previousSteps.length;
 					}
@@ -877,7 +877,7 @@ export function registerRecorderCommands() {
 	): Promise<string | undefined> {
 		// If for some reason the Git extension isn't available,
 		// then we won't be able to ask the user to select a git ref.
-		if (!api || !api.getRepository) {
+		if (!api?.getRepository) {
 			return;
 		}
 
@@ -889,7 +889,7 @@ export function registerRecorderCommands() {
 			return;
 		}
 
-		const currentBranch = repository.state.HEAD!.name;
+		const currentBranch = repository.state.HEAD?.name;
 		const items: GitRefQuickPickItem[] = [
 			{
 				label: "$(circle-slash) None",

@@ -13,7 +13,7 @@ const changeWatcher = async (e: vscode.TextDocumentChangeEvent) => {
 		return;
 	}
 
-	const impactedSteps = store.activeEditorSteps!.filter(
+	const impactedSteps = store.activeEditorSteps?.filter(
 		([, step, , line]) =>
 			step.pattern &&
 			e.contentChanges.some((change) => line === change.range.start.line),

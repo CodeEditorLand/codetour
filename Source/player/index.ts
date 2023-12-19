@@ -71,8 +71,8 @@ export function generatePreviewContent(content: string) {
 		})
 		.replace(FILE_REFERENCE_PATTERN, (_, isImage, prefix, filePath) => {
 			const workspaceUri = workspace.getWorkspaceFolder(
-				Uri.parse(store.activeTour!.tour.id),
-			)!.uri;
+				Uri.parse(store.activeTour?.tour.id),
+			)?.uri;
 			const fileUri = Uri.joinPath(workspaceUri, filePath);
 
 			if (isImage) {
@@ -128,7 +128,7 @@ export class CodeTourComment implements Comment {
 
 	constructor(
 		content: string,
-		public label = "",
+		public label,
 		public parent: CommentThread,
 		public mode: CommentMode,
 	) {
@@ -145,7 +145,7 @@ export class CodeTourComment implements Comment {
 let controller: CommentController | null;
 
 export async function focusPlayer() {
-	const currentThread = store.activeTour!.thread!;
+	const currentThread = store.activeTour?.thread!;
 	showDocument(currentThread.uri, currentThread.range);
 }
 
@@ -174,7 +174,7 @@ export async function startPlayer() {
 
 export async function stopPlayer() {
 	if (store.activeTour?.thread) {
-		store.activeTour!.thread.dispose();
+		store.activeTour?.thread.dispose();
 		store.activeTour!.thread = null;
 	}
 
@@ -238,14 +238,14 @@ function getNextTour(): CodeTour | undefined {
 }
 
 async function renderCurrentStep() {
-	if (store.activeTour!.thread) {
-		store.activeTour!.thread.dispose();
+	if (store.activeTour?.thread) {
+		store.activeTour?.thread.dispose();
 	}
 
-	const currentTour = store.activeTour!.tour;
-	const currentStep = store.activeTour!.step;
+	const currentTour = store.activeTour?.tour;
+	const currentStep = store.activeTour?.step;
 
-	const step = currentTour!.steps[currentStep];
+	const step = currentTour?.steps[currentStep];
 	if (!step) {
 		return;
 	}
@@ -280,14 +280,14 @@ async function renderCurrentStep() {
 	}
 
 	const range = new Range(line!, 0, line!, 0);
-	let label = `Step #${currentStep + 1} of ${currentTour!.steps.length}`;
+	let label = `Step #${currentStep + 1} of ${currentTour?.steps.length}`;
 
 	if (currentTour.title) {
 		const title = getTourTitle(currentTour);
 		label += ` (${title})`;
 	}
 
-	store.activeTour!.thread = controller!.createCommentThread(uri, range, []);
+	store.activeTour!.thread = controller?.createCommentThread(uri, range, []);
 
 	const mode =
 		store.isRecording && store.isEditing
@@ -352,13 +352,13 @@ async function renderCurrentStep() {
 	const comment = new CodeTourComment(
 		content,
 		label,
-		store.activeTour!.thread!,
+		store.activeTour?.thread!,
 		mode,
 	);
 
 	// @ts-ignore
-	store.activeTour!.thread.canReply = false;
-	store.activeTour!.thread.comments = [comment];
+	store.activeTour?.thread.canReply = false;
+	store.activeTour?.thread.comments = [comment];
 
 	const contextValues = [];
 	if (hasPreviousStep) {
@@ -369,8 +369,8 @@ async function renderCurrentStep() {
 		contextValues.push("hasNext");
 	}
 
-	store.activeTour!.thread.contextValue = contextValues.join(".");
-	store.activeTour!.thread.collapsibleState =
+	store.activeTour?.thread.contextValue = contextValues.join(".");
+	store.activeTour?.thread.collapsibleState =
 		CommentThreadCollapsibleState.Expanded;
 
 	let selection;
@@ -409,8 +409,8 @@ async function renderCurrentStep() {
 
 	if (step.commands) {
 		for (const command of step.commands) {
-			let name = command,
-				args: any[] = [];
+			let name = command;
+			let args: any[] = [];
 
 			if (command.includes("?")) {
 				const parts = command.split("?");

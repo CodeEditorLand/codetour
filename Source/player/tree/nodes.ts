@@ -74,7 +74,8 @@ export class CodeTourStepNode extends TreeItem {
 
 		const step = tour.steps[stepNumber];
 
-		let workspaceRoot, tours;
+		let workspaceRoot;
+		let tours;
 		if (store.activeTour && store.activeTour.tour.id === tour.id) {
 			workspaceRoot = store.activeTour.workspaceRoot;
 			tours = store.activeTour.tours;

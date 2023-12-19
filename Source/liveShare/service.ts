@@ -29,7 +29,9 @@ export default function (
 	});
 
 	service.onNotify(TOUR_ENDED_NOTIFICATION, (message: Message) => {
-		if (message.peer === peer) return;
+		if (message.peer === peer) {
+			return;
+		}
 
 		endCurrentCodeTour(false);
 		service.notify(TOUR_ENDED_NOTIFICATION, message);
@@ -60,7 +62,9 @@ export default function (
 	});
 
 	service.onNotify(TOUR_STARTED_NOTIFICATION, (message: Message) => {
-		if (message.peer === peer) return;
+		if (message.peer === peer) {
+			return;
+		}
 
 		startCodeTour(message.data.tour, message.data.stepNumber);
 		service.notify(TOUR_STARTED_NOTIFICATION, message);

@@ -9,7 +9,9 @@ import initializeBaseService from "./service";
 
 export async function initializeService(vslsApi: vsls.LiveShare) {
 	const service = await vslsApi.shareService(EXTENSION_NAME);
-	if (!service) return;
+	if (!service) {
+		return;
+	}
 
 	service.onRequest("getCurrentTourStep", () => {
 		if (!store.activeTour) {

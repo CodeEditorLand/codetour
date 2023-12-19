@@ -22,7 +22,7 @@ export function getStepLabel(
 	if (step.title) {
 		label = step.title;
 	} else if (HEADING_PATTERN.test(step.description.trim())) {
-		label = step.description.trim().match(HEADING_PATTERN)![1];
+		label = step.description.trim().match(HEADING_PATTERN)?.[1];
 	} else if (step.markerTitle) {
 		label = step.markerTitle;
 	} else if (defaultToFileName) {
@@ -83,8 +83,7 @@ export async function getStepFileUri(
 			const repo = api.getRepository(uri);
 
 			if (
-				repo &&
-				repo.state.HEAD &&
+				repo?.state.HEAD &&
 				repo.state.HEAD.name !== ref && // The tour refs the user's current branch
 				repo.state.HEAD.commit !== ref && // The tour refs the user's HEAD commit
 				repo.state.HEAD.commit !== // The tour refs a branch/tag that points at the user's HEAD commit
@@ -102,11 +101,11 @@ export async function getStepFileUri(
 }
 
 export function getActiveWorkspacePath() {
-	return store.activeTour!.workspaceRoot?.path || "";
+	return store.activeTour?.workspaceRoot?.path || "";
 }
 
 export function getWorkspaceKey() {
-	return workspace.workspaceFile || workspace.workspaceFolders![0].uri;
+	return workspace.workspaceFile || workspace.workspaceFolders?.[0].uri;
 }
 
 export function getWorkspacePath(tour: CodeTour) {
@@ -117,7 +116,7 @@ export function getWorkspaceUri(tour: CodeTour): Uri | undefined {
 	const tourUri = Uri.parse(tour.id);
 	return (
 		workspace.getWorkspaceFolder(tourUri)?.uri ||
-		(workspace.workspaceFolders && workspace.workspaceFolders[0].uri)
+		workspace.workspaceFolders?.[0].uri
 	);
 }
 
@@ -129,7 +128,7 @@ function getTourNumber(tour: CodeTour): number | undefined {
 }
 
 export function getActiveTourNumber(): number | undefined {
-	return getTourNumber(store.activeTour!.tour);
+	return getTourNumber(store.activeTour?.tour);
 }
 
 function getStepMarkerPrefix(tour: CodeTour): string | undefined {
@@ -144,16 +143,16 @@ function getStepMarkerPrefix(tour: CodeTour): string | undefined {
 }
 
 function getActiveStepMarkerPrefix(): string | undefined {
-	return getStepMarkerPrefix(store.activeTour!.tour);
+	return getStepMarkerPrefix(store.activeTour?.tour);
 }
 
 export function getActiveStepMarker(): string | undefined {
-	if (!isMarkerStep(store.activeTour!.tour, store.activeTour!.step)) {
+	if (!isMarkerStep(store.activeTour?.tour, store.activeTour?.step)) {
 		return;
 	}
 
 	const prefix = getActiveStepMarkerPrefix();
-	const suffix = `.${store.activeTour!.step + 1}`;
+	const suffix = `.${store.activeTour?.step + 1}`;
 	return `${prefix}${suffix}`;
 }
 
