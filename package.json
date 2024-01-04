@@ -650,7 +650,7 @@
 	],
 	"dependencies": {
 		"@types/jexl": "2.3.4",
-		"axios": "1.6.3",
+		"axios": "1.6.4",
 		"jexl": "2.3.0",
 		"mobx": "6.12.0",
 		"os-browserify": "0.3.0",
@@ -666,7 +666,7 @@
 		"debug": "4.3.4",
 		"ts-loader": "9.5.1",
 		"typescript": "5.3.3",
-		"typescript-esbuild": "0.3.3",
+		"typescript-esbuild": "0.3.4",
 		"webpack": "5.89.0",
 		"webpack-cli": "5.1.4",
 		"webpack-merge": "5.10.0"
