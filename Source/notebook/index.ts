@@ -3,7 +3,7 @@
 
 import * as vscode from "vscode";
 import { EXTENSION_NAME, SMALL_ICON_URL } from "../constants";
-import { CodeTour } from "../store";
+import type { CodeTour } from "../store";
 import { getStepFileUri, getWorkspaceUri } from "../utils";
 
 class CodeTourNotebookProvider implements vscode.NotebookSerializer {

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "path";
+import * as path from "node:path";
 import {
-	Disposable,
-	Event,
+	type Disposable,
+	type Event,
 	EventEmitter,
-	FileChangeEvent,
-	FileStat,
+	type FileChangeEvent,
+	type FileStat,
 	FileSystemError,
-	FileSystemProvider,
+	type FileSystemProvider,
 	FileType,
 	Uri,
 	workspace,
 } from "vscode";
 import { FS_SCHEME } from "../../constants";
-import { CodeTour, CodeTourStep, store } from "../../store";
+import { type CodeTour, type CodeTourStep, store } from "../../store";
 
 export class CodeTourFileSystemProvider implements FileSystemProvider {
 	private count = 0;

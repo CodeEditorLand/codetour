@@ -3,17 +3,17 @@
 
 import { reaction } from "mobx";
 import {
-	Comment,
-	CommentAuthorInformation,
-	CommentController,
+	type Comment,
+	type CommentAuthorInformation,
+	type CommentController,
 	CommentMode,
-	CommentThread,
+	type CommentThread,
 	CommentThreadCollapsibleState,
-	ExtensionContext,
+	type ExtensionContext,
 	MarkdownString,
 	Range,
 	Selection,
-	TextDocument,
+	type TextDocument,
 	TextEditorRevealType,
 	Uri,
 	commands,
@@ -22,7 +22,7 @@ import {
 	workspace,
 } from "vscode";
 import { SMALL_ICON_URL } from "../constants";
-import { CodeTour, store } from "../store";
+import { type CodeTour, store } from "../store";
 import { initializeStorage } from "../store/storage";
 import {
 	getActiveStepMarker,

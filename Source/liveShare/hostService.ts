@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Uri } from "vscode";
-import * as vsls from "vsls";
+import type * as vsls from "vsls";
 import { EXTENSION_NAME } from "../constants";
 import { store } from "../store";
 import initializeBaseService from "./service";

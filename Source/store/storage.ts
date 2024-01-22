@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { observable } from "mobx";
-import { ExtensionContext, Uri, commands, workspace } from "vscode";
-import { CodeTour, store } from ".";
+import { type ExtensionContext, Uri, commands, workspace } from "vscode";
+import { type CodeTour, store } from ".";
 
 const CODETOUR_PROGRESS_KEY = "codetour:progress";
 

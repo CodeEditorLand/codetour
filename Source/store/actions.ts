@@ -3,13 +3,13 @@
 
 import {
 	EventEmitter,
-	Memento,
-	Uri,
+	type Memento,
+	type Uri,
 	commands,
 	window,
 	workspace,
 } from "vscode";
-import { CodeTour, store } from ".";
+import { type CodeTour, store } from ".";
 import { EXTENSION_NAME, FS_SCHEME, FS_SCHEME_CONTENT } from "../constants";
 import { startPlayer, stopPlayer } from "../player";
 import {

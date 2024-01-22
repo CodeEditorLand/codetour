@@ -9,7 +9,7 @@ import {
 	Uri,
 } from "vscode";
 import { CONTENT_URI, EXTENSION_NAME, FS_SCHEME } from "../../constants";
-import { CodeTour, store } from "../../store";
+import { type CodeTour, store } from "../../store";
 import { progress } from "../../store/storage";
 import { getFileUri, getStepLabel, getWorkspaceUri } from "../../utils";
 
@@ -28,7 +28,10 @@ const completeIcon = new ThemeIcon(
 );
 
 export class CodeTourNode extends TreeItem {
-	constructor(public tour: CodeTour, extensionPath: string) {
+	constructor(
+		public tour: CodeTour,
+		extensionPath: string,
+	) {
 		super(
 			tour.title!,
 			isRecording(tour)
@@ -69,7 +72,10 @@ export class CodeTourNode extends TreeItem {
 }
 
 export class CodeTourStepNode extends TreeItem {
-	constructor(public tour: CodeTour, public stepNumber: number) {
+	constructor(
+		public tour: CodeTour,
+		public stepNumber: number,
+	) {
 		super(getStepLabel(tour, stepNumber));
 
 		const step = tour.steps[stepNumber];

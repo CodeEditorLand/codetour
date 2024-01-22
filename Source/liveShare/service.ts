@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { Uri } from "vscode";
-import { LiveShare, Role, SharedService, SharedServiceProxy } from "vsls";
+import {
+	type LiveShare,
+	Role,
+	type SharedService,
+	type SharedServiceProxy,
+} from "vsls";
 import {
 	endCurrentCodeTour,
 	onDidEndTour,

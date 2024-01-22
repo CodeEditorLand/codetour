@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "os";
+import * as os from "node:os";
 import * as jexl from "jexl";
 import { comparer, runInAction, set } from "mobx";
 import * as vscode from "vscode";
-import { CodeTour, store } from ".";
+import { type CodeTour, store } from ".";
 import { EXTENSION_NAME, VSCODE_DIRECTORY } from "../constants";
 import { readUriContents, updateMarkerTitles } from "../utils";
 import { endCurrentCodeTour } from "./actions";

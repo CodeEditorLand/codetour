@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { observable } from "mobx";
-import { CommentThread, Uri } from "vscode";
+import type { CommentThread, Uri } from "vscode";
 
 export interface CodeTourStepPosition {
 	line: number;

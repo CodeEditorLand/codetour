@@ -6,7 +6,7 @@ import * as vscode from "vscode";
 import { EXTENSION_NAME } from "../constants";
 import { focusPlayer } from "../player";
 import { saveTour } from "../recorder/commands";
-import { CodeTour, store } from "../store";
+import { type CodeTour, store } from "../store";
 import {
 	endCurrentCodeTour,
 	exportTour,

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "os";
-import * as path from "path";
+import * as os from "node:os";
+import * as path from "node:path";
 import { Uri, workspace } from "vscode";
 import { CONTENT_URI, FS_SCHEME } from "./constants";
 import { api } from "./git";
-import { CodeTour, CodeTourStep, store } from "./store";
+import { type CodeTour, type CodeTourStep, store } from "./store";
 
 const HEADING_PATTERN = /^#+\s*(.*)/;
 export function getStepLabel(

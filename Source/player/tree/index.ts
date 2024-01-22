@@ -3,11 +3,11 @@
 
 import { reaction } from "mobx";
 import {
-	Disposable,
-	Event,
+	type Disposable,
+	type Event,
 	EventEmitter,
 	MarkdownString,
-	TreeDataProvider,
+	type TreeDataProvider,
 	TreeItem,
 	window,
 } from "vscode";
