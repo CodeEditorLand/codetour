@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "node:os";
-import * as path from "node:path";
+import * as os from "os";
+import * as path from "path";
 import { Uri, workspace } from "vscode";
 import { CONTENT_URI, FS_SCHEME } from "./constants";
 import { api } from "./git";

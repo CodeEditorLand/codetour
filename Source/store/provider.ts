@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "node:os";
+import * as os from "os";
 import * as jexl from "jexl";
 import { comparer, runInAction, set } from "mobx";
 import * as vscode from "vscode";

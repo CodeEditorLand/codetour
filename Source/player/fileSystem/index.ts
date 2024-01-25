@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "node:path";
+import * as path from "path";
 import {
 	type Disposable,
 	type Event,
