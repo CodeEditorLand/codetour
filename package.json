@@ -650,7 +650,7 @@
 	],
 	"dependencies": {
 		"@types/jexl": "2.3.4",
-		"axios": "1.6.5",
+		"axios": "1.6.6",
 		"jexl": "2.3.0",
 		"mobx": "6.12.0",
 		"os-browserify": "0.3.0",
@@ -659,7 +659,7 @@
 		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
-		"@types/node": "20.11.5",
+		"@types/node": "20.11.6",
 		"@types/throttle-debounce": "5.0.2",
 		"@types/vscode": "1.85",
 		"@vscode/vsce": "2.22.0",
@@ -667,7 +667,7 @@
 		"ts-loader": "9.5.1",
 		"typescript": "5.3.3",
 		"typescript-esbuild": "0.3.6",
-		"webpack": "5.89.0",
+		"webpack": "5.90.0",
 		"webpack-cli": "5.1.4",
 		"webpack-merge": "5.10.0"
 	},
