@@ -30,7 +30,7 @@ export function registerPlayerCommands() {
 			if (tour) {
 				startCodeTour(tour, stepNumber);
 			}
-		},
+		}
 	);
 
 	// Purpose: Command link
@@ -46,10 +46,10 @@ export function registerPlayerCommands() {
 					store.activeTour?.workspaceRoot,
 					undefined,
 					undefined,
-					store.activeTour?.tours,
+					store.activeTour?.tours
 				);
 			}
-		},
+		}
 	);
 
 	vscode.commands.registerCommand(
@@ -60,12 +60,12 @@ export function registerPlayerCommands() {
 			if (title) {
 				vscode.commands.executeCommand(
 					`${EXTENSION_NAME}.startTourByTitle`,
-					title,
+					title
 				);
 			} else {
 				vscode.commands.executeCommand(`${EXTENSION_NAME}.endTour`);
 			}
-		},
+		}
 	);
 
 	// Purpose: Command link
@@ -78,9 +78,9 @@ export function registerPlayerCommands() {
 				store.activeTour?.workspaceRoot,
 				undefined,
 				undefined,
-				store.activeTour?.tours,
+				store.activeTour?.tours
 			);
-		},
+		}
 	);
 
 	// Purpose: Command link and the ">>" syntax
@@ -97,13 +97,13 @@ export function registerPlayerCommands() {
 
 				when(
 					() => store.activeTour === null,
-					() => terminal?.dispose(),
+					() => terminal?.dispose()
 				);
 			}
 
 			terminal.show();
 			terminal.sendText(text, true);
-		},
+		}
 	);
 
 	vscode.commands.registerCommand(
@@ -118,14 +118,14 @@ export function registerPlayerCommands() {
 						step.selection?.start.line - 1,
 						step.selection?.start.character - 1,
 						step.selection?.end.line - 1,
-						step.selection?.end.character - 1,
+						step.selection?.end.character - 1
 					);
 					e.replace(selection, codeSnippet);
 				});
 			} else {
 				const position = new vscode.Position(step.line! - 1, 0);
 				await vscode.window.activeTextEditor?.edit((e) =>
-					e.insert(position, codeSnippet),
+					e.insert(position, codeSnippet)
 				);
 			}
 
@@ -138,9 +138,9 @@ export function registerPlayerCommands() {
 			}
 
 			await vscode.commands.executeCommand(
-				"editor.action.formatDocument",
+				"editor.action.formatDocument"
 			);
-		},
+		}
 	);
 
 	vscode.commands.registerCommand(
@@ -149,7 +149,7 @@ export function registerPlayerCommands() {
 			tour?: CodeTour | CodeTourNode,
 			stepNumber?: number,
 			workspaceRoot?: vscode.Uri,
-			tours?: CodeTour[],
+			tours?: CodeTour[]
 		) => {
 			if (tour) {
 				const targetTour =
@@ -160,12 +160,12 @@ export function registerPlayerCommands() {
 					workspaceRoot,
 					undefined,
 					undefined,
-					tours,
+					tours
 				);
 			}
 
 			selectTour(store.tours, workspaceRoot);
-		},
+		}
 	);
 
 	vscode.commands.registerCommand(
@@ -173,27 +173,27 @@ export function registerPlayerCommands() {
 		async (node: CodeTourNode) => {
 			const tourUri = vscode.Uri.parse(node.tour.id);
 			vscode.window.showTextDocument(tourUri);
-		},
+		}
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.endTour`,
-		endCurrentCodeTour,
+		endCurrentCodeTour
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.previousTourStep`,
-		moveCurrentCodeTourBackward,
+		moveCurrentCodeTourBackward
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.nextTourStep`,
-		moveCurrentCodeTourForward,
+		moveCurrentCodeTourForward
 	);
 
 	vscode.commands.registerCommand(
 		`${EXTENSION_NAME}.resumeTour`,
-		focusPlayer,
+		focusPlayer
 	);
 
 	vscode.commands.registerCommand(
@@ -221,10 +221,10 @@ export function registerPlayerCommands() {
 				startCodeTour(tour);
 			} catch {
 				vscode.window.showErrorMessage(
-					"This file doesn't appear to be a valid tour. Please inspect its contents and try again.",
+					"This file doesn't appear to be a valid tour. Please inspect its contents and try again."
 				);
 			}
-		},
+		}
 	);
 
 	vscode.commands.registerCommand(
@@ -247,10 +247,10 @@ export function registerPlayerCommands() {
 				startCodeTour(tour);
 			} catch {
 				vscode.window.showErrorMessage(
-					"This file doesn't appear to be a valid tour. Please inspect its contents and try again.",
+					"This file doesn't appear to be a valid tour. Please inspect its contents and try again."
 				);
 			}
-		},
+		}
 	);
 
 	vscode.commands.registerCommand(
@@ -270,7 +270,7 @@ export function registerPlayerCommands() {
 			const contents = await exportTour(node.tour);
 			const bytes = new TextEncoder().encode(contents);
 			vscode.workspace.fs.writeFile(uri, bytes);
-		},
+		}
 	);
 
 	function setShowMarkers(showMarkers: boolean) {
@@ -281,25 +281,25 @@ export function registerPlayerCommands() {
 			.update(
 				"showMarkers",
 				showMarkers,
-				vscode.ConfigurationTarget.Global,
+				vscode.ConfigurationTarget.Global
 			);
 
 		vscode.commands.executeCommand(
 			"setContext",
 			"codetour:showingMarkers",
-			showMarkers,
+			showMarkers
 		);
 	}
 
 	vscode.commands.registerCommand(`${EXTENSION_NAME}.hideMarkers`, () =>
-		setShowMarkers(false),
+		setShowMarkers(false)
 	);
 
 	vscode.commands.registerCommand(`${EXTENSION_NAME}.showMarkers`, () =>
-		setShowMarkers(true),
+		setShowMarkers(true)
 	);
 
 	vscode.commands.registerCommand(`${EXTENSION_NAME}.resetProgress`, () =>
-		progress.reset(),
+		progress.reset()
 	);
 }

@@ -51,7 +51,7 @@ export async function discoverTours(): Promise<void> {
 			}
 
 			return tours;
-		}),
+		})
 	);
 
 	runInAction(() => {
@@ -59,12 +59,12 @@ export async function discoverTours(): Promise<void> {
 			.flat()
 			.sort((a, b) => a.title.localeCompare(b.title))
 			.filter(
-				(tour) => !tour.when || jexl.evalSync(tour.when, TOUR_CONTEXT),
+				(tour) => !tour.when || jexl.evalSync(tour.when, TOUR_CONTEXT)
 			);
 
 		if (store.activeTour) {
 			const tour = store.tours.find(
-				(tour) => tour.id === store.activeTour?.tour.id,
+				(tour) => tour.id === store.activeTour?.tour.id
 			);
 
 			if (tour) {
@@ -88,7 +88,7 @@ export async function discoverTours(): Promise<void> {
 }
 
 async function discoverMainTours(
-	workspaceUri: vscode.Uri,
+	workspaceUri: vscode.Uri
 ): Promise<CodeTour[]> {
 	const tours = await Promise.all(
 		MAIN_TOUR_FILES.map(async (tourFile) => {
@@ -100,7 +100,7 @@ async function discoverMainTours(
 				tour.id = decodeURIComponent(uri.toString());
 				return tour;
 			} catch {}
-		}),
+		})
 	);
 
 	return tours.filter((tour) => tour);
@@ -119,7 +119,7 @@ async function readTourDirectory(uri: vscode.Uri): Promise<CodeTour[]> {
 				} else {
 					return readTourDirectory(fileUri);
 				}
-			}),
+			})
 		);
 
 		// @ts-ignore
@@ -130,7 +130,7 @@ async function readTourDirectory(uri: vscode.Uri): Promise<CodeTour[]> {
 }
 
 async function readTourFile(
-	tourUri: vscode.Uri,
+	tourUri: vscode.Uri
 ): Promise<CodeTour | undefined> {
 	try {
 		const tourContent = await readUriContents(tourUri);
@@ -145,7 +145,7 @@ async function discoverSubTours(workspaceUri: vscode.Uri): Promise<CodeTour[]> {
 		SUB_TOUR_DIRECTORIES.map((directory) => {
 			const uri = vscode.Uri.joinPath(workspaceUri, directory);
 			return readTourDirectory(uri);
-		}),
+		})
 	);
 
 	return tours.flat();
@@ -154,7 +154,7 @@ async function discoverSubTours(workspaceUri: vscode.Uri): Promise<CodeTour[]> {
 vscode.workspace.onDidChangeWorkspaceFolders(discoverTours);
 
 const watcher = vscode.workspace.createFileSystemWatcher(
-	`**/{${SUB_TOUR_DIRECTORIES.join(",")}}/**/*.tour`,
+	`**/{${SUB_TOUR_DIRECTORIES.join(",")}}/**/*.tour`
 );
 
 watcher.onDidChange(discoverTours);
