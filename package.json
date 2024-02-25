@@ -659,10 +659,10 @@
     "vsls": "1.0.4753"
   },
   "devDependencies": {
-    "@types/node": "20.11.19",
+    "@types/node": "20.11.20",
     "@types/throttle-debounce": "5.0.2",
     "@types/vscode": "1.86",
-    "@vscode/vsce": "2.23.0",
+    "@vscode/vsce": "2.24.0",
     "debug": "4.3.4",
     "ts-loader": "9.5.1",
     "typescript": "5.3.3",
