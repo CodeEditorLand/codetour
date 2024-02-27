@@ -18,7 +18,7 @@
   "license": "MIT",
   "icon": "images/icon.png",
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "1.60.0"
   },
   "categories": [
     "Other"
@@ -652,27 +652,27 @@
     ]
   },
   "dependencies": {
-    "@types/jexl": "^2.2.0",
-    "axios": "^0.21.4",
-    "jexl": "^2.3.0",
-    "mobx": "^5.14.2",
+    "@types/jexl": "2.3.4",
+    "axios": "1.6.7",
+    "jexl": "2.3.0",
+    "mobx": "6.12.0",
     "os-browserify": "0.3.0",
     "path-browserify": "1.0.1",
-    "throttle-debounce": "^3.0.1",
-    "vsls": "^1.0.2532"
+    "throttle-debounce": "5.0.0",
+    "vsls": "1.0.4753"
   },
   "devDependencies": {
-    "@types/node": "^18.14.0",
-    "@types/throttle-debounce": "^5.0.0",
-    "@types/vscode": "^1.60",
-    "@vscode/vsce": "^2.17.0",
-    "debug": "^4.3.4",
-    "eslint": "^8.34.0",
-    "ts-loader": "^9.4.2",
-    "typescript": "^4.9.5",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-merge": "^5.8.0"
+    "@types/node": "20.11.21",
+    "@types/throttle-debounce": "5.0.2",
+    "@types/vscode": "1.86",
+    "@vscode/vsce": "2.24.0",
+    "debug": "4.3.4",
+    "eslint": "8.57.0",
+    "ts-loader": "9.5.1",
+    "typescript": "5.3.3",
+    "webpack": "5.90.3",
+    "webpack-cli": "5.1.4",
+    "webpack-merge": "5.10.0"
   },
   "scripts": {
     "build": "webpack --mode production",
@@ -685,3 +685,4 @@
     "trailingComma": "none"
   }
 }
+
