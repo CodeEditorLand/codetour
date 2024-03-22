@@ -1,16 +1,32 @@
 {
-	"activationEvents": [
-		"onStartupFinished",
-		"onNotebookEditor:codetour"
-	],
-	"author": {
-		"email": "Hello@Playform.Cloud",
-		"name": "Playform",
-		"url": "https://playform.cloud"
-	},
-	"browser": "./dist/extension-web.js",
+	"name": "codetour",
+	"displayName": "CodeTour",
+	"version": "0.0.1",
+	"private": false,
+	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
+	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
 	"bugs": {
 		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "Playform",
+		"email": "Hello@Playform.Cloud",
+		"url": "https://playform.cloud"
+	},
+	"type": "module",
+	"main": "./dist/extension-node.js",
+	"browser": "./dist/extension-web.js",
+	"scripts": {
+		"build": "webpack --mode production",
+		"package": "vsce package",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"vscode:prepublish": "npm run build",
+		"watch": "webpack --mode development --watch"
 	},
 	"contributes": {
 		"commands": [
@@ -627,6 +643,10 @@
 			}
 		]
 	},
+	"activationEvents": [
+		"onStartupFinished",
+		"onNotebookEditor:codetour"
+	],
 	"dependencies": {
 		"@types/jexl": "^2.2.0",
 		"axios": "^0.21.4",
@@ -637,7 +657,6 @@
 		"throttle-debounce": "^3.0.1",
 		"vsls": "^1.0.2532"
 	},
-	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
 	"devDependencies": {
 		"@types/node": "^18.14.0",
 		"@types/throttle-debounce": "^5.0.0",
@@ -646,35 +665,16 @@
 		"debug": "^4.3.4",
 		"ts-loader": "^9.4.2",
 		"typescript": "^4.9.5",
-		"typescript-esbuild": "",
+		"typescript-esbuild": "0.4.5",
 		"webpack": "^5.75.0",
 		"webpack-cli": "^5.0.1",
 		"webpack-merge": "^5.8.0"
 	},
-	"displayName": "CodeTour",
-	"extensionKind": [
-		"workspace"
-	],
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
-	"icon": "images/icon.png",
-	"license": "SEE LICENSE IN LICENSE",
-	"main": "./dist/extension-node.js",
-	"name": "codetour",
-	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"scripts": {
-		"build": "webpack --mode production",
-		"package": "vsce package",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"vscode:prepublish": "npm run build",
-		"watch": "webpack --mode development --watch"
-	},
-	"type": "module",
-	"version": "0.0.1"
+	"icon": "images/icon.png",
+	"extensionKind": [
+		"workspace"
+	]
 }
