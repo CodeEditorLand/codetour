@@ -649,22 +649,22 @@
 		"onNotebookEditor:codetour"
 	],
 	"dependencies": {
-		"@types/jexl": "^2.2.0",
-		"axios": "^0.21.4",
-		"jexl": "^2.3.0",
-		"mobx": "^5.14.2",
+		"@types/jexl": "2.3.4",
+		"axios": "1.6.8",
+		"jexl": "2.3.0",
+		"mobx": "6.12.3",
 		"os-browserify": "0.3.0",
 		"path-browserify": "1.0.1",
-		"throttle-debounce": "^3.0.1",
-		"vsls": "^1.0.2532"
+		"throttle-debounce": "5.0.0",
+		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
-		"@types/node": "^18.14.0",
-		"@types/throttle-debounce": "^5.0.0",
-		"debug": "^4.3.4",
-		"ts-loader": "^9.4.2"
+		"@types/node": "20.12.7",
+		"@types/throttle-debounce": "5.0.2",
+		"debug": "4.3.4",
+		"ts-loader": "9.5.1"
 	},
 	"publishConfig": {
 		"access": "public"
