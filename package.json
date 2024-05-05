@@ -4,29 +4,30 @@
 	"version": "0.0.1",
 	"private": false,
 	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"keywords": [
+		"land"
+	],
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/Codetour#readme",
 	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/Codetour/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+		"url": "git+HTTPS://github.com/CodeEditorLand/Codetour.git"
 	},
 	"license": "SEE LICENSE IN LICENSE",
 	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
 	},
 	"type": "module",
 	"main": "./dist/extension-node.js",
 	"browser": "./dist/extension-web.js",
 	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
 		"build": "webpack --mode production",
-		"package": "vsce package",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"vscode:prepublish": "npm run build",
-		"watch": "webpack --mode development --watch"
+		"prepublishOnly": "Build 'Source/**/*.ts'"
 	},
 	"contributes": {
 		"commands": [
@@ -648,27 +649,22 @@
 		"onNotebookEditor:codetour"
 	],
 	"dependencies": {
-		"@types/jexl": "^2.2.0",
-		"axios": "^0.21.4",
-		"jexl": "^2.3.0",
-		"mobx": "^5.14.2",
+		"@types/jexl": "2.3.4",
+		"axios": "1.6.8",
+		"jexl": "2.3.0",
+		"mobx": "6.12.3",
 		"os-browserify": "0.3.0",
 		"path-browserify": "1.0.1",
-		"throttle-debounce": "^3.0.1",
-		"vsls": "^1.0.2532"
+		"throttle-debounce": "5.0.0",
+		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
-		"@types/node": "^18.14.0",
-		"@types/throttle-debounce": "^5.0.0",
-		"@types/vscode": "^1.60",
-		"@vscode/vsce": "^2.17.0",
-		"debug": "^4.3.4",
-		"ts-loader": "^9.4.2",
-		"typescript": "^4.9.5",
-		"typescript-esbuild": "0.4.5",
-		"webpack": "^5.75.0",
-		"webpack-cli": "^5.0.1",
-		"webpack-merge": "^5.8.0"
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
+		"@types/node": "20.12.7",
+		"@types/throttle-debounce": "5.0.2",
+		"debug": "4.3.4",
+		"ts-loader": "9.5.1"
 	},
 	"publishConfig": {
 		"access": "public"
