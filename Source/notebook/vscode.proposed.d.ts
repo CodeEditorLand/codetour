@@ -1826,7 +1826,7 @@ declare module 'vscode' {
 	}
 
 	export namespace notebook {
-		/** @deprecated use NotebookController */
+		
 		export function createNotebookCellExecutionTask(uri: Uri, index: number, kernelId: string): NotebookCellExecutionTask | undefined;
 
 		export const onDidChangeCellExecutionState: Event<NotebookCellExecutionStateChangeEvent>;
