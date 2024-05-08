@@ -659,9 +659,9 @@
 		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
-		"@playform/build": "0.0.7",
+		"@playform/build": "0.0.8",
 		"@playform/document": "0.0.6",
-		"@types/node": "20.12.10",
+		"@types/node": "20.12.11",
 		"@types/throttle-debounce": "5.0.2",
 		"debug": "4.3.4",
 		"ts-loader": "9.5.1"
