@@ -1,27 +1,7 @@
 {
 	"name": "codetour",
 	"displayName": "CodeTour",
-	"version": "0.0.1",
-	"private": false,
 	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
-	"keywords": [
-		"land"
-	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/Codetour#readme",
-	"bugs": {
-		"url": "HTTPS://GitHub.Com/CodeEditorLand/Codetour/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/Codetour.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "🛬 Land —",
-		"email": "Land@PlayForm.Cloud",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
-	"type": "module",
 	"main": "./dist/extension-node.js",
 	"browser": "./dist/extension-web.js",
 	"scripts": {
@@ -660,14 +640,10 @@
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
-		"@playform/document": "0.0.6",
 		"@types/node": "20.12.11",
 		"@types/throttle-debounce": "5.0.2",
 		"debug": "4.3.4",
 		"ts-loader": "9.5.1"
-	},
-	"publishConfig": {
-		"access": "public"
 	},
 	"icon": "images/icon.png",
 	"extensionKind": [
