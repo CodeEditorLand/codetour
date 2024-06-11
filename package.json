@@ -1,9 +1,12 @@
 {
-	"activationEvents": [
-		"onStartupFinished",
-		"onNotebookEditor:codetour"
-	],
+	"name": "codetour",
+	"displayName": "CodeTour",
+	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
+	"main": "./dist/extension-node.js",
 	"browser": "./dist/extension-web.js",
+	"scripts": {
+		"build": "webpack --mode production"
+	},
 	"contributes": {
 		"commands": [
 			{
@@ -619,31 +622,28 @@
 			}
 		]
 	},
+	"activationEvents": [
+		"onStartupFinished",
+		"onNotebookEditor:codetour"
+	],
 	"dependencies": {
-		"@types/jexl": "^2.2.0",
-		"axios": "^0.21.4",
+		"@types/jexl": "^2.3.4",
+		"axios": "^1.7.2",
 		"jexl": "^2.3.0",
-		"mobx": "^5.14.2",
+		"mobx": "^6.12.3",
 		"os-browserify": "0.3.0",
 		"path-browserify": "1.0.1",
-		"throttle-debounce": "^3.0.1",
-		"vsls": "^1.0.2532"
+		"throttle-debounce": "^5.0.0",
+		"vsls": "^1.0.4753"
 	},
-	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
 	"devDependencies": {
-		"@types/node": "^18.14.0",
-		"@types/throttle-debounce": "^5.0.0",
-		"debug": "^4.3.4",
-		"ts-loader": "^9.4.2"
+		"@types/node": "^20.14.2",
+		"@types/throttle-debounce": "^5.0.2",
+		"debug": "^4.3.5",
+		"ts-loader": "^9.5.1"
 	},
-	"displayName": "CodeTour",
+	"icon": "images/icon.png",
 	"extensionKind": [
 		"workspace"
-	],
-	"icon": "images/icon.png",
-	"main": "./dist/extension-node.js",
-	"name": "codetour",
-	"scripts": {
-		"build": "webpack --mode production"
-	}
+	]
 }
