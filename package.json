@@ -627,20 +627,20 @@
 		"onNotebookEditor:codetour"
 	],
 	"dependencies": {
-		"@types/jexl": "^2.3.4",
-		"axios": "^1.7.2",
-		"jexl": "^2.3.0",
-		"mobx": "^6.12.3",
+		"@types/jexl": "2.3.4",
+		"axios": "1.7.2",
+		"jexl": "2.3.0",
+		"mobx": "6.12.3",
 		"os-browserify": "0.3.0",
 		"path-browserify": "1.0.1",
-		"throttle-debounce": "^5.0.0",
-		"vsls": "^1.0.4753"
+		"throttle-debounce": "5.0.0",
+		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
-		"@types/node": "^20.14.2",
-		"@types/throttle-debounce": "^5.0.2",
-		"debug": "^4.3.5",
-		"ts-loader": "^9.5.1"
+		"@types/node": "20.14.2",
+		"@types/throttle-debounce": "5.0.2",
+		"debug": "4.3.5",
+		"ts-loader": "9.5.1"
 	},
 	"icon": "images/icon.png",
 	"extensionKind": [
