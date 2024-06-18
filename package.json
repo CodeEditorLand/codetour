@@ -652,27 +652,27 @@
     ]
   },
   "dependencies": {
-    "@types/jexl": "^2.2.0",
-    "axios": "^0.21.4",
+    "@types/jexl": "^2.3.4",
+    "axios": "^1.7.2",
     "jexl": "^2.3.0",
-    "mobx": "^5.14.2",
+    "mobx": "^6.12.4",
     "os-browserify": "0.3.0",
     "path-browserify": "1.0.1",
-    "throttle-debounce": "^3.0.1",
-    "vsls": "^1.0.2532"
+    "throttle-debounce": "^5.0.0",
+    "vsls": "^1.0.4753"
   },
   "devDependencies": {
-    "@types/node": "^18.14.0",
-    "@types/throttle-debounce": "^5.0.0",
-    "@types/vscode": "^1.60",
-    "@vscode/vsce": "^2.17.0",
-    "debug": "^4.3.4",
-    "eslint": "^8.34.0",
-    "ts-loader": "^9.4.2",
-    "typescript": "^4.9.5",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-merge": "^5.8.0"
+    "@types/node": "^20.14.5",
+    "@types/throttle-debounce": "^5.0.2",
+    "@types/vscode": "^1.90",
+    "@vscode/vsce": "^2.27.0",
+    "debug": "^4.3.5",
+    "eslint": "^9.5.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.92.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.10.0"
   },
   "scripts": {
     "build": "webpack --mode production",
