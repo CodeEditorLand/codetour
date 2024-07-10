@@ -637,7 +637,7 @@
 		"vsls": "^1.0.4753"
 	},
 	"devDependencies": {
-		"@types/node": "^20.14.9",
+		"@types/node": "^20.14.10",
 		"@types/throttle-debounce": "^5.0.2",
 		"debug": "^4.3.5",
 		"ts-loader": "^9.5.1"
