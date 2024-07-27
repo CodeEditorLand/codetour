@@ -222,7 +222,7 @@ navigate the end-user to that step. The text of the link will default to
 `#<stepNumber>`, but you can customize that by appending a title to the link
 reference (e.g. `[title][#2]).
 
-> This syntax is a simplified version of using the `Navigate to tour step`
+> This syntax is a simplified version of using the `Navigate to tour step` >
 > [command link](#command-links) manually.
 
 #### Tour References
@@ -236,7 +236,7 @@ by a `#` (e.g. `[Tree View#3]`). The text of the link will be rendered as
 `<tourTitle>`, but you can customize that by appending a title to the link
 reference (e.g. `[title][Tree View]`).
 
-> This syntax is a simplified version of using the `Start tour`
+> This syntax is a simplified version of using the `Start tour` >
 > [command link](#command-links) instead.
 
 #### Code Blocks
@@ -480,12 +480,12 @@ Otherwise, you can manually start a tour via any of the following methods:
 1. Selecting a tour (or specific step) in the [`CodeTour` view](#tree-view) in
    the `Explorer` activity tab
 
-    <img width="250px" src="https://user-images.githubusercontent.com/116461/76164362-8610bd80-610b-11ea-9621-4ba2d47a8a52.png" />
+     <img width="250px" src="https://user-images.githubusercontent.com/116461/76164362-8610bd80-610b-11ea-9621-4ba2d47a8a52.png" />
 
 1. Running the `CodeTour: Start Tour` [command](#contributed-commands), and
    selecting the tour you'd like to take
 
-    <img width="800px" src="https://user-images.githubusercontent.com/116461/76151694-7b531b80-606c-11ea-96a6-0655eb6ab4e6.gif" />
+     <img width="800px" src="https://user-images.githubusercontent.com/116461/76151694-7b531b80-606c-11ea-96a6-0655eb6ab4e6.gif" />
 
     If the current workspace only has a single code tour, then this command will
     automatically start that tour. Otherwise, you'll be presented with a list of
