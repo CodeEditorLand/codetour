@@ -621,7 +621,7 @@
 	},
 	"dependencies": {
 		"@types/jexl": "2.3.4",
-		"axios": "1.7.4",
+		"axios": "1.7.5",
 		"jexl": "2.3.0",
 		"mobx": "6.13.1",
 		"os-browserify": "0.3.0",
@@ -631,7 +631,7 @@
 	},
 	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
 	"devDependencies": {
-		"@types/node": "22.4.0",
+		"@types/node": "22.5.0",
 		"@types/throttle-debounce": "5.0.2",
 		"debug": "4.3.6",
 		"ts-loader": "9.5.1"
