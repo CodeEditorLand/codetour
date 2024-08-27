@@ -1,0 +1,679 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charset="utf-8"/><meta name="keywords" content="@playform/document"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>codetour</title><meta name="description" content="Documentation for codetour"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><link rel="stylesheet" href="assets/custom.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">codetour</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h2>codetour</h2></div><div class="tsd-panel tsd-typography"><a id="md:codetour-🗺️" class="tsd-anchor"></a><h1 class="tsd-anchor-link">CodeTour 🗺️<a href="#md:codetour-🗺️" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1><p>CodeTour is a Visual Studio Code extension, which allows you to record and play
+back guided walkthroughs of your codebases. It's like a table of contents, that
+can make it easier to onboard (or re-board!) to a new project/feature area,
+visualize bug reports, or understand the context of a code review/PR change. A
+&quot;code tour&quot; is simply a series of interactive steps, each of which are
+associated with a specific directory, or file/line, and include a description of
+the respective code. This allows developers to clone a repo, and then
+immediately start <strong>learning it</strong>, without needing to refer to a
+<code>CONTRIBUTING.md</code> file and/or rely on help from others. Tours can either be
+checked into a repo, to enable sharing with other contributors, or
+<a href="#md:exporting-tours">exported</a> to a &quot;tour file&quot;, which allows anyone to replay the
+same tour, without having to clone any code to do it!</p>
+<img width="800px" src="https://user-images.githubusercontent.com/116461/76165260-c6c00500-6112-11ea-9cda-0a6cb9b72e8f.gif" />
+<a id="md:getting-started" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Getting Started<a href="#md:getting-started" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>In order to get started, install the
+<a href="https://aka.ms/codetour">CodeTour extension</a>, and then following one of the
+following guides, depending on whether you want to record or play back a tour:</p>
+<ul>
+<li><a href="#md:recording-tours">Recording Tours</a></li>
+<li><a href="#md:exporting-tours">Exporting Tours</a></li>
+<li><a href="#md:starting-tours">Starting Tours</a></li>
+<li><a href="#md:navigating-tours">Navigating Tours</a></li>
+<li><a href="#md:maintaining-tours">Maintaining Tours</a></li>
+<li><a href="#md:reference">Reference</a></li>
+</ul>
+<a id="md:recording-tours" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Recording Tours<a href="#md:recording-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>If you'd like to record a code tour for your codebase, you can simply click the
+<code>+</code> button in the <code>CodeTour</code> tree view (if it's visible) and/or run the
+<code>CodeTour: Record Tour</code> command. This will start the tour recorder, which allows
+you to begin opening files, clicking the &quot;comment bar&quot; for the line you want to
+annotate, and then adding the respective description (including markdown!). Add
+as many steps as you want, and then when done, simply click the stop tour action
+(the red square button). You can also create
+<a href="#md:directory-steps">directory steps</a>, <a href="#md:text-selection">selection steps</a>, or
+<a href="#md:content-steps">content steps</a> in order to add an introductory or intermediate
+explanations to a tour.</p>
+<p>While you're recording, the <code>CodeTour</code> <a href="#md:tree-view">tree view</a> will display the
+currently recorded tour, and it's current set of steps. You can tell which tour
+is being recorded because it will have a microphone icon to the left of its
+name.</p>
+<img width="800px" src="https://user-images.githubusercontent.com/116461/76165260-c6c00500-6112-11ea-9cda-0a6cb9b72e8f.gif" />
+<p>If you need to edit or delete a step while recording, click the <code>...</code> menu next
+to the step's description, and select the appropriate action. Alternatively, you
+can edit/delete steps from the CodeTour <a href="#md:tree-view">tree view</a>.</p>
+<img width="500px" src="https://user-images.githubusercontent.com/116461/76168548-1f50cb80-612e-11ea-9aca-8598b9e1c730.png" />
+<a id="md:workspaces" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Workspaces<a href="#md:workspaces" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If you record a tour within a &quot;multi-root workspace&quot;, you'll be asked to select
+the folder that you'd like to save the tour to. This is necessary because tours
+are written as <a href="#md:tour-files">files</a> to your workspace, and so we need to
+disambiguate which folder the tour should be persisted to. That said, when
+you're recording a tour, you can add steps that span any of the folders within
+the workspace, which allows you to create tours for a specific folder and/or
+that demonstrate concepts across multiple folders within the workspace.</p>
+<a id="md:step-titles" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Step Titles<a href="#md:step-titles" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>By default, the <code>CodeTour</code> tree displays each tour step using the following
+display name format: <code>#&lt;stepNumber&gt; - &lt;filePath&gt;</code>. However, if you'd like to
+give the step a more friendly/recognizeable name, you can do so using one of the
+following methods:</p>
+<ol>
+<li>Right-click the step in the <code>CodeTour</code> tree and select <code>Change Title</code></li>
+<li>Edit the step's description and add a markdown heading to the top of it,
+using whichever heading level you prefer (e.g. <code>#</code>, <code>##</code>, etc.). For example,
+if you add a step whose description starts with <code>### Activation</code>, the step
+and tree view would look like the following:</li>
+</ol>
+  <img width="500px" src="https://user-images.githubusercontent.com/116461/76721235-91ac4780-66fc-11ea-80bf-f6de8bf4b02e.png" />
+<a id="md:text-selection" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Text Selection<a href="#md:text-selection" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>By default, each step is associated with the line of code you created the
+comment on (i.e. the line you clicked the <code>+</code> on the comment bar for). However,
+if you want to call out a specific span of code as part of the step, simply
+highlight the code before you add the step (clicking the <code>Add Tour to Step</code>
+button), and the selection will be captured as part of the step.</p>
+<img width="800px" src="https://user-images.githubusercontent.com/116461/76705627-b96cc280-669e-11ea-982a-d754c4f001aa.gif" />
+<p>If you need to tweak the selection that's associated with a step, simply edit
+the step, reset the selection and then save it. Furthermore, if you want to
+create a step from a selection, simply highlight a span a code, right-click the
+editor and select <code>Add CodeTour Step</code>.</p>
+<a id="md:re-arranging-steps" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Re-arranging steps<a href="#md:re-arranging-steps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>While you're recording a tour, each new step that you add will be appended to
+the end of the tour. However, you can move existing steps up and down in the
+order by performing one of the following actions:</p>
+<ul>
+<li>Hover over the step in the <code>CodeTour</code> tree and click the up/down arrow icon</li>
+<li>Right-click the step in the <code>CodeTour</code> tree and select the <code>Move Up</code> or
+<code>Move Down</code> menu items</li>
+<li>Click the <code>...</code> menu in the step comment UI and select <code>Move Up</code> or
+<code>Move Down</code></li>
+</ul>
+<p>Additionally, if you want to add a new step in the middle of a tour, simply
+navigate to the step that you want to insert a new step after, and then create
+the new step.</p>
+<a id="md:deleting-steps" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Deleting steps<a href="#md:deleting-steps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If you no longer need a specific step in a tour, you can delete it by means of
+one of the following actions:</p>
+<ul>
+<li>Right-clicking the step in the <code>CodeTour</code> tree and selecting <code>Delete Step</code></li>
+<li>Navigating to the step in the replay/comment UI, selecting the <code>...</code> menu
+next to the comment description and selecting <code>Delete Step</code></li>
+</ul>
+<p>If you need to delete multiple steps, the <code>CodeTour</code> tree supports multi-select,
+so you can <code>Cmd+click</code> (macOS) / <code>Ctrl+click</code> (Windows/Linux) multiple step
+nodes, and then right-click them and select <code>Delete Step</code>.</p>
+<a id="md:editing-a-tour" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Editing a tour<a href="#md:editing-a-tour" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If you want to edit an existing tour, simply right-click the tour in the
+<code>CodeTour</code> tree and select <code>Edit Tour</code>. Alternatively, you can edit a tour
+you're actively viewing by clicking the pencil icon in the current step's
+comment bar, or running the <code>CodeTour: Edit Tour</code> command.</p>
+<p>At any time, you can right-click a tour in the <code>CodeTour</code> tree and change it's
+title, description or git ref, by selecting the <code>Change Title</code>,
+<code>Change Description</code> or <code>Change Git Ref</code> menu items. Additionally, you can
+delete a tour by right-clicking it in the <code>CodeTour</code> tree and selecting
+<code>Delete Tour</code>.</p>
+<a id="md:linking-tours" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Linking Tours<a href="#md:linking-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If you want to create a series of tours, that a user can navigate through in
+sequence, then simply prefix your tour title's with the number they represent in
+the tour order (e.g. <code>1: Foo</code>, <code>2 - Bar</code>). When your tours are titled like this,
+the tour player will automatically provide the following benefis to your
+readers:</p>
+<ol>
+<li>
+<p>If the current tour has a subsequent tour, then it's final step will display
+a <code>Next Tour</code> link instead of the <code>Finish Tour</code> link. This allows users to
+easily jump to the next tour.</p>
+</li>
+<li>
+<p>If the current tour has a previous tour, then it's first step will display a
+<code>Previous Tour</code> link. This allows users to navigate back to the tour they
+might have just navigated from.</p>
+</li>
+</ol>
+<blockquote>
+<p><em>If you don't want to number your tours like this, but you'd still link to
+link one tour to another, you can open it's <code>*.tour</code> file and set the
+<code>nextTour</code> property to the title of the tour you'd like it to link to.</em></p>
+</blockquote>
+<a id="md:primary-tours" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Primary Tours<a href="#md:primary-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>A codebase can include one or more tours, but it might have a primary tour, that
+is intended for new developers to start with. This way, when they open the
+codebase for the first time, they can be immediately presented with this tour,
+as opposed to a list of all tours.</p>
+<p>In order to mark a specific tour as the primary tour, simply right-click it in
+the <code>CodeTour</code> tree, and select <code>Make Primary</code>. When you mark a tour as primary,
+any other tours that were marked as primary, will be updated to remove that
+annotation. Additionally, if you want to manually unmark a tour as being the
+primary tour, you can right-click it and select <code>Unmake Primary</code>.</p>
+<p>If you'd prefer to number your tours (e.g. <code>1 - Status Bar</code>), then a tour whose
+title starts with either <code>#1 - </code> or <code>1 - </code> will be automatically considered the
+primary tour, and you don't need to do anything further.</p>
+<a id="md:conditional-tours" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Conditional Tours<a href="#md:conditional-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If you author a tour that isn't relevant to every developer on the team, then
+you can decide when to conditionally show it in the <code>CodeTour</code> tree by adding a
+<code>when</code> property to the respective <code>*.tour</code> file. This property expects a
+JavaScript expression, that will determine the visibility of the tour, based on
+whether it evaluates to <code>true</code> or <code>false</code>. By default, all tours are displayed,
+and therefore, only tours with a <code>when</code> property that evaluate to <code>false</code> will
+be hidden.</p>
+<p>In order to simplify the process of defining conditional tours, the following
+variables are made available to your <code>when</code> clause:</p>
+<ul>
+<li><code>isLinux</code> - The current user is running on Linux</li>
+<li><code>isMac</code> - The current user is running on macoS</li>
+<li><code>isWindows</code> - The current user is running on Windows</li>
+</ul>
+<p>For example, if you want to define a tour that is only displayed for Linux
+users, you can simply set the <code>when</code> property to <code>&quot;isLinux&quot;</code>.</p>
+<a id="md:codetour-flavored-markdown" class="tsd-anchor"></a><h3 class="tsd-anchor-link">CodeTour-Flavored Markdown<a href="#md:codetour-flavored-markdown" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>When you describe a step, you're able to use the full-breadth of markdown
+capabilities in order to write rich/compelling content (e.g. images, links,
+headings, code fences). However, CodeTour also provides some additional
+syntactic features that allow you to include additional interactivity to your
+tours:</p>
+<a id="md:file-references" class="tsd-anchor"></a><h4 class="tsd-anchor-link">File References<a href="#md:file-references" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>If you want a step to reference a file in the workspace, you can add a markdown
+link to it, using a workspace-relative path. For example, adding
+<code>[Open file](./file.html)</code> to your step content, would add a hyperlink called
+<code>Open file</code>, that when clicked, would open the <code>./file.html</code> file.</p>
+<p>Additionally, you can reference local images in a step as well, using a markdown
+reference. For example, adding <code>![Image](./icon.png)</code> would render the
+<code>icon.png</code> in the step.</p>
+<a id="md:step-references" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Step References<a href="#md:step-references" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>If you want to add a reference to another step within the current tour, you can
+use markdown's &quot;link reference&quot; syntax, specifying the 1-based number of the
+step to navigate to, prefixed by a <code>#</code> character (e.g. <code>[#2]</code>, or <code>[#23]</code>). This
+reference will be automatically rendered as a hyperlink, that when clicked, will
+navigate the end-user to that step. The text of the link will default to
+<code>#&lt;stepNumber&gt;</code>, but you can customize that by appending a title to the link
+reference (e.g. `[title][#2]).</p>
+<blockquote>
+<p>This syntax is a simplified version of using the <code>Navigate to tour step</code> &gt;
+<a href="#md:command-links">command link</a> manually.</p>
+</blockquote>
+<a id="md:tour-references" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Tour References<a href="#md:tour-references" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>If you want to reference an entirely seperate tour, then you can create a link
+reference, that specifies the title of the tour (e.g. <code>[Tree View]</code>). This will
+be rendered as a hyperlink, that when clicked, will navigate the end-user to
+that tour, starting on step #1. If you'd like to navigate the user to a specific
+step in the tour, you can append the step number after the tour title, seperated
+by a <code>#</code> (e.g. <code>[Tree View#3]</code>). The text of the link will be rendered as
+<code>&lt;tourTitle&gt;</code>, but you can customize that by appending a title to the link
+reference (e.g. <code>[title][Tree View]</code>).</p>
+<blockquote>
+<p>This syntax is a simplified version of using the <code>Start tour</code> &gt;
+<a href="#md:command-links">command link</a> instead.</p>
+</blockquote>
+<a id="md:code-blocks" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Code Blocks<a href="#md:code-blocks" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>If you add a markdown code block to a step's body content, then the CodeTour
+player will render an <code>Insert Code</code> link below it, which allows the viewer to
+automatically insert the code snippet into the current file, at the line that
+the step is associated with. This can make it easy to use CodeTour for creating
+interactive tutorials or samples.</p>
+<img width="600px" src="https://user-images.githubusercontent.com/116461/98431597-bb3f2800-206b-11eb-8f46-55f48ff014ef.gif" />
+<blockquote>
+<p>Note: The code snippet will be formatted after inserting it into the document,
+and therefore, you don't need to worry about adding whitespace/etc. to the
+snippet itself.</p>
+</blockquote>
+<a id="md:shell-commands" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Shell Commands<a href="#md:shell-commands" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>To make it simpler to embed shell commands into a step (e.g. to perform a build,
+run tests, start an app), CodeTour supports a special <code>&gt;&gt;</code> synax, followed by
+the shell command you want to run (e.g. <code>&gt;&gt; npm run compile</code>). This will be
+converted into a hyperlink, that when clicked, will launch a new integrated
+terminal (called <code>CodeTour</code>) and will run the specified command.</p>
+<img width="600px" src="https://user-images.githubusercontent.com/116461/78858896-91912600-79e2-11ea-8002-196c12273ebc.gif" />
+<a id="md:command-links" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Command Links<a href="#md:command-links" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><p>In order to add more interactivity to a tour, you can include &quot;command links&quot; to
+a step's description. Command links are simply markdown links, that use the
+<code>command:</code> scheme (instead of <code>http:</code> / <code>https:</code>), and specify the name of a VS
+Code command, along with an optional query string that includes the needed
+command arguments. Using this syntax, you can call any command in VS Code,
+including both built-in commands (e.g. <code>vscode.open</code>), as well as commands that
+are contributed by extensions (e.g. <code>codetour.startTour</code>). For example, the
+following shows how to include commands with and without arguments.</p>
+<pre><code class="markdown"><!-- Call a command that doesn't require arguments-->
+
+[Start tour](command:codetour.startTour)
+
+<!-- Call a command that requires arguments-->
+
+[Open URL](command:vscode.open?["https://aka.ms/codetour"])
+</code><button type="button">Copy</button></pre>
+
+<a id="md:well-known-commands" class="tsd-anchor"></a><h5 class="tsd-anchor-link">Well-Known Commands<a href="#md:well-known-commands" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h5><p>In order to make it simpler to call common commands, CodeTour will prompt you
+with a list of well-known commands as soon as you type <code>command:</code> in a step
+comment. If you select an option, it will generates the respective markdown
+code, and include placeholders for any necessary arguments. The following list
+explains the set of currently supported well-known commands:</p>
+<ul>
+<li>
+<p><code>Navigate to tour step</code> - Allows you to specify a tour step, that when
+clicked, will navigate the end-user to that step in the current tour. This
+can be useful for giving the end-user the option to skip ahead in the tour,
+or quickly reference previous steps.</p>
+</li>
+<li>
+<p><code>Open URL</code> - Allows you to specify a URL, that when clicked, will launch the
+end-users default browser, and navigate to it.</p>
+</li>
+<li>
+<p><code>Run build task</code> - Allows you to run the build task, as defined by the
+current workspace's <code>task.json</code> file.</p>
+</li>
+</ul>
+<ul>
+<li><code>Run task</code> - Allows you to specify a workspace task name, that when clicked,
+will run the specified task as defined by the current workspace's
+<code>task.json</code> file.</li>
+</ul>
+<ul>
+<li>
+<p><code>Run test task</code> - Allows you to run the butestild task, as defined by the
+current workspace's <code>task.json</code> file.</p>
+</li>
+<li>
+<p><code>Run terminal command...</code> - Allows you to specify a shell command (e.g.
+<code>npm run package</code>), that when clicked, will run the specified command in the
+integrated terminal.</p>
+</li>
+<li>
+<p><code>Start tour...</code> - Allows you to specify the title or another tour in the
+workspace, that when clicked, will automatically start that tour.</p>
+</li>
+</ul>
+<a id="md:versioning-tours" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Versioning Tours<a href="#md:versioning-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>When you record a tour, you'll be asked which git &quot;ref&quot; to associate it with.
+This allows you to define how resilient you want the tour to be, as changes are
+made to the respective codebase.</p>
+<img width="600px" src="https://user-images.githubusercontent.com/116461/76692462-3f8ff700-6614-11ea-88a1-6fbded8e8507.png" />
+<p>You can choose to associate with the tour with the following ref types:</p>
+<ul>
+<li><code>None</code> - The tour isn't associated with any ref. The benefit of this option
+is that it enables the code to be edited as part of the tour, since the tour
+will walk the user through whichever branch/commit they have checked out
+(e.g. interactive tutorials).</li>
+<li><code>Current Branch</code> - The tour is restricted to the current branch. This can
+have the same resiliency challenges as <code>None</code>, but, it allows you to
+maintain a special branch for your tours that can be versioned seperately.
+If the end-user has the associated branch checked out, then the tour will
+enable them to make edits to files as its taken. Otherwise, the tour will
+replay with read-only files.</li>
+<li><code>Current Commit</code> - The tour is restricted to the current commit, and
+therefore, will never get out of sync. If the end-user's <code>HEAD</code> points at
+the specified commit, then the tour will enable them to make edits to files
+as its taken. Otherwise, the tour will replay with read-only files.</li>
+<li>Tags - The tour is restricted to the selected tag, and therefore, will never
+get out of sync. The repo's entire list of tags will be displayed, which
+allows you to easily select one.</li>
+</ul>
+<p>At any time, you can edit the tour's ref by right-clicking it in the <code>CodeTour</code>
+tree and selecting <code>Change Git Ref</code>. This let's you &quot;rebase&quot; a tour to a
+tag/commit as you change/update your code and/or codebase.</p>
+<a id="md:content-steps" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Content Steps<a href="#md:content-steps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Code tours are primarily meant to describe code, however, when you're recording
+a tour, it may help to provide some intro explaination about the tour itself. To
+do this, you can create a &quot;content step&quot;, which is a tour step that includes a
+title and markdown content, but isn't associated with a directory or file. To
+create a content step, perform one of the following actions:</p>
+<ol>
+<li>Click the <code>Add tour step...</code> node in the <code>CodeTour</code> tree, underneath the node
+that represents your currently recording tour. <em>Note: This option is only
+available when the tour doesn't have any steps.</em></li>
+<li>Right-click a tour node in the <code>CodeTour</code> tree and select <code>Add Tour Step</code>.
+<em>Note: This option is only available while recording the tour.</em></li>
+<li>Run the <code>CodeTour: Add Tour Step</code> command.</li>
+</ol>
+<p>When you create a content step, you'll be asked for a title of the step (e.g.
+<code>Introduction</code>), and then a &quot;virtual&quot; file will be created with an associated
+comment that you can edit. This allows the viewer to navigate between steps in a
+consistent fashion, regardless if the step is associated with a file or not.</p>
+<a id="md:directory-steps" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Directory Steps<a href="#md:directory-steps" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If you want to call out a directory as part of a tour, then while recording, you
+can right-click a directory in the <code>Explorer</code> tree and select
+<code>Add CodeTour Step</code>. This will create a new step that allows you to add a
+description for the selected directory. When the tour is played back, the
+directory will be focused in the <code>Explorer</code> tree, and the viewer will be
+presented with the description in a &quot;virtual&quot; CodeTour document.</p>
+<a id="md:tour-files" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Tour Files<a href="#md:tour-files" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Behind the scenes, the tour will be written as a JSON file to the <code>.tours</code>
+directory of the current workspace. This file is pretty simple and can be
+hand-edited if you'd like. Additionally, you can manually create tour files, by
+following the <a href="#md:tour-schema">tour schema</a>. You can then store these files to the
+<code>.tours</code> (or <code>.vscode/tours</code> or <code>.github/tours</code>) directory, or you can also
+create a tour at any of the following well-known locations: <code>.tour</code>,
+<code>main.tour</code>, <code>.vscode/main.tour</code>.</p>
+<p>Within the <code>.tours</code> (or <code>.vscode/tours</code>) directory, you can organize your tour
+files into arbitrarily deep sub-directories, and the CodeTour player will
+properly discover them.</p>
+<a id="md:tour-schema" class="tsd-anchor"></a><h4 class="tsd-anchor-link">Tour Schema<a href="#md:tour-schema" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h4><ul>
+<li><code>title</code> <em>(Required)</em> - The display name of the tour, which will be shown in
+the <code>CodeTour</code> tree view, quick pick, etc.</li>
+<li><code>description</code> - An optional description for the tour, which will be shown as
+the tooltip for the tour in the <code>CodeTour</code> tree view</li>
+<li><code>ref</code> - An optional &quot;git ref&quot; (branch/tag/commit) that this tour applies to.
+See <a href="#md:versioning-tours">versioning tours</a> for more details.</li>
+<li><code>isPrimary</code> - Indicates that this tour is the primary tour within the
+workspace that an end-user should be guided through.</li>
+<li><code>nextTour</code> - The title of the tour that this tour is
+<a href="#md:linking-tours">meant to precede</a>.</li>
+<li><code>when</code> - Specifies the condition that must be met before this tour is shown.
+The value of this property is a string that is evaluated as JavaScript.</li>
+<li><code>steps</code> <em>(Required)</em> - An array of tour steps
+<ul>
+<li><code>description</code> <em>(Required)</em> - The text which explains the current
+file/line number, and can include plain text and markdown syntax</li>
+<li><code>file</code> - The file path (relative to the workspace root) that this step
+is associated with</li>
+<li><code>directory</code> - The path of a directory (relative to the workspace root)
+that this step is associated with. <em>Note: This property takes precedence
+over the <code>file</code> property, and so will &quot;win&quot; if both are present.</em></li>
+<li><code>uri</code> - An absolute URI that this step is associated with. Note that
+<code>uri</code> and <code>file</code> are mutually exclusive, so only set one per step</li>
+<li><code>line</code> - The 1-based line number that this step is associated with</li>
+<li><code>pattern</code> - A regular expression to associate the step with. This is
+only considered when the <code>line</code> property isn't set, and allows you to
+associate steps with line content as opposed to ordinal.</li>
+<li><code>title</code> - An optional title, which will be displayed as the step name in
+the <code>CodeTour</code> tree view.</li>
+<li><code>commands</code> - An array of VS Code command strings, that indicate the name
+of a command (e.g. <code>codetour.endTour</code>) and any optional parameters to
+pass to it, specified as a query string array (eg.
+<code>codetour.endTour?[2]</code>).</li>
+<li><code>view</code> - The ID of a VS Code view that will be automatically focused
+when this step is navigated to.</li>
+</ul>
+</li>
+</ul>
+<p>For an example, refer to the <code>.tours/tree.tour</code> file of this repository.</p>
+<a id="md:exporting-tours" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Exporting Tours<a href="#md:exporting-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>By default, when you record a tour, it is written to the currently open
+workspace. This makes it easy to check-in the tour and share it with the rest of
+the team. However, there may be times where you want to record a tour for
+yourself, or a tour to help explain a one-off to someone, and in those
+situations, you might not want to check the tour into the repo.</p>
+<p>To support this scenario, when you start recording a new tour, you can click the
+<code>Save tour as...</code> button in the upper-right side of the dialog that asks for the
+title of the tour. This wll allow you to select the file that the new tour will
+be written to, so that it isn't persisted to the workspace. Furthermore, you can
+record a tour as usual, and then when done, you can right-click it in the
+<code>CodeTour</code> tree and select <code>Export Tour...</code>. This will allow you to save the
+tour to a new location, and then you can delete the tour file from your repo.
+When you export a tour, the tour file itself will embed the contents of all
+files needed by the tour, which ensures that someone can play it back,
+regardless if the have the respective code available locally. This enables a
+powerful form of collaboration.</p>
+<img width="700px" src="https://user-images.githubusercontent.com/116461/77705325-9682be00-6f7c-11ea-9532-6975b19b8fcb.gif" />
+<a id="md:github-gists" class="tsd-anchor"></a><h3 class="tsd-anchor-link">GitHub Gists<a href="#md:github-gists" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If you install the <a href="https://aka.ms/gistpad">GistPad</a> extension, then you'll see
+an additional <code>Export Tour to Gist...</code> option added to the <code>CodeTour</code> tree. This
+lets you export the tour file to a new/existing gist, which allows you to easily
+create your own private tours and/or create tours that can be shared with others
+on your team.</p>
+<p>Once a tour is exported as a gist, you can right-click the <code>main.tour</code> file in
+the <code>GistPad</code> tree, and select <code>Copy GitHub URL</code>. If you send that to someone,
+and they run the <code>CodeTour: Open Tour URL...</code> command, then they'll be able to
+take the exact same tour, regardless if they have the code locally available or
+not.</p>
+<a id="md:starting-tours" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Starting Tours<a href="#md:starting-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>In order to start a tour, simply open up a codebase that has one or more tours.
+If this is the first time you've ever opened this codebase, you'll be presented
+with a toast notification asking if you'd like to take a tour of it.</p>
+<img width="400px" src="https://user-images.githubusercontent.com/116461/76691619-d0ada080-6609-11ea-81bf-c1f022dbff43.png" />
+<p>Otherwise, you can manually start a tour via any of the following methods:</p>
+<ol>
+<li>
+<p>Selecting a tour (or specific step) in the <a href="#md:tree-view"><code>CodeTour</code> view</a> in
+the <code>Explorer</code> activity tab</p>
+<pre><code>&lt;img width=&quot;250px&quot; src=&quot;https://user-images.githubusercontent.com/116461/76164362-8610bd80-610b-11ea-9621-4ba2d47a8a52.png&quot; /&gt;
+</code></pre>
+</li>
+<li>
+<p>Running the <code>CodeTour: Start Tour</code> <a href="#md:contributed-commands">command</a>, and
+selecting the tour you'd like to take</p>
+<pre><code>&lt;img width=&quot;800px&quot; src=&quot;https://user-images.githubusercontent.com/116461/76151694-7b531b80-606c-11ea-96a6-0655eb6ab4e6.gif&quot; /&gt;
+</code></pre>
+<p>If the current workspace only has a single code tour, then this command will
+automatically start that tour. Otherwise, you'll be presented with a list of
+tours to select from.</p>
+</li>
+</ol>
+<a id="md:opening-tours" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Opening Tours<a href="#md:opening-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>In addition to taking tours that are part of the currently open workspace, you
+can also open a tour file that someone else sent you and/or you created
+yourself. Simply run the <code>CodeTour: Open Tour File...</code> command and/or click the
+folder icon in the title bar of the <code>CodeTour</code> tree view.</p>
+<blockquote>
+<p>Note: The <code>CodeTour</code> tree view only appears if the currently opened workspace
+has any tours and/or you're currently taking a tour.</p>
+</blockquote>
+<p>Additionally, if someone has <a href="#md:exporting-tours">exported</a> a tour, and uploaded
+it to a publically accessible location, they can send you the URL, and you can
+open it by running the <code>CodeTour: Open Tour URL...</code> command.</p>
+<a id="md:tour-markers" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Tour Markers<a href="#md:tour-markers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>As you explore a codebase, you might encounter a &quot;tour marker&quot;, which displays
+the CodeTour icon in the file gutter. This indicates that a line of code
+participates in a tour for the open workspace, which makes it easier to discover
+tours that might be relevant to what you're currently working on. When you see a
+marker, simply hover over the line and click the <code>Start Tour</code> link in the hover
+tooltip. This will start the tour that's associated with this line of code, at
+the specific step.</p>
+<img width="800px" src="https://user-images.githubusercontent.com/116461/78101204-9aa74500-739b-11ea-8a1e-dea923910524.gif" />
+<p>If you want to disable tour markers, you can perform one of the following
+actions:</p>
+<ul>
+<li>Run the <code>CodeTour: Hide Tour Markers</code> command</li>
+<li>Click the &quot;eye icon&quot; in the title bar of the <code>CodeTour</code> tree view</li>
+<li>Set the <code>codetour.showMarkers</code> configuration setting to <code>false</code>. <em>Note that
+the above two actions do this for you automatically.</em></li>
+</ul>
+<!--
+### Notebook View
+
+In addition to taking a tour through a series of files, you can also view a tour as a "notebook", which displays the tour's steps within a single document. Simply right-click a tour in the `CodeTour` tree and select `View Notebook`.
+
+<img width="700px" src="https://user-images.githubusercontent.com/116461/79699658-bd63a580-8245-11ea-81cc-6208e2784acf.gif" />
+
+-->
+<a id="md:navigating-tours" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Navigating Tours<a href="#md:navigating-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Once you've started a tour, the comment UI will guide you, and includes
+navigation actions that allow you to perform the following:</p>
+<ul>
+<li><code>Move Previous</code> - Navigate to the previous step in the current tour. This
+command is visible for step #2 and later.</li>
+<li><code>Move Next</code> - Navigate to the next step in the current tour. This command is
+visible for all steps but the last one in a tour.</li>
+<li><code>Edit Tour</code> - Begin editing the current tour (see
+<a href="#md:authoring-tours">authoring</a> for details). Note that not all tours are
+editable, so depending on how you started the tour, you may or may not see
+this action.</li>
+<li><code>End Tour</code> - End the current tour and remove the comment UI.</li>
+</ul>
+<img width="500px" src="https://user-images.githubusercontent.com/116461/76151723-ca00b580-606c-11ea-9bd5-81c1d9352cef.png" />
+<p>Additionally, you can use the <code>ctrl+right</code> / <code>ctrl+left</code> (Windows/Linux) and
+<code>cmd+right</code> / <code>cmd+left</code> (macOS) keyboard shortcuts to move forwards and
+backwards in the tour. The <code>CodeTour</code> tree view and status bar is also kept in
+sync with your current tour/step, to help the developer easily understand where
+they're at in the context of the broader tour.</p>
+<img width="800px" src="https://user-images.githubusercontent.com/116461/76807453-a1319c00-67a1-11ea-9b88-7e448072f33d.gif" />
+<p>If you navigate away from the current step and need to resume, you can do that
+via any of the following actions:</p>
+<ul>
+<li>Right-clicking the active tour in the <code>CodeTour</code> tree and selecting
+<code>Resume Tour</code></li>
+<li>Clicking the <code>CodeTour</code> status bar item</li>
+<li>Running the <code>CodeTour: Resume Tour</code> command in the command palette</li>
+</ul>
+<p>At any time, you can end the current code tour by means of one of the following
+actions:</p>
+<ul>
+<li>Click the stop button (the red square) in the current step comment</li>
+<li>Click the stop button next to the active tour in the <code>CodeTour</code> tree</li>
+<li>Running the <code>CodeTour: End Tour</code> command in the command palette</li>
+</ul>
+<a id="md:maintaining-tours" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Maintaining Tours<a href="#md:maintaining-tours" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>In order to ensure that your tours stay up-to-date as your codebase evolves, you
+can install one of the following tasks as part of your CI pipeline, in order to
+detect &quot;tour drift&quot; in response to PRs/commits/etc.</p>
+<ul>
+<li><a href="https://github.com/marketplace/actions/codetour-watch">CodeTour Watch</a>
+(GitHub Actions)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=Sharma.CodeTourWatcher">CodeTour Watcher</a>
+(Azure Pipelines)</li>
+</ul>
+<a id="md:reference" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Reference<a href="#md:reference" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The following sections describe the VS Code integrations that the CodeTour
+extension contributes (e.g. tree, status bar, settings):</p>
+<a id="md:tree-view" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Tree View<a href="#md:tree-view" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>If the currently opened workspace has any code tours, or you're actively
+taking/recording a tour, you'll see a new tree view called <code>CodeTour</code>, that's
+added to the <code>Explorer</code> tab. This view simply lists the set of available code
+tours, along with their title and number of steps. If you select a tour it will
+start it, and therefore, this is simply a more convenient alternative to running
+the <code>CodeTour: Start Tour</code> command. However, you can also expand a tour and
+start it at a specific step, edit/delete steps, re-order steps, and change the
+tour's description/title/git ref.</p>
+<img width="250px" src="https://user-images.githubusercontent.com/116461/76164362-8610bd80-610b-11ea-9621-4ba2d47a8a52.png" />
+<p>Additionally, the tree view will display the tour currently being
+<a href="#md:authoring-tours">recorded</a>, which makes it easy to track your status while in
+the process of creating a new tour.</p>
+<blockquote>
+<p>The tree view is automatically kept up-to-date, as you add/edit/delete tours
+within the current workspace. So feel free to <a href="#md:authoring-tours">record</a>
+and/or edit tours, and then navigate them when done.</p>
+</blockquote>
+<a id="md:status-bar" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Status Bar<a href="#md:status-bar" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>In addition to the <code>CodeTour</code> tree view, the CodeTour extension also contributes
+a status bar item that indicates the title and step of the current tour you're
+actively taking or recording. When clicked, it will open the file/line of the
+current tour step, which allows you to open other files while taking a tour, and
+then resume the tour when ready. Once you end the current tour, the status bar
+will automatically hide itself.</p>
+<a id="md:contributed-commands" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Contributed Commands<a href="#md:contributed-commands" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>In addition to the <code>CodeTour</code> tree view and the status bar item, the CodeTour
+extension also contributes the following commands to the command palette:</p>
+<ul>
+<li>
+<p><code>CodeTour: Open Tour File...</code> - Allows you to select a tour file that was
+previously <a href="#md:exporting-tours">exported</a>.</p>
+</li>
+<li>
+<p><code>CodeTour: Record Tour</code> - Starts the <a href="#md:authoring-tours">tour recorder</a>,
+which allows you to create a new tour by creating a sequence of steps.</p>
+</li>
+</ul>
+<ul>
+<li>
+<p><code>CodeTour: Start Tour</code> - Starts a tour for the currently opened workspace.
+This command is only visible if the current workspace has one or more code
+tours.</p>
+</li>
+<li>
+<p><code>CodeTour: Refresh Tours</code> - Refreshes the <a href="#md:tree-view"><code>CodeTour</code> view</a>,
+which can be handy if you'd created/modified/deleted tour files on disk.
+This command is only visible if the current workspace has one or more code
+tours.</p>
+</li>
+<li>
+<p><code>CodeTour: Hide Tour Markers</code> - Hides <a href="#md:tour-markers">tour markers</a>. This
+command is only visible if the current workspace has one or more code tours,
+and tour markers are currently visible.</p>
+</li>
+<li>
+<p><code>CodeTour: Show Tour Markers</code> - Shows <a href="#md:tour-markers">tour markers</a>. This
+command is only visible if the current workspace has one or more code tours,
+and tour markers are currently hidden.</p>
+</li>
+</ul>
+<ul>
+<li>
+<p><code>CodeTour: Edit Tour</code> - Puts the currently active tour into edit mode. This
+command is only visible while you're actively playing a tour, that you're
+not already editing.</p>
+</li>
+<li>
+<p><code>CodeTour: End Tour</code> - Ends the currently active tour. This command is only
+visible while you're actively recording/playing a tour.</p>
+</li>
+<li>
+<p><code>CodeTour: Resume Current Tour</code> - Resume the current tour by navigating to
+the file/line number that's associated with the current step. This command
+is only visible while you're actively recording/playing a tour.</p>
+</li>
+<li>
+<p><code>CodeTour: Add Tour Step</code> - Add a new <a href="#md:content-steps">content-only step</a>
+after the current step in the active tour. This command is only visible
+while you're actively recording a tour.</p>
+</li>
+</ul>
+<a id="md:configuration-settings" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Configuration Settings<a href="#md:configuration-settings" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The <code>CodeTour</code> extension contributes the following settings:</p>
+<ul>
+<li>
+<p><code>Codetour &gt; Prompt For Workspace Tours</code> - Specifies whether or not to
+display a notification when opening a workspace with tours for the first
+time.</p>
+</li>
+<li>
+<p><code>Codetour &gt; Record Mode</code> - Specifies how you want to associate tour steps to
+code when you're recording a new tour. Can either be <code>lineNumber</code> or
+<code>pattern</code>. Defaults to <code>lineNumber</code>.</p>
+</li>
+<li>
+<p><code>Codetour &gt; Show Markers</code> - Specifies whether or not to show
+<a href="#md:tour-markers">tour markers</a>. Defaults to <code>true</code>.</p>
+</li>
+<li>
+<p><code>Codetour &gt; Custom Tour Directory</code> - Specifies the name of a custom
+directory path that tours can be stored in within an opened workspace (e.g.
+<code>docs/tours</code>).</p>
+</li>
+</ul>
+<a id="md:keybindings" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Keybindings<a href="#md:keybindings" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3><p>In addition to the available commands, the Code Tour extension also contributes
+the following commands, which are active while you're currently taking a tour:</p>
+<table>
+<thead>
+<tr>
+<th>Windows/Linux</th>
+<th>macOS</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ctrl+right</code></td>
+<td><code>cmd+right</code></td>
+<td>Move to the next step in the tour</td>
+</tr>
+<tr>
+<td><code>ctrl+left</code></td>
+<td><code>cmd+left</code></td>
+<td>Move to the previous step in the tour</td>
+</tr>
+<tr>
+<td><code>ctrl+down ctrl+down</code></td>
+<td><code>cmd+down cmd+down</code></td>
+<td>End the current tour</td>
+</tr>
+<tr>
+<td><code>ctrl+up ctrl+up</code></td>
+<td><code>cmd+up cmd+up</code></td>
+<td>Start new tour</td>
+</tr>
+</tbody>
+</table>
+<a id="md:extension-api" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extension API<a href="#md:extension-api" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><p>In order to enable other extensions to contribute/manage their own code tours,
+the CodeTour extension exposes an API with the following methods:</p>
+<ul>
+<li>
+<p><code>startTour(tour: CodeTour, stepNumber: number, workspaceRoot: Uri, startInEditMode: boolean = false, canEditTour: boolean): void</code> -
+Starts the specified tour, at a specific step, and using a specific
+workspace root to resolve relative file paths. Additionally, you can specify
+whether the tour should be started in edit/record mode or not, as well as
+whether the tour should be editable. Once the tour has been started, the
+end-user can use the status bar, command palette, key bindings and comment
+UI to navigate and edit the tour, just like a &quot;normal&quot; tour.</p>
+</li>
+<li>
+<p><code>startTourByUri(tourUri: vscode.Uri, stepNumber?: number = 0): void</code> - Same
+as above, but allows specifying a file <code>Uri</code>, and optionally, a step number.</p>
+</li>
+<li>
+<p><code>endCurrentTour(): void</code> - Ends the currently running tour (if there is
+one). Note that this is simply a programatic way to end the tour, and the
+end-user can also choose to end the tour using either the command palette
+(running the <code>CodeTour: End Tour</code> command) or comment UI (clicking the red
+square, stop icon) as usual.</p>
+</li>
+<li>
+<p><code>exportTour(tour: CodeTour): Promise&lt;string&gt;</code> - Exports a <code>CodeTour</code>
+instance into a fully-embedded tour file, that can then be written to some
+persistent storage (e.g. a GitHub Gist).</p>
+</li>
+</ul>
+<p>In addition to the aforementioned functions, the extension API also allows
+subscribing to the following tour events:</p>
+<ul>
+<li>
+<p><code>onDidStartTour(([tour: CodeTour, stepNumber: number]) =&gt; void): Disposable</code> -
+Registers a callback function, that is triggered whenever a tour is started
+or navigated. The provided callback is passed a
+<a href="https://github.com/microsoft/codetour/blob/main/src/store/index.ts#L38"><code>CodeTour</code></a>
+instance as well as the step number that is visible.</p>
+</li>
+<li>
+<p><code>onDidEndTour((tour: CodeTour) =&gt; void): Disposable</code> - Registers a callback
+function, that is triggered whenever a tour is ended. The provided callback
+is passed a
+<a href="https://github.com/microsoft/codetour/blob/main/src/store/index.ts#L38"><code>CodeTour</code></a>
+instance, which represents the metadata of the tour that was ended.</p>
+</li>
+</ul>
+<pre><code class="javascript"><span class="hl-0">// Check if the end-user has the CodeTour extension installed.</span><br/><span class="hl-1">const</span><span class="hl-2"> </span><span class="hl-3">codeTourExtension</span><span class="hl-2"> = </span><span class="hl-4">vscode</span><span class="hl-2">.</span><span class="hl-4">extensions</span><span class="hl-2">.</span><span class="hl-5">getExtension</span><span class="hl-2">(</span><br/><span class="hl-2">	</span><span class="hl-6">&quot;vsls-contrib.codetour&quot;</span><span class="hl-2">,</span><br/><span class="hl-2">);</span><br/><span class="hl-7">if</span><span class="hl-2"> (</span><span class="hl-4">codeTourExtension</span><span class="hl-2">) {</span><br/><span class="hl-2">	</span><span class="hl-0">// Grab the extension API.</span><br/><span class="hl-2">	</span><span class="hl-1">const</span><span class="hl-2"> </span><span class="hl-3">codeTourApi</span><span class="hl-2"> = </span><span class="hl-4">codeTour</span><span class="hl-2">.</span><span class="hl-4">exports</span><span class="hl-2">;</span><br/><br/><span class="hl-2">	</span><span class="hl-0">// Use the API object as needed</span><br/><span class="hl-2">	</span><span class="hl-4">codeTourApi</span><span class="hl-2">.</span><span class="hl-5">onDidStartTour</span><span class="hl-2">(([</span><span class="hl-4">tour</span><span class="hl-2">, </span><span class="hl-4">stepNumber</span><span class="hl-2">]) </span><span class="hl-1">=&gt;</span><span class="hl-2"> {</span><br/><span class="hl-2">		</span><span class="hl-4">console</span><span class="hl-2">.</span><span class="hl-5">log</span><span class="hl-2">(</span><span class="hl-6">&quot;Tour started: &quot;</span><span class="hl-2">, </span><span class="hl-4">tour</span><span class="hl-2">.</span><span class="hl-4">title</span><span class="hl-2">);</span><br/><span class="hl-2">	});</span><br/><br/><span class="hl-2">	</span><span class="hl-4">codeTourApi</span><span class="hl-2">.</span><span class="hl-5">onDidEndTour</span><span class="hl-2">((</span><span class="hl-4">tour</span><span class="hl-2">) </span><span class="hl-1">=&gt;</span><span class="hl-2"> {</span><br/><span class="hl-2">		</span><span class="hl-4">console</span><span class="hl-2">.</span><span class="hl-5">log</span><span class="hl-2">(</span><span class="hl-6">&quot;Tour ended: &quot;</span><span class="hl-2">, </span><span class="hl-4">tour</span><span class="hl-2">.</span><span class="hl-4">title</span><span class="hl-2">);</span><br/><span class="hl-2">	});</span><br/><span class="hl-2">}</span>
+</code><button type="button">Copy</button></pre>
+
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#md:codetour-🗺️"><span>Code<wbr/>Tour 🗺️</span></a><ul><li><a href="#md:getting-started"><span>Getting <wbr/>Started</span></a></li><li><a href="#md:recording-tours"><span>Recording <wbr/>Tours</span></a></li><li><ul><li><a href="#md:workspaces"><span>Workspaces</span></a></li><li><a href="#md:step-titles"><span>Step <wbr/>Titles</span></a></li><li><a href="#md:text-selection"><span>Text <wbr/>Selection</span></a></li><li><a href="#md:re-arranging-steps"><span>Re-<wbr/>arranging steps</span></a></li><li><a href="#md:deleting-steps"><span>Deleting steps</span></a></li><li><a href="#md:editing-a-tour"><span>Editing a tour</span></a></li><li><a href="#md:linking-tours"><span>Linking <wbr/>Tours</span></a></li><li><a href="#md:primary-tours"><span>Primary <wbr/>Tours</span></a></li><li><a href="#md:conditional-tours"><span>Conditional <wbr/>Tours</span></a></li><li><a href="#md:codetour-flavored-markdown"><span>Code<wbr/>Tour-<wbr/>Flavored <wbr/>Markdown</span></a></li><li><ul><li><a href="#md:file-references"><span>File <wbr/>References</span></a></li><li><a href="#md:step-references"><span>Step <wbr/>References</span></a></li><li><a href="#md:tour-references"><span>Tour <wbr/>References</span></a></li><li><a href="#md:code-blocks"><span>Code <wbr/>Blocks</span></a></li><li><a href="#md:shell-commands"><span>Shell <wbr/>Commands</span></a></li><li><a href="#md:command-links"><span>Command <wbr/>Links</span></a></li><li><ul><li><a href="#md:well-known-commands"><span>Well-<wbr/>Known <wbr/>Commands</span></a></li></ul></li></ul></li><li><a href="#md:versioning-tours"><span>Versioning <wbr/>Tours</span></a></li><li><a href="#md:content-steps"><span>Content <wbr/>Steps</span></a></li><li><a href="#md:directory-steps"><span>Directory <wbr/>Steps</span></a></li><li><a href="#md:tour-files"><span>Tour <wbr/>Files</span></a></li><li><ul><li><a href="#md:tour-schema"><span>Tour <wbr/>Schema</span></a></li></ul></li></ul></li><li><a href="#md:exporting-tours"><span>Exporting <wbr/>Tours</span></a></li><li><ul><li><a href="#md:github-gists"><span>Git<wbr/>Hub <wbr/>Gists</span></a></li></ul></li><li><a href="#md:starting-tours"><span>Starting <wbr/>Tours</span></a></li><li><ul><li><a href="#md:opening-tours"><span>Opening <wbr/>Tours</span></a></li><li><a href="#md:tour-markers"><span>Tour <wbr/>Markers</span></a></li></ul></li><li><a href="#md:navigating-tours"><span>Navigating <wbr/>Tours</span></a></li><li><a href="#md:maintaining-tours"><span>Maintaining <wbr/>Tours</span></a></li><li><a href="#md:reference"><span>Reference</span></a></li><li><ul><li><a href="#md:tree-view"><span>Tree <wbr/>View</span></a></li><li><a href="#md:status-bar"><span>Status <wbr/>Bar</span></a></li><li><a href="#md:contributed-commands"><span>Contributed <wbr/>Commands</span></a></li><li><a href="#md:configuration-settings"><span>Configuration <wbr/>Settings</span></a></li><li><a href="#md:keybindings"><span>Keybindings</span></a></li></ul></li><li><a href="#md:extension-api"><span>Extension API</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="assets/icons.svg#icon-1"></use></svg><span>codetour</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="."><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
