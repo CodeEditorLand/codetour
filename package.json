@@ -621,7 +621,7 @@
 	},
 	"dependencies": {
 		"@types/jexl": "2.3.4",
-		"axios": "1.7.6",
+		"axios": "1.7.7",
 		"jexl": "2.3.0",
 		"mobx": "6.13.1",
 		"os-browserify": "0.3.0",
