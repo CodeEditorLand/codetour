@@ -630,14 +630,14 @@
 		"@types/jexl": "2.3.4",
 		"axios": "1.7.7",
 		"jexl": "2.3.0",
-		"mobx": "6.13.2",
+		"mobx": "6.13.3",
 		"os-browserify": "0.3.0",
 		"path-browserify": "1.0.1",
 		"throttle-debounce": "5.0.2",
 		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
-		"@types/node": "22.6.0",
+		"@types/node": "22.7.2",
 		"@types/throttle-debounce": "5.0.2",
 		"debug": "4.3.7",
 		"ts-loader": "9.5.1"
