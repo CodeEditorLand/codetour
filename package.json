@@ -620,21 +620,21 @@
 		]
 	},
 	"dependencies": {
-		"@types/jexl": "^2.2.0",
-		"axios": "^0.21.4",
+		"@types/jexl": "^2.3.4",
+		"axios": "^1.7.7",
 		"jexl": "^2.3.0",
-		"mobx": "^5.14.2",
+		"mobx": "^6.13.3",
 		"os-browserify": "0.3.0",
 		"path-browserify": "1.0.1",
-		"throttle-debounce": "^3.0.1",
-		"vsls": "^1.0.2532"
+		"throttle-debounce": "^5.0.2",
+		"vsls": "^1.0.4753"
 	},
 	"description": "VS Code extension that allows you to record and playback guided tours of codebases, directly within the editor",
 	"devDependencies": {
-		"@types/node": "^18.14.0",
-		"@types/throttle-debounce": "^5.0.0",
-		"debug": "^4.3.4",
-		"ts-loader": "^9.4.2"
+		"@types/node": "^22.7.5",
+		"@types/throttle-debounce": "^5.0.2",
+		"debug": "^4.3.7",
+		"ts-loader": "^9.5.1"
 	},
 	"displayName": "CodeTour",
 	"extensionKind": [
