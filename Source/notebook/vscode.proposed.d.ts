@@ -14,8 +14,7 @@
  * - Copy this file to your project.
  */
 
-declare module 'vscode' {
-
+declare module "vscode" {
 	//#region auth provider: https://github.com/microsoft/vscode/issues/88309
 
 	/**
@@ -53,7 +52,10 @@ declare module 'vscode' {
 		 * @param sessionId The session id to remove
 		 * provider
 		 */
-		export function logout(providerId: string, sessionId: string): Thenable<void>;
+		export function logout(
+			providerId: string,
+			sessionId: string,
+		): Thenable<void>;
 	}
 
 	//#endregion
@@ -83,17 +85,17 @@ declare module 'vscode' {
 	export enum RemoteTrustOption {
 		Unknown = 0,
 		DisableTrust = 1,
-		MachineTrusted = 2
+		MachineTrusted = 2,
 	}
 
 	export interface ResolvedOptions {
-		extensionHostEnv?: { [key: string]: string | null; };
+		extensionHostEnv?: { [key: string]: string | null };
 
 		trust?: RemoteTrustOption;
 	}
 
 	export interface TunnelOptions {
-		remoteAddress: { port: number, host: string; };
+		remoteAddress: { port: number; host: string };
 		// The desired local port. If this port can't be used, then another will be chosen.
 		localAddressPort?: number;
 		label?: string;
@@ -101,9 +103,9 @@ declare module 'vscode' {
 	}
 
 	export interface TunnelDescription {
-		remoteAddress: { port: number, host: string; };
+		remoteAddress: { port: number; host: string };
 		//The complete local address(ex. localhost:1234)
-		localAddress: { port: number, host: string; } | string;
+		localAddress: { port: number; host: string } | string;
 		public?: boolean;
 	}
 
@@ -124,7 +126,6 @@ declare module 'vscode' {
 		 * detected are read-only from the forwarded ports UI.
 		 */
 		environmentTunnels?: TunnelDescription[];
-
 	}
 
 	export interface TunnelCreationOptions {
@@ -137,20 +138,30 @@ declare module 'vscode' {
 	export enum CandidatePortSource {
 		None = 0,
 		Process = 1,
-		Output = 2
+		Output = 2,
 	}
 
-	export type ResolverResult = ResolvedAuthority & ResolvedOptions & TunnelInformation;
+	export type ResolverResult = ResolvedAuthority &
+		ResolvedOptions &
+		TunnelInformation;
 
 	export class RemoteAuthorityResolverError extends Error {
-		static NotAvailable(message?: string, handled?: boolean): RemoteAuthorityResolverError;
-		static TemporarilyNotAvailable(message?: string): RemoteAuthorityResolverError;
+		static NotAvailable(
+			message?: string,
+			handled?: boolean,
+		): RemoteAuthorityResolverError;
+		static TemporarilyNotAvailable(
+			message?: string,
+		): RemoteAuthorityResolverError;
 
 		constructor(message?: string);
 	}
 
 	export interface RemoteAuthorityResolver {
-		resolve(authority: string, context: RemoteAuthorityResolverContext): ResolverResult | Thenable<ResolverResult>;
+		resolve(
+			authority: string,
+			context: RemoteAuthorityResolverContext,
+		): ResolverResult | Thenable<ResolverResult>;
 		/**
 		 * Can be optionally implemented if the extension can forward ports better than the core.
 		 * When not implemented, the core will use its default forwarding logic.
@@ -159,12 +170,19 @@ declare module 'vscode' {
 		 * To enable the "Change Local Port" action on forwarded ports, make sure to set the `localAddress` of
 		 * the returned `Tunnel` to a `{ port: number, host: string; }` and not a string.
 		 */
-		tunnelFactory?: (tunnelOptions: TunnelOptions, tunnelCreationOptions: TunnelCreationOptions) => Thenable<Tunnel> | undefined;
+		tunnelFactory?: (
+			tunnelOptions: TunnelOptions,
+			tunnelCreationOptions: TunnelCreationOptions,
+		) => Thenable<Tunnel> | undefined;
 
 		/**p
 		 * Provides filtering for candidate ports.
 		 */
-		showCandidatePort?: (host: string, port: number, detail: string) => Thenable<boolean>;
+		showCandidatePort?: (
+			host: string,
+			port: number,
+			detail: string,
+		) => Thenable<boolean>;
 
 		/**
 		 * Lets the resolver declare which tunnel factory features it supports.
@@ -187,7 +205,9 @@ declare module 'vscode' {
 		 *
 		 * @param tunnelOptions The `localPort` is a suggestion only. If that port is not available another will be chosen.
 		 */
-		export function openTunnel(tunnelOptions: TunnelOptions): Thenable<Tunnel>;
+		export function openTunnel(
+			tunnelOptions: TunnelOptions,
+		): Thenable<Tunnel>;
 
 		/**
 		 * Gets an array of the currently available tunnels. This does not include environment tunnels, only tunnels that have been created by the user.
@@ -211,7 +231,7 @@ declare module 'vscode' {
 		label: string; // myLabel:/${path}
 		// For historic reasons we use an or string here. Once we finalize this API we should start using enums instead and adopt it in extensions.
 		// eslint-disable-next-line vscode-dts-literal-or-types
-		separator: '/' | '\\' | '';
+		separator: "/" | "\\" | "";
 		tildify?: boolean;
 		normalizeDriveLetter?: boolean;
 		workspaceSuffix?: string;
@@ -220,8 +240,13 @@ declare module 'vscode' {
 	}
 
 	export namespace workspace {
-		export function registerRemoteAuthorityResolver(authorityPrefix: string, resolver: RemoteAuthorityResolver): Disposable;
-		export function registerResourceLabelFormatter(formatter: ResourceLabelFormatter): Disposable;
+		export function registerRemoteAuthorityResolver(
+			authorityPrefix: string,
+			resolver: RemoteAuthorityResolver,
+		): Disposable;
+		export function registerResourceLabelFormatter(
+			formatter: ResourceLabelFormatter,
+		): Disposable;
 	}
 
 	//#endregion
@@ -238,7 +263,12 @@ declare module 'vscode' {
 	}
 
 	export namespace window {
-		export function createWebviewTextEditorInset(editor: TextEditor, line: number, height: number, options?: WebviewOptions): WebviewEditorInset;
+		export function createWebviewTextEditorInset(
+			editor: TextEditor,
+			line: number,
+			height: number,
+			options?: WebviewOptions,
+		): WebviewEditorInset;
 	}
 
 	//#endregion
@@ -246,10 +276,25 @@ declare module 'vscode' {
 	//#region read/write in chunks: https://github.com/microsoft/vscode/issues/84515
 
 	export interface FileSystemProvider {
-		open?(resource: Uri, options: { create: boolean; }): number | Thenable<number>;
+		open?(
+			resource: Uri,
+			options: { create: boolean },
+		): number | Thenable<number>;
 		close?(fd: number): void | Thenable<void>;
-		read?(fd: number, pos: number, data: Uint8Array, offset: number, length: number): number | Thenable<number>;
-		write?(fd: number, pos: number, data: Uint8Array, offset: number, length: number): number | Thenable<number>;
+		read?(
+			fd: number,
+			pos: number,
+			data: Uint8Array,
+			offset: number,
+			length: number,
+		): number | Thenable<number>;
+		write?(
+			fd: number,
+			pos: number,
+			data: Uint8Array,
+			offset: number,
+			length: number,
+		): number | Thenable<number>;
 	}
 
 	//#endregion
@@ -412,7 +457,9 @@ declare module 'vscode' {
 		 * - Click to [run a command](command:workbench.action.OpenQuickPick)
 		 * - Click to [open a website](https://aka.ms)
 		 */
-		message?: { text: string, type: TextSearchCompleteMessageType } | { text: string, type: TextSearchCompleteMessageType }[];
+		message?:
+			| { text: string; type: TextSearchCompleteMessageType }
+			| { text: string; type: TextSearchCompleteMessageType }[];
 	}
 
 	/**
@@ -485,7 +532,12 @@ declare module 'vscode' {
 		 * @param progress A progress callback that must be invoked for all results.
 		 * @param token A cancellation token.
 		 */
-		provideTextSearchResults(query: TextSearchQuery, options: TextSearchOptions, progress: Progress<TextSearchResult>, token: CancellationToken): ProviderResult<TextSearchComplete>;
+		provideTextSearchResults(
+			query: TextSearchQuery,
+			options: TextSearchOptions,
+			progress: Progress<TextSearchResult>,
+			token: CancellationToken,
+		): ProviderResult<TextSearchComplete>;
 	}
 
 	//#endregion
@@ -534,7 +586,11 @@ declare module 'vscode' {
 		 * @param options A set of options to consider while searching files.
 		 * @param token A cancellation token.
 		 */
-		provideFileSearchResults(query: FileSearchQuery, options: FileSearchOptions, token: CancellationToken): ProviderResult<Uri[]>;
+		provideFileSearchResults(
+			query: FileSearchQuery,
+			options: FileSearchOptions,
+			token: CancellationToken,
+		): ProviderResult<Uri[]>;
 	}
 
 	export namespace workspace {
@@ -547,7 +603,10 @@ declare module 'vscode' {
 		 * @param provider The provider.
 		 * @return A [disposable](#Disposable) that unregisters this provider when being disposed.
 		 */
-		export function registerFileSearchProvider(scheme: string, provider: FileSearchProvider): Disposable;
+		export function registerFileSearchProvider(
+			scheme: string,
+			provider: FileSearchProvider,
+		): Disposable;
 
 		/**
 		 * Register a text search provider.
@@ -558,7 +617,10 @@ declare module 'vscode' {
 		 * @param provider The provider.
 		 * @return A [disposable](#Disposable) that unregisters this provider when being disposed.
 		 */
-		export function registerTextSearchProvider(scheme: string, provider: TextSearchProvider): Disposable;
+		export function registerTextSearchProvider(
+			scheme: string,
+			provider: TextSearchProvider,
+		): Disposable;
 	}
 
 	//#endregion
@@ -641,7 +703,11 @@ declare module 'vscode' {
 		 * @param token A token that can be used to signal cancellation to the underlying search engine.
 		 * @return A thenable that resolves when the search is complete.
 		 */
-		export function findTextInFiles(query: TextSearchQuery, callback: (result: TextSearchResult) => void, token?: CancellationToken): Thenable<TextSearchComplete>;
+		export function findTextInFiles(
+			query: TextSearchQuery,
+			callback: (result: TextSearchResult) => void,
+			token?: CancellationToken,
+		): Thenable<TextSearchComplete>;
 
 		/**
 		 * Search text in files across all [workspace folders](#workspace.workspaceFolders) in the workspace.
@@ -651,7 +717,12 @@ declare module 'vscode' {
 		 * @param token A token that can be used to signal cancellation to the underlying search engine.
 		 * @return A thenable that resolves when the search is complete.
 		 */
-		export function findTextInFiles(query: TextSearchQuery, options: FindTextInFilesOptions, callback: (result: TextSearchResult) => void, token?: CancellationToken): Thenable<TextSearchComplete>;
+		export function findTextInFiles(
+			query: TextSearchQuery,
+			options: FindTextInFilesOptions,
+			callback: (result: TextSearchResult) => void,
+			token?: CancellationToken,
+		): Thenable<TextSearchComplete>;
 	}
 
 	//#endregion
@@ -669,7 +740,6 @@ declare module 'vscode' {
 	}
 
 	export namespace commands {
-
 		/**
 		 * Registers a diff information command that can be invoked via a keyboard shortcut,
 		 * a menu item, an action, or directly.
@@ -684,7 +754,11 @@ declare module 'vscode' {
 		 * @param thisArg The `this` context used when invoking the handler function.
 		 * @return Disposable which unregisters this command on disposal.
 		 */
-		export function registerDiffInformationCommand(command: string, callback: (diff: LineChange[], ...args: any[]) => any, thisArg?: any): Disposable;
+		export function registerDiffInformationCommand(
+			command: string,
+			callback: (diff: LineChange[], ...args: any[]) => any,
+			thisArg?: any,
+		): Disposable;
 	}
 
 	//#endregion
@@ -717,7 +791,6 @@ declare module 'vscode' {
 	 * Represents the validation type of the Source Control input.
 	 */
 	export enum SourceControlInputBoxValidationType {
-
 		/**
 		 * Something not allowed by the rules of a language or other means.
 		 */
@@ -731,11 +804,10 @@ declare module 'vscode' {
 		/**
 		 * Something to inform about but not a problem.
 		 */
-		Information = 2
+		Information = 2,
 	}
 
 	export interface SourceControlInputBoxValidation {
-
 		/**
 		 * The validation message to display.
 		 */
@@ -751,17 +823,22 @@ declare module 'vscode' {
 	 * Represents the input box in the Source Control viewlet.
 	 */
 	export interface SourceControlInputBox {
-
 		/**
 		 * Shows a transient contextual message on the input.
 		 */
-		showValidationMessage(message: string, type: SourceControlInputBoxValidationType): void;
+		showValidationMessage(
+			message: string,
+			type: SourceControlInputBoxValidationType,
+		): void;
 
 		/**
 		 * A validation function for the input box. It's possible to change
 		 * the validation provider simply by setting this property to a different function.
 		 */
-		validateInput?(value: string, cursorPosition: number): ProviderResult<SourceControlInputBoxValidation>;
+		validateInput?(
+			value: string,
+			cursorPosition: number,
+		): ProviderResult<SourceControlInputBoxValidation>;
 	}
 
 	//#endregion
@@ -770,7 +847,6 @@ declare module 'vscode' {
 	//#region @joaomoreno: SCM selected provider
 
 	export interface SourceControl {
-
 		/**
 		 * Whether the source control is selected.
 		 */
@@ -877,7 +953,14 @@ declare module 'vscode' {
 
 	//#region Tree View: https://github.com/microsoft/vscode/issues/61313 @alexr00
 	export interface TreeView<T> extends Disposable {
-		reveal(element: T | undefined, options?: { select?: boolean, focus?: boolean, expand?: boolean | number; }): Thenable<void>;
+		reveal(
+			element: T | undefined,
+			options?: {
+				select?: boolean;
+				focus?: boolean;
+				expand?: boolean | number;
+			},
+		): Thenable<void>;
 	}
 	//#endregion
 
@@ -896,7 +979,6 @@ declare module 'vscode' {
 	 * Options to configure the status bar item.
 	 */
 	export interface StatusBarItemOptions {
-
 		/**
 		 * A unique identifier of the status bar item. The identifier
 		 * is for example used to allow a user to show or hide the
@@ -929,7 +1011,6 @@ declare module 'vscode' {
 	}
 
 	export namespace window {
-
 		/**
 		 * Creates a status bar [item](#StatusBarItem).
 		 *
@@ -938,7 +1019,9 @@ declare module 'vscode' {
 		 * of the extension and the `StatusBarItemOptions.name` will be the extension name.
 		 * @return A new status bar item.
 		 */
-		export function createStatusBarItem(options?: StatusBarItemOptions): StatusBarItem;
+		export function createStatusBarItem(
+			options?: StatusBarItemOptions,
+		): StatusBarItem;
 	}
 
 	//#endregion
@@ -948,7 +1031,6 @@ declare module 'vscode' {
 	// TODO: Also for custom editor
 
 	export interface CustomTextEditorProvider {
-
 		/**
 		 * Handle when the underlying resource for a custom editor is renamed.
 		 *
@@ -962,7 +1044,11 @@ declare module 'vscode' {
 		 * @return Thenable indicating that the webview editor has been moved.
 		 */
 		// eslint-disable-next-line vscode-dts-provider-naming
-		moveCustomTextEditor?(newDocument: TextDocument, existingWebviewPanel: WebviewPanel, token: CancellationToken): Thenable<void>;
+		moveCustomTextEditor?(
+			newDocument: TextDocument,
+			existingWebviewPanel: WebviewPanel,
+			token: CancellationToken,
+		): Thenable<void>;
 	}
 
 	//#endregion
@@ -983,7 +1069,7 @@ declare module 'vscode' {
 	export enum NotebookCellKind {
 		// todo@API rename/rethink as "Markup" cell
 		Markdown = 1,
-		Code = 2
+		Code = 2,
 	}
 
 	export class NotebookCellMetadata {
@@ -1017,7 +1103,11 @@ declare module 'vscode' {
 		 * @return A new NotebookCellMetadata that reflects the given change. Will return `this` NotebookCellMetadata if the change
 		 *  is not changing anything.
 		 */
-		with(change: { inputCollapsed?: boolean | null, outputCollapsed?: boolean | null, [key: string]: any }): NotebookCellMetadata;
+		with(change: {
+			inputCollapsed?: boolean | null;
+			outputCollapsed?: boolean | null;
+			[key: string]: any;
+		}): NotebookCellMetadata;
 	}
 
 	export interface NotebookCellExecutionSummary {
@@ -1033,11 +1123,13 @@ declare module 'vscode' {
 		readonly notebook: NotebookDocument;
 		readonly kind: NotebookCellKind;
 		readonly document: TextDocument;
-		readonly metadata: NotebookCellMetadata
+		readonly metadata: NotebookCellMetadata;
 		readonly outputs: ReadonlyArray<NotebookCellOutput>;
 
 		// todo@API maybe just executionSummary or lastExecutionSummary?
-		readonly latestExecutionSummary: NotebookCellExecutionSummary | undefined;
+		readonly latestExecutionSummary:
+			| NotebookCellExecutionSummary
+			| undefined;
 	}
 
 	export class NotebookDocumentMetadata {
@@ -1065,7 +1157,10 @@ declare module 'vscode' {
 		 * @return A new NotebookDocumentMetadata that reflects the given change. Will return `this` NotebookDocumentMetadata if the change
 		 *  is not changing anything.
 		 */
-		with(change: { trusted?: boolean | null, [key: string]: any }): NotebookDocumentMetadata
+		with(change: {
+			trusted?: boolean | null;
+			[key: string]: any;
+		}): NotebookDocumentMetadata;
 	}
 
 	export interface NotebookDocumentContentOptions {
@@ -1082,17 +1177,18 @@ declare module 'vscode' {
 		transientCellMetadata?: { [K in keyof NotebookCellMetadata]?: boolean };
 
 		/**
-		* Controls if a document metadata property change will trigger notebook document content change and if it will be used in the diff editor
-		* Default to false. If the content provider doesn't persisit a metadata property in the file document, it should be set to true.
-		*/
-		transientDocumentMetadata?: { [K in keyof NotebookDocumentMetadata]?: boolean };
+		 * Controls if a document metadata property change will trigger notebook document content change and if it will be used in the diff editor
+		 * Default to false. If the content provider doesn't persisit a metadata property in the file document, it should be set to true.
+		 */
+		transientDocumentMetadata?: {
+			[K in keyof NotebookDocumentMetadata]?: boolean;
+		};
 	}
 
 	/**
 	 * Represents a notebook. Notebooks are composed of cells and metadata.
 	 */
 	export interface NotebookDocument {
-
 		/**
 		 * The associated uri for this notebook.
 		 *
@@ -1172,7 +1268,6 @@ declare module 'vscode' {
 	 * It is guaranteed that start is less than or equal to end.
 	 */
 	export class NotebookRange {
-
 		/**
 		 * The zero-based start index of this range.
 		 */
@@ -1204,7 +1299,7 @@ declare module 'vscode' {
 		 * @return A range that reflects the given change. Will return `this` range if the change
 		 * is not changing anything.
 		 */
-		with(change: { start?: number, end?: number }): NotebookRange;
+		with(change: { start?: number; end?: number }): NotebookRange;
 	}
 
 	export enum NotebookEditorRevealType {
@@ -1227,7 +1322,7 @@ declare module 'vscode' {
 		/**
 		 * The range will always be revealed at the top of the viewport.
 		 */
-		AtTop = 3
+		AtTop = 3,
 	}
 
 	export interface NotebookEditor {
@@ -1254,7 +1349,10 @@ declare module 'vscode' {
 		 * @param range A range.
 		 * @param revealType The scrolling strategy for revealing `range`.
 		 */
-		revealRange(range: NotebookRange, revealType?: NotebookEditorRevealType): void;
+		revealRange(
+			range: NotebookRange,
+			revealType?: NotebookEditorRevealType,
+		): void;
 
 		/**
 		 * The column in which this editor shows.
@@ -1308,7 +1406,7 @@ declare module 'vscode' {
 		 * The [notebook editor](#NotebookEditor) for which the selections have changed.
 		 */
 		readonly notebookEditor: NotebookEditor;
-		readonly selections: ReadonlyArray<NotebookRange>
+		readonly selections: ReadonlyArray<NotebookRange>;
 	}
 
 	export interface NotebookEditorVisibleRangesChangeEvent {
@@ -1339,13 +1437,23 @@ declare module 'vscode' {
 		metadata?: NotebookCellMetadata;
 		// todo@API just executionSummary or lastExecutionSummary
 		latestExecutionSummary?: NotebookCellExecutionSummary;
-		constructor(kind: NotebookCellKind, source: string, language: string, outputs?: NotebookCellOutput[], metadata?: NotebookCellMetadata, latestExecutionSummary?: NotebookCellExecutionSummary);
+		constructor(
+			kind: NotebookCellKind,
+			source: string,
+			language: string,
+			outputs?: NotebookCellOutput[],
+			metadata?: NotebookCellMetadata,
+			latestExecutionSummary?: NotebookCellExecutionSummary,
+		);
 	}
 
 	export class NotebookData {
 		cells: NotebookCellData[];
 		metadata: NotebookDocumentMetadata;
-		constructor(cells: NotebookCellData[], metadata?: NotebookDocumentMetadata);
+		constructor(
+			cells: NotebookCellData[],
+			metadata?: NotebookDocumentMetadata,
+		);
 	}
 
 	export interface NotebookDocumentShowOptions {
@@ -1356,8 +1464,9 @@ declare module 'vscode' {
 	}
 
 	export namespace notebook {
-
-		export function openNotebookDocument(uri: Uri): Thenable<NotebookDocument>;
+		export function openNotebookDocument(
+			uri: Uri,
+		): Thenable<NotebookDocument>;
 
 		export const onDidOpenNotebookDocument: Event<NotebookDocument>;
 		export const onDidCloseNotebookDocument: Event<NotebookDocument>;
@@ -1382,12 +1491,20 @@ declare module 'vscode' {
 		export const visibleNotebookEditors: NotebookEditor[];
 		export const onDidChangeVisibleNotebookEditors: Event<NotebookEditor[]>;
 		export const activeNotebookEditor: NotebookEditor | undefined;
-		export const onDidChangeActiveNotebookEditor: Event<NotebookEditor | undefined>;
+		export const onDidChangeActiveNotebookEditor: Event<
+			NotebookEditor | undefined
+		>;
 		export const onDidChangeNotebookEditorSelection: Event<NotebookEditorSelectionChangeEvent>;
 		export const onDidChangeNotebookEditorVisibleRanges: Event<NotebookEditorVisibleRangesChangeEvent>;
 
-		export function showNotebookDocument(uri: Uri, options?: NotebookDocumentShowOptions): Thenable<NotebookEditor>;
-		export function showNotebookDocument(document: NotebookDocument, options?: NotebookDocumentShowOptions): Thenable<NotebookEditor>;
+		export function showNotebookDocument(
+			uri: Uri,
+			options?: NotebookDocumentShowOptions,
+		): Thenable<NotebookEditor>;
+		export function showNotebookDocument(
+			document: NotebookDocument,
+			options?: NotebookDocumentShowOptions,
+		): Thenable<NotebookEditor>;
 	}
 
 	//#endregion
@@ -1400,7 +1517,6 @@ declare module 'vscode' {
 	// application/x.notebook.stderr
 	// application/x.notebook.stream
 	export class NotebookCellOutputItem {
-
 		// todo@API
 		// add factory functions for common mime types
 		// static textplain(value:string): NotebookCellOutputItem;
@@ -1410,7 +1526,11 @@ declare module 'vscode' {
 		value: unknown;
 		metadata?: Record<string, any>;
 
-		constructor(mime: string, value: unknown, metadata?: Record<string, any>);
+		constructor(
+			mime: string,
+			value: unknown,
+			metadata?: Record<string, any>,
+		);
 	}
 
 	// @jrieken transient
@@ -1418,8 +1538,15 @@ declare module 'vscode' {
 		id: string;
 		outputs: NotebookCellOutputItem[];
 		metadata?: Record<string, any>;
-		constructor(outputs: NotebookCellOutputItem[], metadata?: Record<string, any>);
-		constructor(outputs: NotebookCellOutputItem[], id: string, metadata?: Record<string, any>);
+		constructor(
+			outputs: NotebookCellOutputItem[],
+			metadata?: Record<string, any>,
+		);
+		constructor(
+			outputs: NotebookCellOutputItem[],
+			id: string,
+			metadata?: Record<string, any>,
+		);
 	}
 
 	//#endregion
@@ -1444,15 +1571,35 @@ declare module 'vscode' {
 
 	export interface WorkspaceEdit {
 		// todo@API add NotebookEdit-type which handles all these cases?
-		replaceNotebookMetadata(uri: Uri, value: NotebookDocumentMetadata): void;
-		replaceNotebookCells(uri: Uri, range: NotebookRange, cells: NotebookCellData[], metadata?: WorkspaceEditEntryMetadata): void;
-		replaceNotebookCellMetadata(uri: Uri, index: number, cellMetadata: NotebookCellMetadata, metadata?: WorkspaceEditEntryMetadata): void;
+		replaceNotebookMetadata(
+			uri: Uri,
+			value: NotebookDocumentMetadata,
+		): void;
+		replaceNotebookCells(
+			uri: Uri,
+			range: NotebookRange,
+			cells: NotebookCellData[],
+			metadata?: WorkspaceEditEntryMetadata,
+		): void;
+		replaceNotebookCellMetadata(
+			uri: Uri,
+			index: number,
+			cellMetadata: NotebookCellMetadata,
+			metadata?: WorkspaceEditEntryMetadata,
+		): void;
 	}
 
 	export interface NotebookEditorEdit {
 		replaceMetadata(value: NotebookDocumentMetadata): void;
-		replaceCells(start: number, end: number, cells: NotebookCellData[]): void;
-		replaceCellMetadata(index: number, metadata: NotebookCellMetadata): void;
+		replaceCells(
+			start: number,
+			end: number,
+			cells: NotebookCellData[],
+		): void;
+		replaceCellMetadata(
+			index: number,
+			metadata: NotebookCellMetadata,
+		): void;
 	}
 
 	export interface NotebookEditor {
@@ -1467,7 +1614,9 @@ declare module 'vscode' {
 		 * @return A promise that resolves with a value indicating if the edits could be applied.
 		 */
 		// @jrieken REMOVE maybe
-		edit(callback: (editBuilder: NotebookEditorEdit) => void): Thenable<boolean>;
+		edit(
+			callback: (editBuilder: NotebookEditorEdit) => void,
+		): Thenable<boolean>;
 	}
 
 	//#endregion
@@ -1483,7 +1632,6 @@ declare module 'vscode' {
 	 * vice versa.
 	 */
 	export interface NotebookSerializer {
-
 		/**
 		 * Deserialize contents of a notebook file into the notebook data structure.
 		 *
@@ -1491,7 +1639,10 @@ declare module 'vscode' {
 		 * @param token A cancellation token.
 		 * @return Notebook data or a thenable that resolves to such.
 		 */
-		deserializeNotebook(content: Uint8Array, token: CancellationToken): NotebookData | Thenable<NotebookData>;
+		deserializeNotebook(
+			content: Uint8Array,
+			token: CancellationToken,
+		): NotebookData | Thenable<NotebookData>;
 
 		/**
 		 * Serialize notebook data into file contents.
@@ -1500,11 +1651,13 @@ declare module 'vscode' {
 		 * @param token A cancellation token.
 		 * @returns An array of bytes or a thenable that resolves to such.
 		 */
-		serializeNotebook(data: NotebookData, token: CancellationToken): Uint8Array | Thenable<Uint8Array>;
+		serializeNotebook(
+			data: NotebookData,
+			token: CancellationToken,
+		): Uint8Array | Thenable<Uint8Array>;
 	}
 
 	export namespace notebook {
-
 		// todo@API remove output when notebook marks that as transient, same for metadata
 		/**
 		 * Register a [notebook serializer](#NotebookSerializer).
@@ -1514,13 +1667,16 @@ declare module 'vscode' {
 		 * @param options Optional context options that define what parts of a notebook should be persisted
 		 * @return A [disposable](#Disposable) that unregisters this serializer when being disposed.
 		 */
-		export function registerNotebookSerializer(notebookType: string, serializer: NotebookSerializer, options?: NotebookDocumentContentOptions): Disposable;
+		export function registerNotebookSerializer(
+			notebookType: string,
+			serializer: NotebookSerializer,
+			options?: NotebookDocumentContentOptions,
+		): Disposable;
 	}
 
 	//#endregion
 
 	//#region https://github.com/microsoft/vscode/issues/119949
-
 
 	export interface NotebookFilter {
 		readonly viewType?: string;
@@ -1528,7 +1684,10 @@ declare module 'vscode' {
 		readonly pattern?: GlobPattern;
 	}
 
-	export type NotebookSelector = NotebookFilter | string | ReadonlyArray<NotebookFilter | string>;
+	export type NotebookSelector =
+		| NotebookFilter
+		| string
+		| ReadonlyArray<NotebookFilter | string>;
 
 	export interface NotebookExecuteHandler {
 		/**
@@ -1536,18 +1695,25 @@ declare module 'vscode' {
 		 * @param notebook The notebook for which the execute handler is being called.
 		 * @param controller The controller that the handler is attached to
 		 */
-		(this: NotebookController, cells: NotebookCell[], notebook: NotebookDocument, controller: NotebookController): void | Thenable<void>
+		(
+			this: NotebookController,
+			cells: NotebookCell[],
+			notebook: NotebookDocument,
+			controller: NotebookController,
+		): void | Thenable<void>;
 	}
 
 	export interface NotebookInterruptHandler {
 		/**
 		 * @param notebook The notebook for which the interrupt handler is being called.
 		 */
-		(this: NotebookController, notebook: NotebookDocument): void | Thenable<void>;
+		(
+			this: NotebookController,
+			notebook: NotebookDocument,
+		): void | Thenable<void>;
 	}
 
 	export interface NotebookController {
-
 		/**
 		 * The identifier of this notebook controller.
 		 */
@@ -1608,7 +1774,7 @@ declare module 'vscode' {
 		 * [`NotebookCellExecutionTask#token`](NotebookCellExecutionTask#token)) and should only be used when
 		 * execution-level cancellation is supported
 		 */
-		interruptHandler?: NotebookInterruptHandler
+		interruptHandler?: NotebookInterruptHandler;
 
 		/**
 		 * Dispose and free associated resources.
@@ -1620,7 +1786,10 @@ declare module 'vscode' {
 		 * kernel. This event fires whenever a notebook has been associated to a kernel or when
 		 * that association has been removed.
 		 */
-		readonly onDidChangeNotebookAssociation: Event<{ notebook: NotebookDocument, selected: boolean }>;
+		readonly onDidChangeNotebookAssociation: Event<{
+			notebook: NotebookDocument;
+			selected: boolean;
+		}>;
 
 		/**
 		 * Create a cell execution task.
@@ -1632,7 +1801,9 @@ declare module 'vscode' {
 		 * @param cell The notebook cell for which to create the execution.
 		 * @returns A notebook cell execution.
 		 */
-		createNotebookCellExecutionTask(cell: NotebookCell): NotebookCellExecutionTask;
+		createNotebookCellExecutionTask(
+			cell: NotebookCell,
+		): NotebookCellExecutionTask;
 
 		// todo@API find a better name than "preloads"
 		// todo@API allow add, not remove
@@ -1642,7 +1813,10 @@ declare module 'vscode' {
 		/**
 		 * An event that fires when a renderer (see `preloads`) has send a message to the controller.
 		 */
-		readonly onDidReceiveMessage: Event<{ editor: NotebookEditor, message: any }>;
+		readonly onDidReceiveMessage: Event<{
+			editor: NotebookEditor;
+			message: any;
+		}>;
 
 		/**
 		 * Send a message to the renderer of notebook editors.
@@ -1666,16 +1840,18 @@ declare module 'vscode' {
 		 * @param notebook The notebook for which a priority is set.
 		 * @param affinity A controller affinity
 		 */
-		updateNotebookAffinity(notebook: NotebookDocument, affinity: NotebookControllerAffinity): void;
+		updateNotebookAffinity(
+			notebook: NotebookDocument,
+			affinity: NotebookControllerAffinity,
+		): void;
 	}
 
 	export enum NotebookControllerAffinity {
 		Default = 1,
-		Preferred = 2
+		Preferred = 2,
 	}
 
 	export namespace notebook {
-
 		/**
 		 * Creates a new notebook controller.
 		 *
@@ -1685,13 +1861,18 @@ declare module 'vscode' {
 		 * @param handler
 		 * @param preloads
 		 */
-		export function createNotebookController(id: string, viewType: string, label: string, handler?: NotebookExecuteHandler, preloads?: NotebookKernelPreload[]): NotebookController;
+		export function createNotebookController(
+			id: string,
+			viewType: string,
+			label: string,
+			handler?: NotebookExecuteHandler,
+			preloads?: NotebookKernelPreload[],
+		): NotebookController;
 	}
 
 	//#endregion
 
 	//#region https://github.com/microsoft/vscode/issues/106744, NotebookContentProvider
-
 
 	interface NotebookDocumentBackup {
 		/**
@@ -1722,7 +1903,6 @@ declare module 'vscode' {
 	// todo@API use openNotebookDOCUMENT to align with openCustomDocument etc?
 	// todo@API rename to NotebookDocumentContentProvider
 	export interface NotebookContentProvider {
-
 		readonly options?: NotebookDocumentContentOptions;
 		readonly onDidChangeNotebookContentOptions?: Event<NotebookDocumentContentOptions>;
 
@@ -1730,16 +1910,31 @@ declare module 'vscode' {
 		 * Content providers should always use [file system providers](#FileSystemProvider) to
 		 * resolve the raw content for `uri` as the resouce is not necessarily a file on disk.
 		 */
-		openNotebook(uri: Uri, openContext: NotebookDocumentOpenContext, token: CancellationToken): NotebookData | Thenable<NotebookData>;
+		openNotebook(
+			uri: Uri,
+			openContext: NotebookDocumentOpenContext,
+			token: CancellationToken,
+		): NotebookData | Thenable<NotebookData>;
 
 		// todo@API use NotebookData instead
-		saveNotebook(document: NotebookDocument, token: CancellationToken): Thenable<void>;
+		saveNotebook(
+			document: NotebookDocument,
+			token: CancellationToken,
+		): Thenable<void>;
 
 		// todo@API use NotebookData instead
-		saveNotebookAs(targetResource: Uri, document: NotebookDocument, token: CancellationToken): Thenable<void>;
+		saveNotebookAs(
+			targetResource: Uri,
+			document: NotebookDocument,
+			token: CancellationToken,
+		): Thenable<void>;
 
 		// todo@API use NotebookData instead
-		backupNotebook(document: NotebookDocument, context: NotebookDocumentBackupContext, token: CancellationToken): Thenable<NotebookDocumentBackup>;
+		backupNotebook(
+			document: NotebookDocument,
+			context: NotebookDocumentBackupContext,
+			token: CancellationToken,
+		): Thenable<NotebookDocumentBackup>;
 	}
 
 	export interface NotebookDocumentContentOptions {
@@ -1748,16 +1943,22 @@ declare module 'vscode' {
 		 */
 		viewOptions?: {
 			displayName: string;
-			filenamePattern: (GlobPattern | { include: GlobPattern; exclude: GlobPattern; })[];
+			filenamePattern: (
+				| GlobPattern
+				| { include: GlobPattern; exclude: GlobPattern }
+			)[];
 			exclusive?: boolean;
 		};
 	}
 
 	export namespace notebook {
-
 		// TODO@api use NotebookDocumentFilter instead of just notebookType:string?
 		// TODO@API options duplicates the more powerful variant on NotebookContentProvider
-		export function registerNotebookContentProvider(notebookType: string, provider: NotebookContentProvider, options?: NotebookDocumentContentOptions): Disposable;
+		export function registerNotebookContentProvider(
+			notebookType: string,
+			provider: NotebookContentProvider,
+			options?: NotebookDocumentContentOptions,
+		): Disposable;
 	}
 
 	//#endregion
@@ -1813,10 +2014,22 @@ declare module 'vscode' {
 		readonly token: CancellationToken;
 
 		clearOutput(cellIndex?: number): Thenable<void>;
-		appendOutput(out: NotebookCellOutput | NotebookCellOutput[], cellIndex?: number): Thenable<void>;
-		replaceOutput(out: NotebookCellOutput | NotebookCellOutput[], cellIndex?: number): Thenable<void>;
-		appendOutputItems(items: NotebookCellOutputItem | NotebookCellOutputItem[], outputId: string): Thenable<void>;
-		replaceOutputItems(items: NotebookCellOutputItem | NotebookCellOutputItem[], outputId: string): Thenable<void>;
+		appendOutput(
+			out: NotebookCellOutput | NotebookCellOutput[],
+			cellIndex?: number,
+		): Thenable<void>;
+		replaceOutput(
+			out: NotebookCellOutput | NotebookCellOutput[],
+			cellIndex?: number,
+		): Thenable<void>;
+		appendOutputItems(
+			items: NotebookCellOutputItem | NotebookCellOutputItem[],
+			outputId: string,
+		): Thenable<void>;
+		replaceOutputItems(
+			items: NotebookCellOutputItem | NotebookCellOutputItem[],
+			outputId: string,
+		): Thenable<void>;
 	}
 
 	export enum NotebookCellExecutionState {
@@ -1827,7 +2040,11 @@ declare module 'vscode' {
 
 	export namespace notebook {
 		/** @deprecated use NotebookController */
-		export function createNotebookCellExecutionTask(uri: Uri, index: number, kernelId: string): NotebookCellExecutionTask | undefined;
+		export function createNotebookCellExecutionTask(
+			uri: Uri,
+			index: number,
+			kernelId: string,
+		): NotebookCellExecutionTask | undefined;
 
 		export const onDidChangeCellExecutionState: Event<NotebookCellExecutionStateChangeEvent>;
 	}
@@ -1837,7 +2054,10 @@ declare module 'vscode' {
 	//#region https://github.com/microsoft/vscode/issues/106744, NotebookEditorDecorationType
 
 	export interface NotebookEditor {
-		setDecorations(decorationType: NotebookEditorDecorationType, range: NotebookRange): void;
+		setDecorations(
+			decorationType: NotebookEditorDecorationType,
+			range: NotebookRange,
+		): void;
 	}
 
 	export interface NotebookDecorationRenderOptions {
@@ -1852,7 +2072,9 @@ declare module 'vscode' {
 	}
 
 	export namespace notebook {
-		export function createNotebookEditorDecorationType(options: NotebookDecorationRenderOptions): NotebookEditorDecorationType;
+		export function createNotebookEditorDecorationType(
+			options: NotebookDecorationRenderOptions,
+		): NotebookEditorDecorationType;
 	}
 
 	//#endregion
@@ -1863,7 +2085,6 @@ declare module 'vscode' {
 	 * Represents the alignment of status bar items.
 	 */
 	export enum NotebookCellStatusBarAlignment {
-
 		/**
 		 * Aligned to the left side.
 		 */
@@ -1872,7 +2093,7 @@ declare module 'vscode' {
 		/**
 		 * Aligned to the right side.
 		 */
-		Right = 2
+		Right = 2,
 	}
 
 	export class NotebookCellStatusBarItem {
@@ -1883,7 +2104,14 @@ declare module 'vscode' {
 		priority?: number;
 		accessibilityInformation?: AccessibilityInformation;
 
-		constructor(text: string, alignment: NotebookCellStatusBarAlignment, command?: string | Command, tooltip?: string, priority?: number, accessibilityInformation?: AccessibilityInformation);
+		constructor(
+			text: string,
+			alignment: NotebookCellStatusBarAlignment,
+			command?: string | Command,
+			tooltip?: string,
+			priority?: number,
+			accessibilityInformation?: AccessibilityInformation,
+		);
 	}
 
 	interface NotebookCellStatusBarItemProvider {
@@ -1895,11 +2123,17 @@ declare module 'vscode' {
 		/**
 		 * The provider will be called when the cell scrolls into view, when its content, outputs, language, or metadata change, and when it changes execution state.
 		 */
-		provideCellStatusBarItems(cell: NotebookCell, token: CancellationToken): ProviderResult<NotebookCellStatusBarItem[]>;
+		provideCellStatusBarItems(
+			cell: NotebookCell,
+			token: CancellationToken,
+		): ProviderResult<NotebookCellStatusBarItem[]>;
 	}
 
 	export namespace notebook {
-		export function registerNotebookCellStatusBarItemProvider(selector: NotebookSelector, provider: NotebookCellStatusBarItemProvider): Disposable;
+		export function registerNotebookCellStatusBarItemProvider(
+			selector: NotebookSelector,
+			provider: NotebookCellStatusBarItemProvider,
+		): Disposable;
 	}
 
 	//#endregion
@@ -1915,7 +2149,10 @@ declare module 'vscode' {
 		 * @param selector
 		 */
 		// todo@API really needed? we didn't find a user here
-		export function createConcatTextDocument(notebook: NotebookDocument, selector?: DocumentSelector): NotebookConcatTextDocument;
+		export function createConcatTextDocument(
+			notebook: NotebookDocument,
+			selector?: DocumentSelector,
+		): NotebookConcatTextDocument;
 	}
 
 	export interface NotebookConcatTextDocument {
@@ -1995,7 +2232,7 @@ declare module 'vscode' {
 		/**
 		 * The icon path or [ThemeIcon](#ThemeIcon) for the timeline item.
 		 */
-		iconPath?: Uri | { light: Uri; dark: Uri; } | ThemeIcon;
+		iconPath?: Uri | { light: Uri; dark: Uri } | ThemeIcon;
 
 		/**
 		 * A human readable string describing less prominent details of the timeline item.
@@ -2081,7 +2318,7 @@ declare module 'vscode' {
 		 * An optional maximum number timeline items or the all timeline items newer (inclusive) than the timestamp or id that should be returned.
 		 * If `undefined` all timeline items should be returned.
 		 */
-		limit?: number | { timestamp: number; id?: string; };
+		limit?: number | { timestamp: number; id?: string };
 	}
 
 	export interface TimelineProvider {
@@ -2110,7 +2347,11 @@ declare module 'vscode' {
 		 * @return The [timeline result](#TimelineResult) or a thenable that resolves to such. The lack of a result
 		 * can be signaled by returning `undefined`, `null`, or an empty array.
 		 */
-		provideTimeline(uri: Uri, options: TimelineOptions, token: CancellationToken): ProviderResult<Timeline>;
+		provideTimeline(
+			uri: Uri,
+			options: TimelineOptions,
+			token: CancellationToken,
+		): ProviderResult<Timeline>;
 	}
 
 	export namespace workspace {
@@ -2124,8 +2365,11 @@ declare module 'vscode' {
 		 * @param scheme A scheme or schemes that defines which documents this provider is applicable to. Can be `*` to target all documents.
 		 * @param provider A timeline provider.
 		 * @return A [disposable](#Disposable) that unregisters this provider when being disposed.
-		*/
-		export function registerTimelineProvider(scheme: string | string[], provider: TimelineProvider): Disposable;
+		 */
+		export function registerTimelineProvider(
+			scheme: string | string[],
+			provider: TimelineProvider,
+		): Disposable;
 	}
 
 	//#endregion
@@ -2136,7 +2380,7 @@ declare module 'vscode' {
 		Other = 0,
 		Comment = 1,
 		String = 2,
-		RegEx = 4
+		RegEx = 4,
 	}
 
 	export interface TokenInformation {
@@ -2145,7 +2389,10 @@ declare module 'vscode' {
 	}
 
 	export namespace languages {
-		export function getTokenInformationAtPosition(document: TextDocument, position: Position): Thenable<TokenInformation>;
+		export function getTokenInformationAtPosition(
+			document: TextDocument,
+			position: Position,
+		): Thenable<TokenInformation>;
 	}
 
 	//#endregion
@@ -2170,7 +2417,10 @@ declare module 'vscode' {
 		 * @param provider An inlay hints provider.
 		 * @return A [disposable](#Disposable) that unregisters this provider when being disposed.
 		 */
-		export function registerInlayHintsProvider(selector: DocumentSelector, provider: InlayHintsProvider): Disposable;
+		export function registerInlayHintsProvider(
+			selector: DocumentSelector,
+			provider: InlayHintsProvider,
+		): Disposable;
 	}
 
 	export enum InlayHintKind {
@@ -2213,7 +2463,6 @@ declare module 'vscode' {
 	 * the inlay hints feature.
 	 */
 	export interface InlayHintsProvider {
-
 		/**
 		 * An optional event to signal that inlay hints have changed.
 		 * @see [EventEmitter](#EventEmitter)
@@ -2227,7 +2476,11 @@ declare module 'vscode' {
 		 * @param token A cancellation token.
 		 * @return A list of inlay hints or a thenable that resolves to such.
 		 */
-		provideInlayHints(model: TextDocument, range: Range, token: CancellationToken): ProviderResult<InlayHint[]>;
+		provideInlayHints(
+			model: TextDocument,
+			range: Range,
+			token: CancellationToken,
+		): ProviderResult<InlayHint[]>;
 	}
 	//#endregion
 
@@ -2241,7 +2494,7 @@ declare module 'vscode' {
 		/**
 		 * The extension is running in a Webworker extension host. Runtime access is limited to Webworker APIs.
 		 */
-		Webworker = 2
+		Webworker = 2,
 	}
 
 	export interface ExtensionContext {
@@ -2253,7 +2506,6 @@ declare module 'vscode' {
 	//#region https://github.com/microsoft/vscode/issues/102091
 
 	export interface TextDocument {
-
 		/**
 		 * The [notebook](#NotebookDocument) that contains this document as a notebook cell or `undefined` when
 		 * the document is not contained by a notebook (this should be the more frequent case).
@@ -2268,26 +2520,35 @@ declare module 'vscode' {
 		 * Registers a controller that can discover and
 		 * run tests in workspaces and documents.
 		 */
-		export function registerTestController<T>(testController: TestController<T>): Disposable;
+		export function registerTestController<T>(
+			testController: TestController<T>,
+		): Disposable;
 
 		/**
 		 * Requests that tests be run by their controller.
 		 * @param run Run options to use
 		 * @param token Cancellation token for the test run
 		 */
-		export function runTests<T>(run: TestRunRequest<T>, token?: CancellationToken): Thenable<void>;
+		export function runTests<T>(
+			run: TestRunRequest<T>,
+			token?: CancellationToken,
+		): Thenable<void>;
 
 		/**
 		 * Returns an observer that retrieves tests in the given workspace folder.
 		 * @stability experimental
 		 */
-		export function createWorkspaceTestObserver(workspaceFolder: WorkspaceFolder): TestObserver;
+		export function createWorkspaceTestObserver(
+			workspaceFolder: WorkspaceFolder,
+		): TestObserver;
 
 		/**
 		 * Returns an observer that retrieves tests in the given text document.
 		 * @stability experimental
 		 */
-		export function createDocumentTestObserver(document: TextDocument): TestObserver;
+		export function createDocumentTestObserver(
+			document: TextDocument,
+		): TestObserver;
 
 		/**
 		 * Creates a {@link TestRun<T>}. This should be called by the
@@ -2305,20 +2566,29 @@ declare module 'vscode' {
 		 * persisted in VS Code. This may be false if the results are coming from
 		 * a file already saved externally, such as a coverage information file.
 		 */
-		export function createTestRun<T>(request: TestRunRequest<T>, name?: string, persist?: boolean): TestRun<T>;
+		export function createTestRun<T>(
+			request: TestRunRequest<T>,
+			name?: string,
+			persist?: boolean,
+		): TestRun<T>;
 
 		/**
 		 * Creates a new managed {@link TestItem} instance.
 		 * @param options Initial/required options for the item
 		 * @param data Custom data to be stored in {@link TestItem.data}
 		 */
-		export function createTestItem<T, TChildren = T>(options: TestItemOptions, data: T): TestItem<T, TChildren>;
+		export function createTestItem<T, TChildren = T>(
+			options: TestItemOptions,
+			data: T,
+		): TestItem<T, TChildren>;
 
 		/**
 		 * Creates a new managed {@link TestItem} instance.
 		 * @param options Initial/required options for the item
 		 */
-		export function createTestItem<T = void, TChildren = any>(options: TestItemOptions): TestItem<T, TChildren>;
+		export function createTestItem<T = void, TChildren = any>(
+			options: TestItemOptions,
+		): TestItem<T, TChildren>;
 
 		/**
 		 * List of test results stored by VS Code, sorted in descnding
@@ -2403,7 +2673,10 @@ declare module 'vscode' {
 		 * @param cancellationToken Token that signals the used asked to abort the test run.
 		 * @returns the root test item for the workspace
 		 */
-		createWorkspaceTestRoot(workspace: WorkspaceFolder, token: CancellationToken): ProviderResult<TestItem<T>>;
+		createWorkspaceTestRoot(
+			workspace: WorkspaceFolder,
+			token: CancellationToken,
+		): ProviderResult<TestItem<T>>;
 
 		/**
 		 * Requests that tests be provided for the given document. This will be
@@ -2422,7 +2695,10 @@ declare module 'vscode' {
 		 * @param cancellationToken Token that signals the used asked to abort the test run.
 		 * @returns the root test item for the document
 		 */
-		createDocumentTestRoot?(document: TextDocument, token: CancellationToken): ProviderResult<TestItem<T>>;
+		createDocumentTestRoot?(
+			document: TextDocument,
+			token: CancellationToken,
+		): ProviderResult<TestItem<T>>;
 
 		/**
 		 * Starts a test run. When called, the controller should call
@@ -2433,7 +2709,10 @@ declare module 'vscode' {
 		 * @param options Options for this test run
 		 * @param cancellationToken Token that signals the used asked to abort the test run.
 		 */
-		runTests(options: TestRunRequest<T>, token: CancellationToken): Thenable<void> | void;
+		runTests(
+			options: TestRunRequest<T>,
+			token: CancellationToken,
+		): Thenable<void> | void;
 	}
 
 	/**
@@ -2480,7 +2759,11 @@ declare module 'vscode' {
 		 * @param state The state to assign to the test
 		 * @param duration Optionally sets how long the test took to run
 		 */
-		setState(test: TestItem<T>, state: TestResultState, duration?: number): void;
+		setState(
+			test: TestItem<T>,
+			state: TestResultState,
+			duration?: number,
+		): void;
 
 		/**
 		 * Appends a message, such as an assertion error, to the test item.
@@ -2693,7 +2976,7 @@ declare module 'vscode' {
 		// Test run has been skipped
 		Skipped = 5,
 		// Test run failed for some other reason (compilation error, timeout, etc)
-		Errored = 6
+		Errored = 6,
 	}
 
 	/**
@@ -2703,7 +2986,7 @@ declare module 'vscode' {
 		Error = 0,
 		Warning = 1,
 		Information = 2,
-		Hint = 3
+		Hint = 3,
 	}
 
 	/**
@@ -2742,7 +3025,11 @@ declare module 'vscode' {
 		 * @param expected Expected output.
 		 * @param actual Actual output.
 		 */
-		static diff(message: string | MarkdownString, expected: string, actual: string): TestMessage;
+		static diff(
+			message: string | MarkdownString,
+			expected: string,
+			actual: string,
+		): TestMessage;
 
 		/**
 		 * Creates a new TestMessage instance.
@@ -2902,7 +3189,6 @@ declare module 'vscode' {
 	 * Currently openers may only be registered for `http` and `https` uris.
 	 */
 	export interface ExternalUriOpener {
-
 		/**
 		 * Check if the opener can open a uri.
 		 *
@@ -2912,7 +3198,10 @@ declare module 'vscode' {
 		 *
 		 * @return Priority indicating if the opener can open the external uri.
 		 */
-		canOpenExternalUri(uri: Uri, token: CancellationToken): ExternalUriOpenerPriority | Thenable<ExternalUriOpenerPriority>;
+		canOpenExternalUri(
+			uri: Uri,
+			token: CancellationToken,
+		): ExternalUriOpenerPriority | Thenable<ExternalUriOpenerPriority>;
 
 		/**
 		 * Open a uri.
@@ -2931,7 +3220,11 @@ declare module 'vscode' {
 		 *
 		 * @return Thenable indicating that the opening has completed.
 		 */
-		openExternalUri(resolvedUri: Uri, ctx: OpenExternalUriContext, token: CancellationToken): Thenable<void> | void;
+		openExternalUri(
+			resolvedUri: Uri,
+			ctx: OpenExternalUriContext,
+			token: CancellationToken,
+		): Thenable<void> | void;
 	}
 
 	/**
@@ -2951,13 +3244,12 @@ declare module 'vscode' {
 	 * Additional metadata about a registered `ExternalUriOpener`.
 	 */
 	interface ExternalUriOpenerMetadata {
-
 		/**
 		 * List of uri schemes the opener is triggered for.
 		 *
 		 * Currently only `http` and `https` are supported.
 		 */
-		readonly schemes: readonly string[]
+		readonly schemes: readonly string[];
 
 		/**
 		 * Text displayed to the user that explains what the opener does.
@@ -2978,9 +3270,13 @@ declare module 'vscode' {
 		 * @param opener Opener to register.
 		 * @param metadata Additional information about the opener.
 		 *
-		* @returns Disposable that unregisters the opener.
-		*/
-		export function registerExternalUriOpener(id: string, opener: ExternalUriOpener, metadata: ExternalUriOpenerMetadata): Disposable;
+		 * @returns Disposable that unregisters the opener.
+		 */
+		export function registerExternalUriOpener(
+			id: string,
+			opener: ExternalUriOpener,
+			metadata: ExternalUriOpenerMetadata,
+		): Disposable;
 	}
 
 	interface OpenExternalOptions {
@@ -2999,7 +3295,10 @@ declare module 'vscode' {
 	}
 
 	namespace env {
-		export function openExternal(target: Uri, options?: OpenExternalOptions): Thenable<boolean>;
+		export function openExternal(
+			target: Uri,
+			options?: OpenExternalOptions,
+		): Thenable<boolean>;
 	}
 
 	//#endregion
@@ -3040,9 +3339,11 @@ declare module 'vscode' {
 		 * workspace trust request. Defaults to { modal: false }
 		 * When using a non-modal request, the promise will return immediately.
 		 * Any time trust is not given, it is recommended to use the
-		* `onDidGrantWorkspaceTrust` event to listen for trust changes.
+		 * `onDidGrantWorkspaceTrust` event to listen for trust changes.
 		 */
-		export function requestWorkspaceTrust(options?: WorkspaceTrustRequestOptions): Thenable<boolean | undefined>;
+		export function requestWorkspaceTrust(
+			options?: WorkspaceTrustRequestOptions,
+		): Thenable<boolean | undefined>;
 	}
 
 	//#endregion
@@ -3074,12 +3375,12 @@ declare module 'vscode' {
 		OpenBrowser = 2,
 		OpenPreview = 3,
 		Silent = 4,
-		Ignore = 5
+		Ignore = 5,
 	}
 
 	export interface PortAttributes {
 		port: number;
-		autoForwardAction: PortAutoForwardAction
+		autoForwardAction: PortAutoForwardAction;
 	}
 
 	export interface PortAttributesProvider {
@@ -3088,7 +3389,12 @@ declare module 'vscode' {
 		 * return undefined. For example, if `providePortAttributes` is called with ports 3000 but your
 		 * extension doesn't know anything about 3000 you should return undefined.
 		 */
-		providePortAttributes(port: number, pid: number | undefined, commandLine: string | undefined, token: CancellationToken): ProviderResult<PortAttributes>;
+		providePortAttributes(
+			port: number,
+			pid: number | undefined,
+			commandLine: string | undefined,
+			token: CancellationToken,
+		): ProviderResult<PortAttributes>;
 	}
 
 	export namespace workspace {
@@ -3104,14 +3410,20 @@ declare module 'vscode' {
 		 * The `portRange` is start inclusive and end exclusive.
 		 * @param provider The PortAttributesProvider
 		 */
-		export function registerPortAttributesProvider(portSelector: { pid?: number, portRange?: [number, number], commandMatcher?: RegExp }, provider: PortAttributesProvider): Disposable;
+		export function registerPortAttributesProvider(
+			portSelector: {
+				pid?: number;
+				portRange?: [number, number];
+				commandMatcher?: RegExp;
+			},
+			provider: PortAttributesProvider,
+		): Disposable;
 	}
 	//#endregion
 
 	// region https://github.com/microsoft/vscode/issues/119904 @eamodio
 
 	export interface SourceControlInputBox {
-
 		/**
 		 * Sets focus to the input.
 		 */
