@@ -19,6 +19,7 @@ function createCurrentTourItem() {
 	);
 
 	currentTourItem.show();
+
 	return currentTourItem;
 }
 
@@ -43,6 +44,7 @@ export function registerStatusBar() {
 				}
 
 				const prefix = store.isRecording ? "Recording " : "";
+
 				const tourTitle = getTourTitle(store.activeTour.tour);
 
 				currentTourItem.text = `${prefix}CodeTour: #${

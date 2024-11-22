@@ -22,7 +22,9 @@ import {
 import { progress } from "./storage";
 
 const CAN_EDIT_TOUR_KEY = `${EXTENSION_NAME}:canEditTour`;
+
 const IN_TOUR_KEY = `${EXTENSION_NAME}:inTour`;
+
 const RECORDING_KEY = `${EXTENSION_NAME}:recording`;
 export const EDITING_KEY = `${EXTENSION_NAME}:isEditing`;
 
@@ -34,7 +36,9 @@ export const onDidStartTour = _onDidStartTour.event;
 
 export async function startCodeTourByUri(tourUri: Uri, stepNumber?: number) {
 	const bytes = await workspace.fs.readFile(tourUri);
+
 	const contents = new TextDecoder().decode(bytes);
+
 	const tour = JSON.parse(contents);
 	tour.id = tourUri.toString();
 
@@ -90,6 +94,7 @@ export async function selectTour(
 
 	if (items.length === 1) {
 		startCodeTour(items[0].tour, step, workspaceRoot, false, true, tours);
+
 		return true;
 	}
 
@@ -99,6 +104,7 @@ export async function selectTour(
 
 	if (response) {
 		startCodeTour(response.tour, 0, workspaceRoot, false, true, tours);
+
 		return true;
 	}
 
@@ -148,6 +154,7 @@ export async function moveCurrentCodeTourForward() {
 
 async function isCodeSwingWorkspace(uri: Uri) {
 	const files = await workspace.findFiles("codeswing.json");
+
 	return files && files.length > 0;
 }
 
@@ -164,6 +171,7 @@ export async function promptForTour(
 	tours: CodeTour[] = store.tours,
 ): Promise<boolean> {
 	const key = `${EXTENSION_NAME}:${workspaceRoot}`;
+
 	if (
 		tours.length > 0 &&
 		!globalState.get(key) &&
@@ -210,6 +218,7 @@ export async function startDefaultTour(
 			undefined,
 			tours,
 		);
+
 		return true;
 	} else {
 		return selectTour(tours, workspaceRoot, step);
@@ -229,11 +238,13 @@ export async function exportTour(tour: CodeTour) {
 				}
 
 				const workspaceRoot = getWorkspaceUri(tour);
+
 				const stepFileUri = await getStepFileUri(
 					step,
 					workspaceRoot,
 					tour.ref,
 				);
+
 				const contents = await readUriContents(stepFileUri);
 
 				delete step.markerTitle;

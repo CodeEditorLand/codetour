@@ -17,6 +17,7 @@ interface Message {
 }
 
 const TOUR_ENDED_NOTIFICATION = "tourEnded";
+
 const TOUR_STARTED_NOTIFICATION = "tourStarted";
 
 export default function (

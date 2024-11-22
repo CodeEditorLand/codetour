@@ -6,6 +6,7 @@ export async function registerCodeStatusModule() {
 	const extension = vscode.extensions.getExtension(
 		"lostintangent.codestatus",
 	);
+
 	if (!extension) {
 		return;
 	}

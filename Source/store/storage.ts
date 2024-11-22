@@ -16,6 +16,7 @@ export var progress: {
 
 function getProgress(tour: CodeTour) {
 	const progress = store.progress.find(([id]) => tour.id === id);
+
 	return progress?.[1] || observable([]);
 }
 
@@ -38,6 +39,7 @@ export function initializeStorage(context: ExtensionContext) {
 			}
 
 			commands.executeCommand("setContext", "codetour:hasProgress", true);
+
 			return context.globalState.update(
 				CODETOUR_PROGRESS_KEY,
 				store.progress,
@@ -45,6 +47,7 @@ export function initializeStorage(context: ExtensionContext) {
 		},
 		isComplete(tour: CodeTour, stepNumber?: number): boolean {
 			const tourProgress = getProgress(tour);
+
 			if (stepNumber !== undefined) {
 				return tourProgress.includes(stepNumber);
 			} else {
@@ -63,6 +66,7 @@ export function initializeStorage(context: ExtensionContext) {
 						(tourProgress) => tourProgress[0] !== tour.id,
 					)
 				: [];
+
 			return context.globalState.update(
 				CODETOUR_PROGRESS_KEY,
 				store.progress,

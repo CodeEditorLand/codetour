@@ -15,18 +15,24 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 		token: any,
 	): Promise<vscode.NotebookData> {
 		this.originalContent = content;
+
 		let contents = new TextDecoder().decode(content);
 
 		let tour = <CodeTour>JSON.parse(contents);
+
 		const workspaceRoot = getWorkspaceUri(tour);
+
 		let steps: any[] = [];
 
 		for (let item of tour.steps) {
 			const uri = await getStepFileUri(item, workspaceRoot, tour.ref);
+
 			const document = await vscode.workspace.openTextDocument(uri);
 
 			const startLine = item.line! > 10 ? item.line! - 10 : 0;
+
 			const endLine = item.line! > 1 ? item.line! - 1 : 0;
+
 			const contents = document.getText(
 				new vscode.Range(
 					new vscode.Position(startLine, 0),

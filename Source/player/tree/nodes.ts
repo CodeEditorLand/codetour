@@ -56,6 +56,7 @@ export class CodeTourNode extends TreeItem {
 
 		const isActive =
 			store.activeTour && tour.id === store.activeTour?.tour.id;
+
 		if (isActive) {
 			contextValues.push("active");
 		}
@@ -82,6 +83,7 @@ export class CodeTourStepNode extends TreeItem {
 		const step = tour.steps[stepNumber];
 
 		let workspaceRoot, tours;
+
 		if (store.activeTour && store.activeTour.tour.id === tour.id) {
 			workspaceRoot = store.activeTour.workspaceRoot;
 			tours = store.activeTour.tours;
@@ -94,6 +96,7 @@ export class CodeTourStepNode extends TreeItem {
 		};
 
 		let resourceUri;
+
 		if (step.uri) {
 			resourceUri = Uri.parse(step.uri);
 		} else if (step.contents) {
@@ -137,6 +140,7 @@ export class CodeTourStepNode extends TreeItem {
 					this.iconPath = uri;
 				} catch {
 					const data = step.icon.split(",");
+
 					if (data.length > 1) {
 						this.iconPath = new ThemeIcon(
 							data[0],
@@ -154,6 +158,7 @@ export class CodeTourStepNode extends TreeItem {
 		}
 
 		const contextValues = ["codetour.tourStep"];
+
 		if (stepNumber > 0) {
 			contextValues.push("hasPrevious");
 		}

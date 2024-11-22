@@ -28,6 +28,7 @@ export function registerPlayerCommands() {
 		`${EXTENSION_NAME}._startTourById`,
 		async (id: string, stepNumber: number) => {
 			const tour = store.tours.find((tour) => tour.id === id);
+
 			if (tour) {
 				startCodeTour(tour, stepNumber);
 			}
@@ -39,7 +40,9 @@ export function registerPlayerCommands() {
 		`${EXTENSION_NAME}.startTourByTitle`,
 		async (title: string, stepNumber?: number) => {
 			const tours = store.activeTour?.tours || store.tours;
+
 			const tour = tours.find((tour) => tour.title === title);
+
 			if (tour) {
 				startCodeTour(
 					tour,
@@ -113,6 +116,7 @@ export function registerPlayerCommands() {
 			const codeSnippet = decodeURIComponent(codeBlock);
 
 			const step = store.activeTour!.tour.steps[store.activeTour!.step];
+
 			if (step.selection) {
 				await vscode.window.activeTextEditor?.edit((e) => {
 					const selection = new vscode.Selection(
@@ -131,6 +135,7 @@ export function registerPlayerCommands() {
 			}
 
 			const lineAdjustment = codeSnippet.split("\n").length - 1;
+
 			if (lineAdjustment > 0) {
 				store.activeTour!.tour.steps[store.activeTour!.step].line! +=
 					lineAdjustment;
@@ -155,6 +160,7 @@ export function registerPlayerCommands() {
 			if (tour) {
 				const targetTour =
 					tour instanceof CodeTourNode ? tour.tour : tour;
+
 				return startCodeTour(
 					targetTour,
 					stepNumber,
@@ -242,7 +248,9 @@ export function registerPlayerCommands() {
 
 			try {
 				const axios = await import("axios");
+
 				const response = await axios.default.get<CodeTour>(url);
+
 				const tour = response.data;
 				tour.id = url;
 				startCodeTour(tour);
@@ -269,6 +277,7 @@ export function registerPlayerCommands() {
 			}
 
 			const contents = await exportTour(node.tour);
+
 			const bytes = new TextEncoder().encode(contents);
 			vscode.workspace.fs.writeFile(uri, bytes);
 		},

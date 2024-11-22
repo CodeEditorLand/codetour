@@ -19,7 +19,9 @@ export function getStepLabel(
 	const step = tour.steps[stepNumber];
 
 	const prefix = includeStepNumber ? `#${stepNumber + 1} - ` : "";
+
 	let label = "";
+
 	if (step.title) {
 		label = step.title;
 	} else if (HEADING_PATTERN.test(step.description.trim())) {
@@ -55,6 +57,7 @@ export function getRelativePath(root: string, filePath: string) {
 
 export async function readUriContents(uri: Uri) {
 	const bytes = await workspace.fs.readFile(uri);
+
 	return new TextDecoder().decode(bytes);
 }
 
@@ -73,6 +76,7 @@ export async function getStepFileUri(
 	ref?: string,
 ): Promise<Uri> {
 	let uri;
+
 	if (step.contents) {
 		uri = Uri.parse(`${FS_SCHEME}://current/${step.file}`);
 	} else if (step.uri || step.file) {
@@ -116,6 +120,7 @@ export function getWorkspacePath(tour: CodeTour) {
 
 export function getWorkspaceUri(tour: CodeTour): Uri | undefined {
 	const tourUri = Uri.parse(tour.id);
+
 	return (
 		workspace.getWorkspaceFolder(tourUri)?.uri ||
 		(workspace.workspaceFolders && workspace.workspaceFolders[0].uri)
@@ -124,6 +129,7 @@ export function getWorkspaceUri(tour: CodeTour): Uri | undefined {
 
 function getTourNumber(tour: CodeTour): number | undefined {
 	const match = tour.title.match(/^#?(\d+)\s+-/);
+
 	if (match) {
 		return Number(match[1]);
 	}
@@ -138,6 +144,7 @@ function getStepMarkerPrefix(tour: CodeTour): string | undefined {
 		return tour.stepMarker;
 	} else {
 		const tourNumber = getTourNumber(tour);
+
 		if (tourNumber) {
 			return `CT${tourNumber}`;
 		}
@@ -154,16 +161,21 @@ export function getActiveStepMarker(): string | undefined {
 	}
 
 	const prefix = getActiveStepMarkerPrefix();
+
 	const suffix = `.${store.activeTour!.step + 1}`;
+
 	return `${prefix}${suffix}`;
 }
 
 export async function getStepMarkerForLine(uri: Uri, lineNumber: number) {
 	const document = await workspace.openTextDocument(uri);
+
 	const line = document.lineAt(lineNumber).text;
 
 	const stepMarkerPrefix = getActiveStepMarkerPrefix();
+
 	const match = line.match(new RegExp(`${stepMarkerPrefix}.(\\d+)`));
+
 	if (match) {
 		return Number(match[1]);
 	}
@@ -175,6 +187,7 @@ function isMarkerTour(tour: CodeTour): boolean {
 
 function isMarkerStep(tour: CodeTour, stepNumber: number) {
 	const step = tour.steps[stepNumber];
+
 	return getStepMarkerPrefix(tour) && step.file && !step.line;
 }
 
@@ -190,6 +203,7 @@ async function updateMarkerTitleForStep(tour: CodeTour, stepNumber: number) {
 	);
 
 	const document = await workspace.openTextDocument(uri);
+
 	const stepMarkerPrefix = getStepMarkerPrefix(tour);
 
 	const markerPattern = new RegExp(
@@ -197,6 +211,7 @@ async function updateMarkerTitleForStep(tour: CodeTour, stepNumber: number) {
 	);
 
 	const match = document.getText().match(markerPattern);
+
 	if (match) {
 		tour.steps[stepNumber].markerTitle = match[1];
 	}

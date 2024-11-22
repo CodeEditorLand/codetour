@@ -61,6 +61,7 @@ class CodeTourCompletionProvider implements vscode.CompletionItemProvider {
 		context: vscode.CompletionContext,
 	): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
 		const line = document.lineAt(position);
+
 		if (line.text.includes("command:")) {
 			return COMMANDS;
 		}

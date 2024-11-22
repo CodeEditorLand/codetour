@@ -23,6 +23,7 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 
 	getCurrentTourStep(): [CodeTour, CodeTourStep] {
 		const tour = store.activeTour!.tour;
+
 		return [tour, tour.steps[store.activeTour!.step]];
 	}
 
@@ -38,12 +39,14 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 		});
 
 		const contents = JSON.stringify(newTour, null, 2);
+
 		const bytes = new TextEncoder().encode(contents);
 		workspace.fs.writeFile(tourUri, bytes);
 	}
 
 	async readFile(uri: Uri): Promise<Uint8Array> {
 		const [, { contents }] = this.getCurrentTourStep();
+
 		return new TextEncoder().encode(contents);
 	}
 

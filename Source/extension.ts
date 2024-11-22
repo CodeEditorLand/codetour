@@ -28,9 +28,11 @@ function discoverTours(): Promise<void> {
 
 function startTour(params: URLSearchParams) {
 	let tourPath = params.get("tour");
+
 	const step = params.get("step");
 
 	let stepNumber;
+
 	if (step) {
 		// Allow the step number to be
 		// provided as 1-based vs. 0-based
@@ -45,6 +47,7 @@ function startTour(params: URLSearchParams) {
 		const tour = store.tours.find((tour) =>
 			tour.id.endsWith(tourPath as string),
 		);
+
 		if (tour) {
 			startCodeTour(tour, stepNumber);
 		}
@@ -55,6 +58,7 @@ function startTour(params: URLSearchParams) {
 
 class URIHandler implements vscode.UriHandler {
 	private _didStartDefaultTour = false;
+
 	get didStartDefaultTour(): boolean {
 		return this._didStartDefaultTour;
 	}
@@ -64,6 +68,7 @@ class URIHandler implements vscode.UriHandler {
 		await discoverTours();
 
 		let query = uri.query;
+
 		if (uri.path === "/startDefaultTour") {
 			query = vscode.Uri.parse(uri.query).query;
 		}

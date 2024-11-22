@@ -138,6 +138,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 
 export function registerTreeProvider(extensionPath: string) {
 	const treeDataProvider = new CodeTourTreeProvider(extensionPath);
+
 	const treeView = window.createTreeView(`${EXTENSION_NAME}.tours`, {
 		showCollapseAll: true,
 		treeDataProvider,
@@ -180,6 +181,7 @@ export function registerTreeProvider(extensionPath: string) {
 					store.activeTour.tour.steps[store.activeTour.step].view
 				) {
 					isRevealPending = true;
+
 					return;
 				}
 

@@ -26,6 +26,7 @@ const SUB_TOUR_DIRECTORIES = [
 const HAS_TOURS_KEY = `${EXTENSION_NAME}:hasTours`;
 
 const PLATFORM = os.platform();
+
 const TOUR_CONTEXT = {
 	isLinux: PLATFORM === "linux",
 	isMac: PLATFORM === "darwin",
@@ -45,6 +46,7 @@ export async function discoverTours(): Promise<void> {
 	const tours = await Promise.all(
 		vscode.workspace.workspaceFolders!.map(async (workspaceFolder) => {
 			const mainTours = await discoverMainTours(workspaceFolder.uri);
+
 			const tours = await discoverSubTours(workspaceFolder.uri);
 
 			if (mainTours) {
@@ -97,8 +99,10 @@ async function discoverMainTours(
 				const uri = vscode.Uri.joinPath(workspaceUri, tourFile);
 
 				const mainTourContent = await readUriContents(uri);
+
 				const tour = JSON.parse(mainTourContent);
 				tour.id = decodeURIComponent(uri.toString());
+
 				return tour;
 			} catch {}
 		}),
@@ -110,9 +114,11 @@ async function discoverMainTours(
 async function readTourDirectory(uri: vscode.Uri): Promise<CodeTour[]> {
 	try {
 		const tourFiles = await vscode.workspace.fs.readDirectory(uri);
+
 		const tours = await Promise.all(
 			tourFiles.map(async ([file, type]) => {
 				const fileUri = vscode.Uri.joinPath(uri, file);
+
 				if (type === vscode.FileType.File) {
 					return readTourFile(fileUri);
 				} else if (type === vscode.FileType.SymbolicLink) {
@@ -135,8 +141,10 @@ async function readTourFile(
 ): Promise<CodeTour | undefined> {
 	try {
 		const tourContent = await readUriContents(tourUri);
+
 		const tour = JSON.parse(tourContent);
 		tour.id = decodeURIComponent(tourUri.toString());
+
 		return tour;
 	} catch {}
 }
@@ -145,6 +153,7 @@ async function discoverSubTours(workspaceUri: vscode.Uri): Promise<CodeTour[]> {
 	const tours = await Promise.all(
 		SUB_TOUR_DIRECTORIES.map((directory) => {
 			const uri = vscode.Uri.joinPath(workspaceUri, directory);
+
 			return readTourDirectory(uri);
 		}),
 	);

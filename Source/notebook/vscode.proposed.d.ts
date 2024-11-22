@@ -224,6 +224,7 @@ declare module "vscode" {
 	export interface ResourceLabelFormatter {
 		scheme: string;
 		authority?: string;
+
 		formatting: ResourceLabelFormatting;
 	}
 
@@ -244,6 +245,7 @@ declare module "vscode" {
 			authorityPrefix: string,
 			resolver: RemoteAuthorityResolver,
 		): Disposable;
+
 		export function registerResourceLabelFormatter(
 			formatter: ResourceLabelFormatter,
 		): Disposable;
@@ -1437,6 +1439,7 @@ declare module "vscode" {
 		metadata?: NotebookCellMetadata;
 		// todo@API just executionSummary or lastExecutionSummary
 		latestExecutionSummary?: NotebookCellExecutionSummary;
+
 		constructor(
 			kind: NotebookCellKind,
 			source: string,
@@ -1450,6 +1453,7 @@ declare module "vscode" {
 	export class NotebookData {
 		cells: NotebookCellData[];
 		metadata: NotebookDocumentMetadata;
+
 		constructor(
 			cells: NotebookCellData[],
 			metadata?: NotebookDocumentMetadata,
@@ -1469,6 +1473,7 @@ declare module "vscode" {
 		): Thenable<NotebookDocument>;
 
 		export const onDidOpenNotebookDocument: Event<NotebookDocument>;
+
 		export const onDidCloseNotebookDocument: Event<NotebookDocument>;
 
 		export const onDidSaveNotebookDocument: Event<NotebookDocument>;
@@ -1477,7 +1482,9 @@ declare module "vscode" {
 		 * All currently known notebook documents.
 		 */
 		export const notebookDocuments: ReadonlyArray<NotebookDocument>;
+
 		export const onDidChangeNotebookDocumentMetadata: Event<NotebookDocumentMetadataChangeEvent>;
+
 		export const onDidChangeNotebookCells: Event<NotebookCellsChangeEvent>;
 
 		// todo@API add onDidChangeNotebookCellOutputs
@@ -1489,18 +1496,24 @@ declare module "vscode" {
 
 	export namespace window {
 		export const visibleNotebookEditors: NotebookEditor[];
+
 		export const onDidChangeVisibleNotebookEditors: Event<NotebookEditor[]>;
+
 		export const activeNotebookEditor: NotebookEditor | undefined;
+
 		export const onDidChangeActiveNotebookEditor: Event<
 			NotebookEditor | undefined
 		>;
+
 		export const onDidChangeNotebookEditorSelection: Event<NotebookEditorSelectionChangeEvent>;
+
 		export const onDidChangeNotebookEditorVisibleRanges: Event<NotebookEditorVisibleRangesChangeEvent>;
 
 		export function showNotebookDocument(
 			uri: Uri,
 			options?: NotebookDocumentShowOptions,
 		): Thenable<NotebookEditor>;
+
 		export function showNotebookDocument(
 			document: NotebookDocument,
 			options?: NotebookDocumentShowOptions,
@@ -1538,10 +1551,12 @@ declare module "vscode" {
 		id: string;
 		outputs: NotebookCellOutputItem[];
 		metadata?: Record<string, any>;
+
 		constructor(
 			outputs: NotebookCellOutputItem[],
 			metadata?: Record<string, any>,
 		);
+
 		constructor(
 			outputs: NotebookCellOutputItem[],
 			id: string,
@@ -2161,7 +2176,9 @@ declare module "vscode" {
 		dispose(): void;
 		readonly onDidChange: Event<void>;
 		readonly version: number;
+
 		getText(): string;
+
 		getText(range: Range): string;
 
 		offsetAt(position: Position): number;

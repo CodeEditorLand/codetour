@@ -22,6 +22,7 @@ import { getActiveWorkspacePath, getRelativePath } from "../utils";
 
 export async function saveTour(tour: CodeTour) {
 	const uri = vscode.Uri.parse(tour.id);
+
 	const newTour = {
 		$schema: "https://aka.ms/codetour-schema",
 		...tour,
@@ -53,6 +54,7 @@ export function registerRecorderCommands() {
 		const customTourDirectory = vscode.workspace
 			.getConfiguration(EXTENSION_NAME)
 			.get("customTourDirectory", null);
+
 		const tourDirectory = customTourDirectory || ".tours";
 
 		return workspaceRoot.with({
@@ -65,6 +67,7 @@ export function registerRecorderCommands() {
 
 		try {
 			const stat = await vscode.workspace.fs.stat(uri);
+
 			return stat.type === vscode.FileType.File;
 		} catch {
 			return false;
@@ -97,6 +100,7 @@ export function registerRecorderCommands() {
 		}
 
 		const tourContent = JSON.stringify(tour, null, 2);
+
 		const bytes = new TextEncoder().encode(tourContent);
 		await vscode.workspace.fs.writeFile(uri, bytes);
 
@@ -111,6 +115,7 @@ export function registerRecorderCommands() {
 	}
 
 	const REENTER_TITLE_RESPONSE = "Re-enter title";
+
 	async function recordTourInternal(
 		tourTitle: string | vscode.Uri,
 		workspaceRoot?: vscode.Uri,
@@ -249,6 +254,7 @@ export function registerRecorderCommands() {
 
 	function getStepSelection() {
 		const activeEditor = vscode.window.activeTextEditor;
+
 		if (
 			activeEditor &&
 			activeEditor.selection &&
@@ -290,6 +296,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.addContentStep`,
 		action(async (node?: CodeTourStepNode) => {
 			const value = store.activeTour?.step === -1 ? "Introduction" : "";
+
 			const title = await vscode.window.showInputBox({
 				prompt: "Specify the title of the step",
 				value,
@@ -300,6 +307,7 @@ export function registerRecorderCommands() {
 			}
 
 			let stepNumber;
+
 			if (node) {
 				stepNumber = node.stepNumber + 1;
 				store.activeTour!.step = stepNumber;
@@ -331,9 +339,11 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.addDirectoryStep`,
 		action(async (uri: vscode.Uri) => {
 			const stepNumber = ++store.activeTour!.step;
+
 			const tour = store.activeTour!.tour;
 
 			const workspaceRoot = getActiveWorkspacePath();
+
 			const directory = getRelativePath(workspaceRoot, uri.path);
 
 			tour.steps.splice(stepNumber, 0, {
@@ -358,9 +368,11 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.addSelectionStep`,
 		action(async (editor: vscode.TextEditor) => {
 			const stepNumber = ++store.activeTour!.step;
+
 			const tour = store.activeTour!.tour;
 
 			const workspaceRoot = getActiveWorkspacePath();
+
 			const file = getRelativePath(
 				workspaceRoot,
 				editor.document.uri.path,
@@ -395,9 +407,11 @@ export function registerRecorderCommands() {
 			store.activeTour!.thread = reply.thread;
 
 			const tour = store.activeTour!.tour;
+
 			const thread = store.activeTour!.thread;
 
 			const workspaceRoot = getActiveWorkspacePath();
+
 			const file = getRelativePath(workspaceRoot, thread!.uri.path);
 
 			const step: CodeTourStep = {
@@ -417,6 +431,7 @@ export function registerRecorderCommands() {
 				const pattern =
 					"^[^\\S\\n]*" +
 					contents!.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 				const match = vscode.window.activeTextEditor?.document
 					.getText()
 					.match(new RegExp(pattern, "gm"));
@@ -439,6 +454,7 @@ export function registerRecorderCommands() {
 			const stepNumber = store.activeTour!.step;
 
 			const selection = getStepSelection();
+
 			if (selection) {
 				(step as any).selection = selection;
 			}
@@ -453,6 +469,7 @@ export function registerRecorderCommands() {
 			let label = `Step #${stepNumber + 1} of ${tour.steps.length}`;
 
 			const contextValues = [];
+
 			if (tour.steps.length > 1) {
 				contextValues.push("hasPrevious");
 			}
@@ -578,6 +595,7 @@ export function registerRecorderCommands() {
 				tourStep.description = content;
 
 				const selection = getStepSelection();
+
 				if (selection) {
 					tourStep.selection = selection;
 				}
@@ -659,6 +677,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.changeTourTitle`,
 		async (node: CodeTourNode) => {
 			const oldTitle = node.tour.title;
+
 			const newTitle = await updateTourProperty(node.tour, "title");
 
 			// If the user updated the tour's title, then we need to check
@@ -679,6 +698,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.changeTourStepTitle`,
 		async (node: CodeTourStepNode) => {
 			const step = node.tour.steps[node.stepNumber];
+
 			const response = await vscode.window.showInputBox({
 				prompt: `Enter the title for this tour step`,
 				value: step.title || "",
@@ -700,6 +720,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.changeTourStepIcon`,
 		async (node: CodeTourStepNode) => {
 			const step = node.tour.steps[node.stepNumber];
+
 			const response = await vscode.window.showInputBox({
 				prompt: `Enter the icon for this tour step`,
 				value: step.icon || "",
@@ -721,6 +742,7 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.changeTourStepLine`,
 		async (comment: CodeTourComment) => {
 			const step = store.activeTour!.tour.steps[store.activeTour!.step];
+
 			const response = await vscode.window.showInputBox({
 				prompt: `Enter the new line # for this tour step (Leave blank to use the selection/document end)`,
 				value: step.line?.toString() || "",
@@ -755,6 +777,7 @@ export function registerRecorderCommands() {
 			}
 
 			const ref = await promptForTourRef(workspaceRoot);
+
 			if (ref) {
 				if (ref === "HEAD") {
 					delete node.tour.ref;
@@ -810,7 +833,9 @@ export function registerRecorderCommands() {
 			additionalNodes: CodeTourStepNode[],
 		) => {
 			let tour: CodeTour, steps: number[];
+
 			let messageSuffix = "selected step";
+
 			let buttonSuffix = "Step";
 
 			if (node instanceof CodeTourStepNode) {
@@ -843,6 +868,7 @@ export function registerRecorderCommands() {
 					const previousSteps = steps.filter(
 						(step) => step <= store.activeTour!.step,
 					);
+
 					if (
 						previousSteps.length > 0 &&
 						(store.activeTour!.step > 0 || tour.steps.length === 0)
@@ -891,6 +917,7 @@ export function registerRecorderCommands() {
 		}
 
 		const currentBranch = repository.state.HEAD!.name;
+
 		let items: GitRefQuickPickItem[] = [
 			{
 				label: "$(circle-slash) None",

@@ -27,12 +27,14 @@ export interface Repository {
 
 interface GitAPI {
 	toGitUri(uri: vscode.Uri, ref: string): vscode.Uri;
+
 	getRepository(uri: vscode.Uri): Repository | null;
 }
 
 export let api: GitAPI;
 export async function initializeGitApi() {
 	const extension = vscode.extensions.getExtension("vscode.git");
+
 	if (!extension) {
 		return;
 	}

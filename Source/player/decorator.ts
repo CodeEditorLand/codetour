@@ -28,9 +28,11 @@ export async function getTourSteps(
 	);
 
 	const contents = editor.document.getText();
+
 	const tourSteps = await Promise.all(
 		steps.map(async ([tour, step, stepNumber]) => {
 			const workspaceRoot = getWorkspaceUri(tour);
+
 			const uri = await getStepFileUri(step, workspaceRoot);
 
 			if (
@@ -38,10 +40,12 @@ export async function getTourSteps(
 				0
 			) {
 				let line;
+
 				if (step.line) {
 					line = step.line - 1;
 				} else if (step.pattern) {
 					const match = contents.match(new RegExp(step.pattern, "m"));
+
 					if (match) {
 						line = editor.document.positionAt(match.index!).line;
 					}
@@ -70,11 +74,14 @@ function registerHoverProvider() {
 			const tourSteps = store.activeEditorSteps.filter(
 				([, , , line]) => line === position.line,
 			);
+
 			const hovers = tourSteps.map(([tour, _, stepNumber]) => {
 				const args = encodeURIComponent(
 					JSON.stringify([tour.id, stepNumber]),
 				);
+
 				const command = `command:codetour._startTourById?${args}`;
+
 				return `CodeTour: ${tour.title} (Step #${
 					stepNumber + 1
 				}) &nbsp;[Start Tour](${command} "Start Tour")\n`;
@@ -82,6 +89,7 @@ function registerHoverProvider() {
 
 			const content = new vscode.MarkdownString(hovers.join("\n"));
 			content.isTrusted = true;
+
 			return new vscode.Hover(content);
 		},
 	});
@@ -95,6 +103,7 @@ export async function updateDecorations(
 	}
 
 	store.activeEditorSteps = await getTourSteps(editor);
+
 	if (store.activeEditorSteps.length === 0) {
 		return clearDecorations(editor);
 	}

@@ -7,6 +7,7 @@ import { EXTENSION_NAME } from "../constants";
 
 export async function registerLiveShareModule() {
 	const vslsApi = await vsls.getApi(`vsls-contrib.${EXTENSION_NAME}`);
+
 	if (!vslsApi) return;
 
 	vslsApi.onDidChangeSession((e) => {

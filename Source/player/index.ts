@@ -42,6 +42,7 @@ import { registerStatusBar } from "./status";
 import { registerTreeProvider } from "./tree";
 
 const CONTROLLER_ID = "codetour";
+
 const CONTROLLER_LABEL = "CodeTour";
 
 let id = 0;
@@ -53,33 +54,40 @@ const COMMAND_PATTERN =
 
 const TOUR_REFERENCE_PATTERN =
 	/(?:\[(?<linkTitle>[^\]]+)\])?\[(?=\s*[^\]\s])(?<tourTitle>[^\]#]+)?(?:#(?<stepNumber>\d+))?\](?!\()/gm;
+
 const FILE_REFERENCE_PATTERN = /(\!)?(\[[^\]]+\]\()(\.[^\)]+)(?=\))/gm;
+
 const CODE_FENCE_PATTERN = /```[^\n]+\n(.+)\n```/gms;
 
 export function generatePreviewContent(content: string) {
 	return content
 		.replace(SHELL_SCRIPT_PATTERN, (_, script) => {
 			const args = encodeURIComponent(JSON.stringify([script]));
+
 			const s = `> [${script}](command:codetour.sendTextToTerminal?${args} "Run \\"${script.replace(
 				/"/g,
 				"'",
 			)}\\" in a terminal")`;
+
 			return s;
 		})
 		.replace(COMMAND_PATTERN, (_, commandPrefix, params) => {
 			const args = encodeURIComponent(JSON.stringify(JSON.parse(params)));
+
 			return `${commandPrefix}${args}`;
 		})
 		.replace(FILE_REFERENCE_PATTERN, (_, isImage, prefix, filePath) => {
 			const workspaceUri = workspace.getWorkspaceFolder(
 				Uri.parse(store.activeTour!.tour.id),
 			)!.uri;
+
 			const fileUri = Uri.joinPath(workspaceUri, filePath);
 
 			if (isImage) {
 				return `!${prefix}${fileUri.toString()}`;
 			} else {
 				const args = encodeURIComponent(JSON.stringify([fileUri]));
+
 				return `${prefix}command:vscode.open?${args} "Open ${filePath}"`;
 			}
 		})
@@ -88,13 +96,16 @@ export function generatePreviewContent(content: string) {
 			(_, linkTitle, tourTitle, stepNumber) => {
 				if (!tourTitle) {
 					const title = linkTitle || `#${stepNumber}`;
+
 					return `[${title}](command:codetour.navigateToStep?${stepNumber} "Navigate to step #${stepNumber}")`;
 				}
 
 				const tours = store.activeTour?.tours || store.tours;
+
 				const tour = tours.find(
 					(tour) => getTourTitle(tour) === tourTitle,
 				);
+
 				if (tour) {
 					const args: [string, number?] = [tour.title];
 
@@ -104,7 +115,9 @@ export function generatePreviewContent(content: string) {
 					const argsContent = encodeURIComponent(
 						JSON.stringify(args),
 					);
+
 					const title = linkTitle || tour.title;
+
 					return `[${title}](command:codetour.startTourByTitle?${argsContent} "Start \\"${tour.title}\\" tour")`;
 				}
 
@@ -113,6 +126,7 @@ export function generatePreviewContent(content: string) {
 		)
 		.replace(CODE_FENCE_PATTERN, (_, codeBlock) => {
 			const params = encodeURIComponent(JSON.stringify([codeBlock]));
+
 			return `${_}
 ↪ [Insert Code](command:codetour.insertCodeSnippet?${params} "Insert Code")`;
 		});
@@ -214,8 +228,10 @@ function getPreviousTour(): CodeTour | undefined {
 	}
 
 	const match = store.activeTour?.tour.title.match(/^#?(\d+)\s+-/);
+
 	if (match) {
 		const previousTourNumber = Number(match[1]) - 1;
+
 		return store.tours.find((tour) =>
 			tour.title.match(new RegExp(`^#?${previousTourNumber}\\s+[-:]`)),
 		);
@@ -229,8 +245,10 @@ function getNextTour(): CodeTour | undefined {
 		);
 	} else {
 		const tourNumber = getActiveTourNumber();
+
 		if (tourNumber) {
 			const nextTourNumber = tourNumber + 1;
+
 			return store.tours.find((tour) =>
 				tour.title.match(new RegExp(`^#?${nextTourNumber}\\s+[-:]`)),
 			);
@@ -244,14 +262,17 @@ async function renderCurrentStep() {
 	}
 
 	const currentTour = store.activeTour!.tour;
+
 	const currentStep = store.activeTour!.step;
 
 	const step = currentTour!.steps[currentStep];
+
 	if (!step) {
 		return;
 	}
 
 	const workspaceRoot = store.activeTour?.workspaceRoot;
+
 	const uri = await getStepFileUri(step, workspaceRoot, currentTour.ref);
 
 	let line = step.line
@@ -262,11 +283,14 @@ async function renderCurrentStep() {
 
 	if (step.file && line === undefined) {
 		const stepPattern = step.pattern || getActiveStepMarker();
+
 		if (stepPattern) {
 			const document = await workspace.openTextDocument(uri);
+
 			const match = document
 				.getText()
 				.match(new RegExp(stepPattern, "m"));
+
 			if (match) {
 				line = document.positionAt(match.index!).line;
 			}
@@ -281,6 +305,7 @@ async function renderCurrentStep() {
 	}
 
 	const range = new Range(line!, 0, line!, 0);
+
 	let label = `Step #${currentStep + 1} of ${currentTour!.steps.length}`;
 
 	if (currentTour.title) {
@@ -294,13 +319,17 @@ async function renderCurrentStep() {
 		store.isRecording && store.isEditing
 			? CommentMode.Editing
 			: CommentMode.Preview;
+
 	let content = step.description;
 
 	let hasPreviousStep = currentStep > 0;
+
 	const hasNextStep = currentStep < currentTour.steps.length - 1;
+
 	const isFinalStep = currentStep === currentTour.steps.length - 1;
 
 	const showNavigation = hasPreviousStep || hasNextStep || isFinalStep;
+
 	if (!store.isEditing && showNavigation) {
 		content += "\n\n---\n";
 
@@ -311,14 +340,17 @@ async function renderCurrentStep() {
 				false,
 				false,
 			);
+
 			const suffix = stepLabel ? ` (${stepLabel})` : "";
 			content += `← [Previous${suffix}](command:codetour.previousTourStep "Navigate to previous step")`;
 		} else {
 			const previousTour = getPreviousTour();
+
 			if (previousTour) {
 				hasPreviousStep = true;
 
 				const tourTitle = getTourTitle(previousTour);
+
 				const argsContent = encodeURIComponent(
 					JSON.stringify([previousTour.title]),
 				);
@@ -327,6 +359,7 @@ async function renderCurrentStep() {
 		}
 
 		const prefix = hasPreviousStep ? " | " : "";
+
 		if (hasNextStep) {
 			const stepLabel = getStepLabel(
 				currentTour,
@@ -334,12 +367,15 @@ async function renderCurrentStep() {
 				false,
 				false,
 			);
+
 			const suffix = stepLabel ? ` (${stepLabel})` : "";
 			content += `${prefix}[Next${suffix}](command:codetour.nextTourStep "Navigate to next step") →`;
 		} else if (isFinalStep) {
 			const nextTour = getNextTour();
+
 			if (nextTour) {
 				const tourTitle = getTourTitle(nextTour);
+
 				const argsContent = encodeURIComponent(
 					JSON.stringify([nextTour.title]),
 				);
@@ -362,6 +398,7 @@ async function renderCurrentStep() {
 	store.activeTour!.thread.comments = [comment];
 
 	const contextValues = [];
+
 	if (hasPreviousStep) {
 		contextValues.push("hasPrevious");
 	}
@@ -375,6 +412,7 @@ async function renderCurrentStep() {
 		CommentThreadCollapsibleState.Expanded;
 
 	let selection;
+
 	if (step.selection) {
 		// Adjust the 1-based positions
 		// to the 0-based positions that
