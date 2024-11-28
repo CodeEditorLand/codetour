@@ -21,6 +21,7 @@ import { readUriContents } from "../utils";
 import { CodeTourNode } from "./tree/nodes";
 
 let terminal: vscode.Terminal | null;
+
 export function registerPlayerCommands() {
 	// This is a "private" command that's used exclusively
 	// by the hover description for tour markers.

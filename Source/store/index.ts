@@ -70,6 +70,7 @@ export interface ActiveTour {
 }
 
 type CodeTourProgress = [string, number[]];
+
 export type CodeTourStepTuple = [CodeTour, CodeTourStep, number, number?];
 
 export interface Store {

@@ -26,12 +26,15 @@ const CAN_EDIT_TOUR_KEY = `${EXTENSION_NAME}:canEditTour`;
 const IN_TOUR_KEY = `${EXTENSION_NAME}:inTour`;
 
 const RECORDING_KEY = `${EXTENSION_NAME}:recording`;
+
 export const EDITING_KEY = `${EXTENSION_NAME}:isEditing`;
 
 const _onDidEndTour = new EventEmitter<CodeTour>();
+
 export const onDidEndTour = _onDidEndTour.event;
 
 const _onDidStartTour = new EventEmitter<[CodeTour, number]>();
+
 export const onDidStartTour = _onDidStartTour.event;
 
 export async function startCodeTourByUri(tourUri: Uri, stepNumber?: number) {

@@ -120,6 +120,7 @@ function clearDecorations(editor: vscode.TextEditor) {
 }
 
 let disposables: vscode.Disposable[] = [];
+
 export async function registerDecorators() {
 	reaction(
 		() => [

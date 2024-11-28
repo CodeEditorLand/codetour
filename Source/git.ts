@@ -32,6 +32,7 @@ interface GitAPI {
 }
 
 export let api: GitAPI;
+
 export async function initializeGitApi() {
 	const extension = vscode.extensions.getExtension("vscode.git");
 

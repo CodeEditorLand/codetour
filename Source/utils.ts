@@ -10,6 +10,7 @@ import { api } from "./git";
 import { CodeTour, CodeTourStep, store } from "./store";
 
 const HEADING_PATTERN = /^#+\s*(.*)/;
+
 export function getStepLabel(
 	tour: CodeTour,
 	stepNumber: number,

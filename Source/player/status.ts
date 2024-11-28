@@ -24,6 +24,7 @@ function createCurrentTourItem() {
 }
 
 let currentTourItem: vscode.StatusBarItem | null = null;
+
 export function registerStatusBar() {
 	reaction(
 		// @ts-ignore
