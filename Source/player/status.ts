@@ -14,6 +14,7 @@ function createCurrentTourItem() {
 	);
 
 	currentTourItem.command = `${EXTENSION_NAME}.resumeTour`;
+
 	currentTourItem.color = new vscode.ThemeColor(
 		"statusBarItem.prominentForeground",
 	);
@@ -54,6 +55,7 @@ export function registerStatusBar() {
 			} else {
 				if (currentTourItem) {
 					currentTourItem.dispose();
+
 					currentTourItem = null;
 				}
 			}

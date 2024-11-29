@@ -13,6 +13,7 @@ import {
 
 interface Message {
 	data?: any;
+
 	peer?: number;
 }
 
@@ -34,6 +35,7 @@ export default function (
 		if (message.peer === peer) return;
 
 		endCurrentCodeTour(false);
+
 		service.notify(TOUR_ENDED_NOTIFICATION, message);
 	});
 
@@ -65,6 +67,7 @@ export default function (
 		if (message.peer === peer) return;
 
 		startCodeTour(message.data.tour, message.data.stepNumber);
+
 		service.notify(TOUR_STARTED_NOTIFICATION, message);
 	});
 }

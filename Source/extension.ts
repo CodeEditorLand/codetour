@@ -65,6 +65,7 @@ class URIHandler implements vscode.UriHandler {
 
 	async handleUri(uri: vscode.Uri): Promise<void> {
 		this._didStartDefaultTour = true;
+
 		await discoverTours();
 
 		let query = uri.query;
@@ -75,6 +76,7 @@ class URIHandler implements vscode.UriHandler {
 
 		if (query) {
 			const params = new URLSearchParams(query);
+
 			startTour(params);
 		} else {
 			startDefaultTour();
@@ -84,10 +86,13 @@ class URIHandler implements vscode.UriHandler {
 
 export async function activate(context: vscode.ExtensionContext) {
 	registerPlayerModule(context);
+
 	registerRecorderModule();
+
 	registerLiveShareModule();
 
 	const uriHandler = new URIHandler();
+
 	context.subscriptions.push(vscode.window.registerUriHandler(uriHandler));
 
 	if (vscode.workspace.workspaceFolders) {

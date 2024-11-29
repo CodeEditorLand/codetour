@@ -16,6 +16,7 @@ export async function registerCodeStatusModule() {
 	}
 
 	let statusDisposable: vscode.Disposable;
+
 	onDidStartTour(async ([tour, stepNumber]) => {
 		const disposeable = await extension.exports.updateStatus({
 			emoji: "🗺️",

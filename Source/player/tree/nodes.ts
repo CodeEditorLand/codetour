@@ -41,12 +41,14 @@ export class CodeTourNode extends TreeItem {
 		);
 
 		this.tooltip = tour.description;
+
 		this.description = `${tour.steps.length} steps`;
 
 		const contextValues = ["codetour.tour"];
 
 		if (tour.isPrimary) {
 			contextValues.push("primary");
+
 			this.description += " (Primary)";
 		}
 
@@ -86,6 +88,7 @@ export class CodeTourStepNode extends TreeItem {
 
 		if (store.activeTour && store.activeTour.tour.id === tour.id) {
 			workspaceRoot = store.activeTour.workspaceRoot;
+
 			tours = store.activeTour.tours;
 		}
 

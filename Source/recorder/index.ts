@@ -3,5 +3,6 @@ import { registerCompletionProvider } from "./completionProvider";
 
 export function registerRecorderModule() {
 	registerRecorderCommands();
+
 	registerCompletionProvider();
 }

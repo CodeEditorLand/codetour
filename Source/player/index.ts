@@ -112,6 +112,7 @@ export function generatePreviewContent(content: string) {
 					if (stepNumber) {
 						args.push(Number(stepNumber));
 					}
+
 					const argsContent = encodeURIComponent(
 						JSON.stringify(args),
 					);
@@ -134,11 +135,14 @@ export function generatePreviewContent(content: string) {
 
 export class CodeTourComment implements Comment {
 	public id: string = (++id).toString();
+
 	public contextValue: string = "";
+
 	public author: CommentAuthorInformation = {
 		name: CONTROLLER_LABEL,
 		iconPath: Uri.parse(SMALL_ICON_URL),
 	};
+
 	public body: MarkdownString;
 
 	constructor(
@@ -153,6 +157,7 @@ export class CodeTourComment implements Comment {
 				: content;
 
 		this.body = new MarkdownString(body);
+
 		this.body.isTrusted = true;
 	}
 }
@@ -161,6 +166,7 @@ let controller: CommentController | null;
 
 export async function focusPlayer() {
 	const currentThread = store.activeTour!.thread!;
+
 	showDocument(currentThread.uri, currentThread.range);
 }
 
@@ -190,11 +196,13 @@ export async function startPlayer() {
 export async function stopPlayer() {
 	if (store.activeTour?.thread) {
 		store.activeTour!.thread.dispose();
+
 		store.activeTour!.thread = null;
 	}
 
 	if (controller) {
 		controller.dispose();
+
 		controller = null;
 	}
 }
@@ -310,6 +318,7 @@ async function renderCurrentStep() {
 
 	if (currentTour.title) {
 		const title = getTourTitle(currentTour);
+
 		label += ` (${title})`;
 	}
 
@@ -342,6 +351,7 @@ async function renderCurrentStep() {
 			);
 
 			const suffix = stepLabel ? ` (${stepLabel})` : "";
+
 			content += `← [Previous${suffix}](command:codetour.previousTourStep "Navigate to previous step")`;
 		} else {
 			const previousTour = getPreviousTour();
@@ -354,6 +364,7 @@ async function renderCurrentStep() {
 				const argsContent = encodeURIComponent(
 					JSON.stringify([previousTour.title]),
 				);
+
 				content += `← [Previous Tour (${tourTitle})](command:codetour.startTourByTitle?${argsContent} "Navigate to previous tour")`;
 			}
 		}
@@ -369,6 +380,7 @@ async function renderCurrentStep() {
 			);
 
 			const suffix = stepLabel ? ` (${stepLabel})` : "";
+
 			content += `${prefix}[Next${suffix}](command:codetour.nextTourStep "Navigate to next step") →`;
 		} else if (isFinalStep) {
 			const nextTour = getNextTour();
@@ -379,6 +391,7 @@ async function renderCurrentStep() {
 				const argsContent = encodeURIComponent(
 					JSON.stringify([nextTour.title]),
 				);
+
 				content += `${prefix}[Next Tour (${tourTitle})](command:codetour.finishTour?${argsContent} "Start next tour")`;
 			} else {
 				content += `${prefix}[Finish Tour](command:codetour.finishTour "Finish the tour")`;
@@ -395,6 +408,7 @@ async function renderCurrentStep() {
 
 	// @ts-ignore
 	store.activeTour!.thread.canReply = false;
+
 	store.activeTour!.thread.comments = [comment];
 
 	const contextValues = [];
@@ -408,6 +422,7 @@ async function renderCurrentStep() {
 	}
 
 	store.activeTour!.thread.contextValue = contextValues.join(".");
+
 	store.activeTour!.thread.collapsibleState =
 		CommentThreadCollapsibleState.Expanded;
 
@@ -431,6 +446,7 @@ async function renderCurrentStep() {
 
 	if (step.directory) {
 		const directoryUri = getFileUri(step.directory, workspaceRoot);
+
 		commands.executeCommand("revealInExplorer", directoryUri);
 	} else if (step.view) {
 		const commandName = VIEW_COMMANDS.has(step.view)
@@ -453,12 +469,15 @@ async function renderCurrentStep() {
 
 			if (command.includes("?")) {
 				const parts = command.split("?");
+
 				name = parts[0];
+
 				args = JSON.parse(parts[1]);
 			}
 
 			try {
 				console.log("Executing command", name, JSON.stringify(args));
+
 				await commands.executeCommand(name, ...args);
 			} catch (e) {
 				window.showErrorMessage(`An error has occurred: ${e}`);
@@ -485,11 +504,17 @@ async function showDocument(uri: Uri, range: Range, selection?: Selection) {
 
 export function registerPlayerModule(context: ExtensionContext) {
 	registerPlayerCommands();
+
 	registerTreeProvider(context.extensionPath);
+
 	registerFileSystemProvider();
+
 	registerTextDocumentContentProvider();
+
 	registerStatusBar();
+
 	registerDecorators();
+
 	registerCodeStatusModule();
 
 	initializeStorage(context);

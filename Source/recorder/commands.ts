@@ -30,6 +30,7 @@ export async function saveTour(tour: CodeTour) {
 
 	// @ts-ignore
 	delete newTour.id;
+
 	newTour.steps.forEach((step) => {
 		delete step.markerTitle;
 	});
@@ -37,6 +38,7 @@ export async function saveTour(tour: CodeTour) {
 	const tourContent = JSON.stringify(newTour, null, 2);
 
 	const bytes = new TextEncoder().encode(tourContent);
+
 	await vscode.workspace.fs.writeFile(uri, bytes);
 }
 
@@ -102,6 +104,7 @@ export function registerRecorderCommands() {
 		const tourContent = JSON.stringify(tour, null, 2);
 
 		const bytes = new TextEncoder().encode(tourContent);
+
 		await vscode.workspace.fs.writeFile(uri, bytes);
 
 		(tour as any).id = decodeURIComponent(uri.toString());
@@ -192,9 +195,12 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.recordTour`,
 		async (workspaceRoot?: vscode.Uri, placeHolderTitle?: string) => {
 			const inputBox = vscode.window.createInputBox();
+
 			inputBox.title =
 				"Specify the title of the tour, or save it to a specific location";
+
 			inputBox.placeholder = placeHolderTitle;
+
 			inputBox.buttons = [
 				{
 					iconPath: new vscode.ThemeIcon("save-as"),
@@ -237,6 +243,7 @@ export function registerRecorderCommands() {
 							)
 						) {
 							const content = await exportTour(tour);
+
 							vscode.workspace.fs.writeFile(
 								uri,
 								Buffer.from(content),
@@ -310,6 +317,7 @@ export function registerRecorderCommands() {
 
 			if (node) {
 				stepNumber = node.stepNumber + 1;
+
 				store.activeTour!.step = stepNumber;
 			} else {
 				stepNumber = ++store.activeTour!.step;
@@ -324,6 +332,7 @@ export function registerRecorderCommands() {
 
 			if (!store.isEditing) {
 				store.isEditing = true;
+
 				vscode.commands.executeCommand(
 					"setContext",
 					EDITING_KEY,
@@ -353,6 +362,7 @@ export function registerRecorderCommands() {
 
 			if (!store.isEditing) {
 				store.isEditing = true;
+
 				vscode.commands.executeCommand(
 					"setContext",
 					EDITING_KEY,
@@ -386,6 +396,7 @@ export function registerRecorderCommands() {
 
 			if (!store.isEditing) {
 				store.isEditing = true;
+
 				vscode.commands.executeCommand(
 					"setContext",
 					EDITING_KEY,
@@ -462,6 +473,7 @@ export function registerRecorderCommands() {
 			tour.steps.splice(stepNumber, 0, step);
 
 			store.isEditing = false;
+
 			vscode.commands.executeCommand("setContext", EDITING_KEY, false);
 
 			saveTour(tour);
@@ -479,6 +491,7 @@ export function registerRecorderCommands() {
 			}
 
 			thread!.contextValue = contextValues.join(".");
+
 			thread!.comments = [
 				new CodeTourComment(
 					reply.text,
@@ -494,12 +507,15 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.editTour`,
 		async (node: CodeTourNode | vscode.CommentThread) => {
 			store.isRecording = true;
+
 			store.isEditing = true;
+
 			await vscode.commands.executeCommand(
 				"setContext",
 				"codetour:recording",
 				true,
 			);
+
 			await vscode.commands.executeCommand(
 				"setContext",
 				EDITING_KEY,
@@ -531,7 +547,9 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.previewTour`,
 		async (node: CodeTourNode | vscode.CommentThread) => {
 			store.isEditing = false;
+
 			vscode.commands.executeCommand("setContext", EDITING_KEY, false);
+
 			await vscode.commands.executeCommand(
 				"setContext",
 				"codetour:recording",
@@ -556,13 +574,16 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.makeTourPrimary`,
 		async (node: CodeTourNode) => {
 			const primaryTour = node.tour;
+
 			primaryTour.isPrimary = true;
+
 			saveTour(primaryTour);
 
 			store.tours
 				.filter((tour) => tour.id !== primaryTour.id && tour.isPrimary)
 				.forEach((tour) => {
 					delete tour.isPrimary;
+
 					saveTour(tour);
 				});
 		},
@@ -572,7 +593,9 @@ export function registerRecorderCommands() {
 		`${EXTENSION_NAME}.unmakeTourPrimary`,
 		async (node: CodeTourNode) => {
 			const primaryTour = node.tour;
+
 			delete primaryTour.isPrimary;
+
 			saveTour(primaryTour);
 		},
 	);
@@ -592,6 +615,7 @@ export function registerRecorderCommands() {
 
 				const tourStep =
 					store.activeTour!.tour!.steps[store.activeTour!.step];
+
 				tourStep.description = content;
 
 				const selection = getStepSelection();
@@ -602,7 +626,9 @@ export function registerRecorderCommands() {
 			});
 
 			store.isEditing = false;
+
 			vscode.commands.executeCommand("setContext", EDITING_KEY, false);
+
 			await saveTour(store.activeTour!.tour);
 		},
 	);
@@ -620,6 +646,7 @@ export function registerRecorderCommands() {
 
 		// @ts-ignore
 		tour[property] = propertyValue;
+
 		await saveTour(tour);
 
 		return propertyValue;
@@ -633,15 +660,19 @@ export function registerRecorderCommands() {
 
 		if (node instanceof CodeTourComment) {
 			tour = store.activeTour!.tour;
+
 			stepNumber = store.activeTour!.step;
 		} else {
 			tour = node.tour;
+
 			stepNumber = node.stepNumber;
 		}
 
 		runInAction(async () => {
 			const step = tour.steps[stepNumber];
+
 			tour.steps.splice(stepNumber, 1);
+
 			tour.steps.splice(stepNumber + movement, 0, step);
 
 			// If the user is moving the currently active step, then move
@@ -688,6 +719,7 @@ export function registerRecorderCommands() {
 					.filter((tour) => tour.nextTour === oldTitle)
 					.forEach((tour) => {
 						tour.nextTour = newTitle;
+
 						saveTour(tour);
 					});
 			}
@@ -820,6 +852,7 @@ export function registerRecorderCommands() {
 
 				tourIds.forEach((tourId) => {
 					const uri = vscode.Uri.parse(tourId);
+
 					vscode.workspace.fs.delete(uri);
 				});
 			}
@@ -843,6 +876,7 @@ export function registerRecorderCommands() {
 
 				if (additionalNodes) {
 					buttonSuffix = `${additionalNodes.length} Steps`;
+
 					messageSuffix = `${additionalNodes.length} selected steps`;
 
 					steps = additionalNodes.map((n) => n.stepNumber);
@@ -851,6 +885,7 @@ export function registerRecorderCommands() {
 				}
 			} else {
 				tour = store.activeTour!.tour;
+
 				steps = [store.activeTour!.step];
 
 				node.parent.dispose();

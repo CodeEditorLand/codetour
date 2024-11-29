@@ -88,6 +88,7 @@ function registerHoverProvider() {
 			});
 
 			const content = new vscode.MarkdownString(hovers.join("\n"));
+
 			content.isTrusted = true;
 
 			return new vscode.Hover(content);
@@ -111,11 +112,13 @@ export async function updateDecorations(
 	const ranges = store.activeEditorSteps!.map(
 		([, , , line]) => new vscode.Range(line!, 0, line!, 1000),
 	);
+
 	editor.setDecorations(TOUR_DECORATOR, ranges);
 }
 
 function clearDecorations(editor: vscode.TextEditor) {
 	store.activeEditorSteps = undefined;
+
 	editor.setDecorations(TOUR_DECORATOR, []);
 }
 
@@ -133,6 +136,7 @@ export async function registerDecorators() {
 			if (store.showMarkers) {
 				if (hoverProviderDisposable === undefined) {
 					hoverProviderDisposable = registerHoverProvider();
+
 					disposables.push(hoverProviderDisposable);
 				}
 
@@ -151,7 +155,9 @@ export async function registerDecorators() {
 				clearDecorations(activeEditor);
 
 				disposables.forEach((disposable) => disposable.dispose());
+
 				hoverProviderDisposable = undefined;
+
 				disposables = [];
 			}
 		},

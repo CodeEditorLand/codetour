@@ -33,7 +33,9 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 		const newTour: Partial<CodeTour> = {
 			...tour,
 		};
+
 		delete newTour.id;
+
 		newTour.steps?.forEach((step) => {
 			delete step.markerTitle;
 		});
@@ -41,6 +43,7 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 		const contents = JSON.stringify(newTour, null, 2);
 
 		const bytes = new TextEncoder().encode(contents);
+
 		workspace.fs.writeFile(tourUri, bytes);
 	}
 
@@ -56,7 +59,9 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 		options: { create: boolean; overwrite: boolean },
 	): Promise<void> {
 		const [tour, step] = this.getCurrentTourStep();
+
 		step.contents = content.toString();
+
 		this.updateTour(tour);
 	}
 
@@ -75,13 +80,16 @@ export class CodeTourFileSystemProvider implements FileSystemProvider {
 		options: { overwrite: boolean },
 	): Promise<void> {
 		const [tour, step] = this.getCurrentTourStep();
+
 		step.file = path.basename(newUri.toString());
+
 		this.updateTour(tour);
 	}
 
 	// Unimplemented members
 
 	private _onDidChangeFile = new EventEmitter<FileChangeEvent[]>();
+
 	public readonly onDidChangeFile: Event<FileChangeEvent[]> =
 		this._onDidChangeFile.event;
 

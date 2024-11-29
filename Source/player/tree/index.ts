@@ -21,6 +21,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 	private _disposables: Disposable[] = [];
 
 	private _onDidChangeTreeData = new EventEmitter<TreeItem | undefined>();
+
 	public readonly onDidChangeTreeData: Event<TreeItem | undefined> =
 		this._onDidChangeTreeData.event;
 
@@ -88,6 +89,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 					store.activeTour?.tour.id == element.tour.id
 				) {
 					item = new TreeItem("Add tour step...");
+
 					item.command = {
 						command: "codetour.addContentStep",
 						title: "Add tour step...",
@@ -122,6 +124,7 @@ class CodeTourTreeProvider implements TreeDataProvider<TreeItem>, Disposable {
 			);
 
 			const tooltip = new MarkdownString(content);
+
 			tooltip.isTrusted = true;
 
 			// @ts-ignore
@@ -146,9 +149,11 @@ export function registerTreeProvider(extensionPath: string) {
 	});
 
 	let isRevealPending = false;
+
 	treeView.onDidChangeVisibility((e) => {
 		if (e.visible && isRevealPending) {
 			isRevealPending = false;
+
 			revealCurrentStepNode();
 		}
 	});

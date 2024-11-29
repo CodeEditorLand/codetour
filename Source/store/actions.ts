@@ -43,6 +43,7 @@ export async function startCodeTourByUri(tourUri: Uri, stepNumber?: number) {
 	const contents = new TextDecoder().decode(bytes);
 
 	const tour = JSON.parse(contents);
+
 	tour.id = tourUri.toString();
 
 	startCodeTour(tour, stepNumber);
@@ -63,6 +64,7 @@ export function startCodeTour(
 	}
 
 	const step = stepNumber ? stepNumber : tour.steps.length ? 0 : -1;
+
 	store.activeTour = {
 		tour,
 		step,
@@ -72,12 +74,16 @@ export function startCodeTour(
 	};
 
 	commands.executeCommand("setContext", IN_TOUR_KEY, true);
+
 	commands.executeCommand("setContext", CAN_EDIT_TOUR_KEY, canEditTour);
 
 	if (startInEditMode) {
 		store.isRecording = true;
+
 		store.isEditing = true;
+
 		commands.executeCommand("setContext", RECORDING_KEY, true);
+
 		commands.executeCommand("setContext", EDITING_KEY, true);
 	} else {
 		_onDidStartTour.fire([tour, step]);
@@ -121,14 +127,18 @@ export async function endCurrentCodeTour(fireEvent: boolean = true) {
 
 	if (store.isRecording) {
 		store.isRecording = false;
+
 		store.isEditing = false;
+
 		commands.executeCommand("setContext", RECORDING_KEY, false);
+
 		commands.executeCommand("setContext", EDITING_KEY, false);
 	}
 
 	stopPlayer();
 
 	store.activeTour = null;
+
 	commands.executeCommand("setContext", IN_TOUR_KEY, false);
 
 	window.visibleTextEditors.forEach((editor) => {
@@ -261,6 +271,7 @@ export async function exportTour(tour: CodeTour) {
 	}
 
 	delete newTour.id;
+
 	delete newTour.ref;
 
 	return JSON.stringify(newTour, null, 2);

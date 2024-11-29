@@ -10,7 +10,9 @@ const CODETOUR_PROGRESS_KEY = "codetour:progress";
 
 export var progress: {
 	update(): void;
+
 	isComplete(tour: CodeTour, stepNumber?: number): boolean;
+
 	reset(): void;
 };
 

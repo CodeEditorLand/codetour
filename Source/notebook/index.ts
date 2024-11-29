@@ -39,6 +39,7 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 					new vscode.Position(endLine, 10000),
 				),
 			);
+
 			steps.push({
 				contents,
 				language: document.languageId,
@@ -66,6 +67,7 @@ class CodeTourNotebookProvider implements vscode.NotebookSerializer {
 				step.contents,
 				step.language,
 			);
+
 			cell.outputs = [
 				new vscode.NotebookCellOutput([
 					new vscode.NotebookCellOutputItem(

@@ -44,6 +44,7 @@ const changeWatcher = async (e: vscode.TextDocumentChangeEvent) => {
 
 				if (newPattern !== step.pattern) {
 					step.pattern = newPattern;
+
 					await debouncedSaveTour(tour);
 				}
 			}

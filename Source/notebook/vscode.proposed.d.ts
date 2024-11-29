@@ -76,7 +76,9 @@ declare module "vscode" {
 
 	export class ResolvedAuthority {
 		readonly host: string;
+
 		readonly port: number;
+
 		readonly connectionToken: string | undefined;
 
 		constructor(host: string, port: number, connectionToken?: string);
@@ -98,7 +100,9 @@ declare module "vscode" {
 		remoteAddress: { port: number; host: string };
 		// The desired local port. If this port can't be used, then another will be chosen.
 		localAddressPort?: number;
+
 		label?: string;
+
 		public?: boolean;
 	}
 
@@ -106,12 +110,14 @@ declare module "vscode" {
 		remoteAddress: { port: number; host: string };
 		//The complete local address(ex. localhost:1234)
 		localAddress: { port: number; host: string } | string;
+
 		public?: boolean;
 	}
 
 	export interface Tunnel extends TunnelDescription {
 		// Implementers of Tunnel should fire onDidDispose when dispose is called.
 		onDidDispose: Event<void>;
+
 		dispose(): void | Thenable<void>;
 	}
 
@@ -150,6 +156,7 @@ declare module "vscode" {
 			message?: string,
 			handled?: boolean,
 		): RemoteAuthorityResolverError;
+
 		static TemporarilyNotAvailable(
 			message?: string,
 		): RemoteAuthorityResolverError;
@@ -190,6 +197,7 @@ declare module "vscode" {
 		 */
 		tunnelFeatures?: {
 			elevation: boolean;
+
 			public: boolean;
 		};
 
@@ -223,6 +231,7 @@ declare module "vscode" {
 
 	export interface ResourceLabelFormatter {
 		scheme: string;
+
 		authority?: string;
 
 		formatting: ResourceLabelFormatting;
@@ -233,10 +242,15 @@ declare module "vscode" {
 		// For historic reasons we use an or string here. Once we finalize this API we should start using enums instead and adopt it in extensions.
 		// eslint-disable-next-line vscode-dts-literal-or-types
 		separator: "/" | "\\" | "";
+
 		tildify?: boolean;
+
 		normalizeDriveLetter?: boolean;
+
 		workspaceSuffix?: string;
+
 		authorityPrefix?: string;
+
 		stripPathStartingSeparator?: boolean;
 	}
 
@@ -257,10 +271,15 @@ declare module "vscode" {
 
 	export interface WebviewEditorInset {
 		readonly editor: TextEditor;
+
 		readonly line: number;
+
 		readonly height: number;
+
 		readonly webview: Webview;
+
 		readonly onDidDispose: Event<void>;
+
 		dispose(): void;
 	}
 
@@ -282,7 +301,9 @@ declare module "vscode" {
 			resource: Uri,
 			options: { create: boolean },
 		): number | Thenable<number>;
+
 		close?(fd: number): void | Thenable<void>;
+
 		read?(
 			fd: number,
 			pos: number,
@@ -290,6 +311,7 @@ declare module "vscode" {
 			offset: number,
 			length: number,
 		): number | Thenable<number>;
+
 		write?(
 			fd: number,
 			pos: number,
@@ -736,8 +758,11 @@ declare module "vscode" {
 	 */
 	export interface LineChange {
 		readonly originalStartLineNumber: number;
+
 		readonly originalEndLineNumber: number;
+
 		readonly modifiedStartLineNumber: number;
+
 		readonly modifiedEndLineNumber: number;
 	}
 
@@ -959,7 +984,9 @@ declare module "vscode" {
 			element: T | undefined,
 			options?: {
 				select?: boolean;
+
 				focus?: boolean;
+
 				expand?: boolean | number;
 			},
 		): Thenable<void>;
@@ -1107,6 +1134,7 @@ declare module "vscode" {
 		 */
 		with(change: {
 			inputCollapsed?: boolean | null;
+
 			outputCollapsed?: boolean | null;
 			[key: string]: any;
 		}): NotebookCellMetadata;
@@ -1114,18 +1142,26 @@ declare module "vscode" {
 
 	export interface NotebookCellExecutionSummary {
 		readonly executionOrder?: number;
+
 		readonly success?: boolean;
+
 		readonly startTime?: number;
+
 		readonly endTime?: number;
 	}
 
 	// todo@API support ids https://github.com/jupyter/enhancement-proposals/blob/master/62-cell-id/cell-id.md
 	export interface NotebookCell {
 		readonly index: number;
+
 		readonly notebook: NotebookDocument;
+
 		readonly kind: NotebookCellKind;
+
 		readonly document: TextDocument;
+
 		readonly metadata: NotebookCellMetadata;
+
 		readonly outputs: ReadonlyArray<NotebookCellOutput>;
 
 		// todo@API maybe just executionSummary or lastExecutionSummary?
@@ -1384,6 +1420,7 @@ declare module "vscode" {
 		 * The [notebook document](#NotebookDocument) for which the cells have changed.
 		 */
 		readonly document: NotebookDocument;
+
 		readonly changes: ReadonlyArray<NotebookCellsChangeData>;
 	}
 
@@ -1392,6 +1429,7 @@ declare module "vscode" {
 		 * The [notebook document](#NotebookDocument) for which the cell outputs have changed.
 		 */
 		readonly document: NotebookDocument;
+
 		readonly cells: NotebookCell[];
 	}
 
@@ -1400,6 +1438,7 @@ declare module "vscode" {
 		 * The [notebook document](#NotebookDocument) for which the cell metadata have changed.
 		 */
 		readonly document: NotebookDocument;
+
 		readonly cell: NotebookCell;
 	}
 
@@ -1408,6 +1447,7 @@ declare module "vscode" {
 		 * The [notebook editor](#NotebookEditor) for which the selections have changed.
 		 */
 		readonly notebookEditor: NotebookEditor;
+
 		readonly selections: ReadonlyArray<NotebookRange>;
 	}
 
@@ -1416,6 +1456,7 @@ declare module "vscode" {
 		 * The [notebook editor](#NotebookEditor) for which the visible ranges have changed.
 		 */
 		readonly notebookEditor: NotebookEditor;
+
 		readonly visibleRanges: ReadonlyArray<NotebookRange>;
 	}
 
@@ -1424,7 +1465,9 @@ declare module "vscode" {
 		 * The [notebook document](#NotebookDocument) for which the cell execution state has changed.
 		 */
 		readonly document: NotebookDocument;
+
 		readonly cell: NotebookCell;
+
 		readonly executionState: NotebookCellExecutionState;
 	}
 
@@ -1435,7 +1478,9 @@ declare module "vscode" {
 		source: string;
 		// todo@API languageId (as in TextDocument)
 		language: string;
+
 		outputs?: NotebookCellOutput[];
+
 		metadata?: NotebookCellMetadata;
 		// todo@API just executionSummary or lastExecutionSummary
 		latestExecutionSummary?: NotebookCellExecutionSummary;
@@ -1452,6 +1497,7 @@ declare module "vscode" {
 
 	export class NotebookData {
 		cells: NotebookCellData[];
+
 		metadata: NotebookDocumentMetadata;
 
 		constructor(
@@ -1462,8 +1508,11 @@ declare module "vscode" {
 
 	export interface NotebookDocumentShowOptions {
 		viewColumn?: ViewColumn;
+
 		preserveFocus?: boolean;
+
 		preview?: boolean;
+
 		selections?: NotebookRange[];
 	}
 
@@ -1536,7 +1585,9 @@ declare module "vscode" {
 		// static errortrace(value:any): NotebookCellOutputItem;
 
 		mime: string;
+
 		value: unknown;
+
 		metadata?: Record<string, any>;
 
 		constructor(
@@ -1549,7 +1600,9 @@ declare module "vscode" {
 	// @jrieken transient
 	export class NotebookCellOutput {
 		id: string;
+
 		outputs: NotebookCellOutputItem[];
+
 		metadata?: Record<string, any>;
 
 		constructor(
@@ -1590,12 +1643,14 @@ declare module "vscode" {
 			uri: Uri,
 			value: NotebookDocumentMetadata,
 		): void;
+
 		replaceNotebookCells(
 			uri: Uri,
 			range: NotebookRange,
 			cells: NotebookCellData[],
 			metadata?: WorkspaceEditEntryMetadata,
 		): void;
+
 		replaceNotebookCellMetadata(
 			uri: Uri,
 			index: number,
@@ -1606,11 +1661,13 @@ declare module "vscode" {
 
 	export interface NotebookEditorEdit {
 		replaceMetadata(value: NotebookDocumentMetadata): void;
+
 		replaceCells(
 			start: number,
 			end: number,
 			cells: NotebookCellData[],
 		): void;
+
 		replaceCellMetadata(
 			index: number,
 			metadata: NotebookCellMetadata,
@@ -1695,7 +1752,9 @@ declare module "vscode" {
 
 	export interface NotebookFilter {
 		readonly viewType?: string;
+
 		readonly scheme?: string;
+
 		readonly pattern?: GlobPattern;
 	}
 
@@ -1803,6 +1862,7 @@ declare module "vscode" {
 		 */
 		readonly onDidChangeNotebookAssociation: Event<{
 			notebook: NotebookDocument;
+
 			selected: boolean;
 		}>;
 
@@ -1830,6 +1890,7 @@ declare module "vscode" {
 		 */
 		readonly onDidReceiveMessage: Event<{
 			editor: NotebookEditor;
+
 			message: any;
 		}>;
 
@@ -1912,6 +1973,7 @@ declare module "vscode" {
 
 	interface NotebookDocumentOpenContext {
 		readonly backupId?: string;
+
 		readonly untitledDocumentData?: Uint8Array;
 	}
 
@@ -1919,6 +1981,7 @@ declare module "vscode" {
 	// todo@API rename to NotebookDocumentContentProvider
 	export interface NotebookContentProvider {
 		readonly options?: NotebookDocumentContentOptions;
+
 		readonly onDidChangeNotebookContentOptions?: Event<NotebookDocumentContentOptions>;
 
 		/**
@@ -1958,10 +2021,12 @@ declare module "vscode" {
 		 */
 		viewOptions?: {
 			displayName: string;
+
 			filenamePattern: (
 				| GlobPattern
 				| { include: GlobPattern; exclude: GlobPattern }
 			)[];
+
 			exclusive?: boolean;
 		};
 	}
@@ -1983,6 +2048,7 @@ declare module "vscode" {
 	// todo@API make class?
 	export interface NotebookKernelPreload {
 		provides?: string | string[];
+
 		uri: Uri;
 	}
 
@@ -2021,26 +2087,34 @@ declare module "vscode" {
 	 */
 	export interface NotebookCellExecutionTask {
 		readonly document: NotebookDocument;
+
 		readonly cell: NotebookCell;
 
 		start(context?: NotebookCellExecuteStartContext): void;
+
 		executionOrder: number | undefined;
+
 		end(result?: NotebookCellExecuteEndContext): void;
+
 		readonly token: CancellationToken;
 
 		clearOutput(cellIndex?: number): Thenable<void>;
+
 		appendOutput(
 			out: NotebookCellOutput | NotebookCellOutput[],
 			cellIndex?: number,
 		): Thenable<void>;
+
 		replaceOutput(
 			out: NotebookCellOutput | NotebookCellOutput[],
 			cellIndex?: number,
 		): Thenable<void>;
+
 		appendOutputItems(
 			items: NotebookCellOutputItem | NotebookCellOutputItem[],
 			outputId: string,
 		): Thenable<void>;
+
 		replaceOutputItems(
 			items: NotebookCellOutputItem | NotebookCellOutputItem[],
 			outputId: string,
@@ -2077,12 +2151,15 @@ declare module "vscode" {
 
 	export interface NotebookDecorationRenderOptions {
 		backgroundColor?: string | ThemeColor;
+
 		borderColor?: string | ThemeColor;
+
 		top: ThemableDecorationAttachmentRenderOptions;
 	}
 
 	export interface NotebookEditorDecorationType {
 		readonly key: string;
+
 		dispose(): void;
 	}
 
@@ -2113,10 +2190,15 @@ declare module "vscode" {
 
 	export class NotebookCellStatusBarItem {
 		text: string;
+
 		alignment: NotebookCellStatusBarAlignment;
+
 		command?: string | Command;
+
 		tooltip?: string;
+
 		priority?: number;
+
 		accessibilityInformation?: AccessibilityInformation;
 
 		constructor(
@@ -2172,9 +2254,13 @@ declare module "vscode" {
 
 	export interface NotebookConcatTextDocument {
 		readonly uri: Uri;
+
 		readonly isClosed: boolean;
+
 		dispose(): void;
+
 		readonly onDidChange: Event<void>;
+
 		readonly version: number;
 
 		getText(): string;
@@ -2182,12 +2268,17 @@ declare module "vscode" {
 		getText(range: Range): string;
 
 		offsetAt(position: Position): number;
+
 		positionAt(offset: number): Position;
+
 		validateRange(range: Range): Range;
+
 		validatePosition(position: Position): Position;
 
 		locationAt(positionOrRange: Position | Range): Location;
+
 		positionAt(location: Location): Position;
+
 		contains(uri: Uri): boolean;
 	}
 
@@ -2402,6 +2493,7 @@ declare module "vscode" {
 
 	export interface TokenInformation {
 		type: StandardTokenType;
+
 		range: Range;
 	}
 
@@ -3325,6 +3417,7 @@ declare module "vscode" {
 	// TODO@API must be a class
 	export interface OpenEditorInfo {
 		name: string;
+
 		resource: Uri;
 	}
 
@@ -3397,6 +3490,7 @@ declare module "vscode" {
 
 	export interface PortAttributes {
 		port: number;
+
 		autoForwardAction: PortAutoForwardAction;
 	}
 
@@ -3430,7 +3524,9 @@ declare module "vscode" {
 		export function registerPortAttributesProvider(
 			portSelector: {
 				pid?: number;
+
 				portRange?: [number, number];
+
 				commandMatcher?: RegExp;
 			},
 			provider: PortAttributesProvider,

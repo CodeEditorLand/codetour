@@ -11,13 +11,17 @@ export const enum RefType {
 
 export interface Ref {
 	readonly type: RefType;
+
 	readonly name?: string;
+
 	readonly commit?: string;
+
 	readonly remote?: string;
 }
 
 export interface RepositoryState {
 	readonly HEAD: Ref | undefined;
+
 	readonly refs: Ref[];
 }
 

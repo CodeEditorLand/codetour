@@ -94,6 +94,7 @@ export function registerPlayerCommands() {
 		async (text: string) => {
 			if (!terminal) {
 				terminal = vscode.window.createTerminal("CodeTour");
+
 				vscode.window.onDidCloseTerminal((term) => {
 					if (term.name === "CodeTour") {
 						terminal = null;
@@ -107,6 +108,7 @@ export function registerPlayerCommands() {
 			}
 
 			terminal.show();
+
 			terminal.sendText(text, true);
 		},
 	);
@@ -126,10 +128,12 @@ export function registerPlayerCommands() {
 						step.selection!.end.line - 1,
 						step.selection!.end.character - 1,
 					);
+
 					e.replace(selection, codeSnippet);
 				});
 			} else {
 				const position = new vscode.Position(step.line! - 1, 0);
+
 				await vscode.window.activeTextEditor?.edit((e) =>
 					e.insert(position, codeSnippet),
 				);
@@ -180,6 +184,7 @@ export function registerPlayerCommands() {
 		`${EXTENSION_NAME}.viewNotebook`,
 		async (node: CodeTourNode) => {
 			const tourUri = vscode.Uri.parse(node.tour.id);
+
 			vscode.window.showTextDocument(tourUri);
 		},
 	);
@@ -224,6 +229,7 @@ export function registerPlayerCommands() {
 				const contents = await readUriContents(uri[0]);
 
 				const tour = JSON.parse(contents);
+
 				tour.id = decodeURIComponent(uri[0].toString());
 
 				startCodeTour(tour);
@@ -253,7 +259,9 @@ export function registerPlayerCommands() {
 				const response = await axios.default.get<CodeTour>(url);
 
 				const tour = response.data;
+
 				tour.id = url;
+
 				startCodeTour(tour);
 			} catch {
 				vscode.window.showErrorMessage(
@@ -280,6 +288,7 @@ export function registerPlayerCommands() {
 			const contents = await exportTour(node.tour);
 
 			const bytes = new TextEncoder().encode(contents);
+
 			vscode.workspace.fs.writeFile(uri, bytes);
 		},
 	);
