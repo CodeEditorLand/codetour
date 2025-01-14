@@ -637,10 +637,10 @@
 		"vsls": "1.0.4753"
 	},
 	"devDependencies": {
-		"@types/node": "22.10.5",
+		"@types/node": "22.10.6",
 		"@types/throttle-debounce": "5.0.2",
 		"debug": "4.4.0",
-		"ts-loader": "9.5.1"
+		"ts-loader": "9.5.2"
 	},
 	"icon": "images/icon.png",
 	"extensionKind": [
